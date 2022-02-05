@@ -47,55 +47,108 @@ namespace ft
 			{ 
 				c.pop_back(); 
 			}
-				friend bool operator==(const stack<T, Container>& x, const stack<T, Container>& y);
-				friend bool operator< (const stack<T, Container>& x, const stack<T, Container>& y);
-				friend bool operator!=(const stack<T, Container>& x, const stack<T, Container>& y);
-				friend bool operator> (const stack<T, Container>& x, const stack<T, Container>& y);
-				friend bool operator>=(const stack<T, Container>& x, const stack<T, Container>& y);
-				friend bool operator<=(const stack<T, Container>& x, const stack<T, Container>& y);
-	};
-
-	template <class T, class Container>
-		bool operator==(const stack<T, Container>& x, const stack<T, Container>& y)
-		{
-			typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
-			typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
-			typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
-			typename std::stack<T>::container_type::const_iterator itye = y.c.end();
-
-			while (itx != itxe && ity != itye)
+			
+			friend bool operator==(const stack<T, Container> & x, const stack<T, Container> & y)
 			{
-				if (*itx != *ity)
-					return (false);
-				itx++;
-				ity++;
+				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
+				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
+				typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
+				typename std::stack<T>::container_type::const_iterator itye = y.c.end();
+
+				while (itx != itxe && ity != itye)
+				{
+					if (*itx != *ity)
+						return (false);
+					itx++;
+					ity++;
+				}
+				return (true);
 			}
-			return (true);
-		}
+			
+			friend bool operator< (const stack<T, Container>& x, const stack<T, Container>& y)
+			{
+				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
+				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
+				typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
+				typename std::stack<T>::container_type::const_iterator itye = y.c.end();
+
+				while (itx != itxe && ity != itye)
+				{
+					if (*itx >= *ity)
+						return (false);
+					itx++;
+					ity++;
+				}
+				return (true);
+			}
+
+			friend bool operator!=(const stack<T, Container>& x, const stack<T, Container>& y)
+			{
+				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
+				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
+				typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
+				typename std::stack<T>::container_type::const_iterator itye = y.c.end();
+
+				while (itx != itxe && ity != itye)
+				{
+					if (*itx == *ity)
+						return (false);
+					itx++;
+					ity++;
+				}
+				return (true);
+			}
+
+			friend bool operator> (const stack<T, Container>& x, const stack<T, Container>& y)
+			{
+				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
+				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
+				typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
+				typename std::stack<T>::container_type::const_iterator itye = y.c.end();
+
+				while (itx != itxe && ity != itye)
+				{
+					if (*itx <= *ity)
+						return (false);
+					itx++;
+					ity++;
+				}
+				return (true);
+			}
+
+			friend bool operator>=(const stack<T, Container>& x, const stack<T, Container>& y)
+			{
+				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
+				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
+				typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
+				typename std::stack<T>::container_type::const_iterator itye = y.c.end();
+
+				while (itx != itxe && ity != itye)
+				{
+					if (*itx < *ity)
+						return (false);
+					itx++;
+					ity++;
+				}
+				return (true);
+			}
+
+			friend bool operator<=(const stack<T, Container>& x, const stack<T, Container>& y)
+			{
+				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
+				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
+				typename std::stack<T>::container_type::const_iterator itxe = x.c.end();
+				typename std::stack<T>::container_type::const_iterator itye = y.c.end();
+
+				while (itx != itxe && ity != itye)
+				{
+					if (*itx > *ity)
+						return (false);
+					itx++;
+					ity++;
+				}
+				return (true);
+			}
+	};
 	
-	template <class T, class Container>
-		bool operator< (const stack<T, Container>& x, const stack<T, Container>& y)
-		{
-			
-		}
-	template <class T, class Container>
-		bool operator!=(const stack<T, Container>& x, const stack<T, Container>& y)
-		{
-			
-		}
-	template <class T, class Container>
-		bool operator> (const stack<T, Container>& x, const stack<T, Container>& y)
-		{
-			
-		}
-	template <class T, class Container>
-		bool operator>=(const stack<T, Container>& x, const stack<T, Container>& y)
-		{
-			
-		}
-	template <class T, class Container>
-		bool operator<=(const stack<T, Container>& x, const stack<T, Container>& y)
-		{
-			
-		}
 };

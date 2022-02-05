@@ -21,7 +21,7 @@ int		main()
 	}
 	std::cout << "max_size : " << test.max_size() << std::endl;
 
-	test2.push('z');
+	test2.push('a');
 	test2.push('a');
 	test3.push('a');
 	test3.push('a');
@@ -29,7 +29,6 @@ int		main()
 	bool te;
 	te = (test2 == test3);
 	std::cout << "test2 == test3 = " << te << std::endl;
-	/*
 	te = (test2 != test3);
 	std::cout << "test2 != test3 = " << te << std::endl;
 	te = (test2 < test3);
@@ -40,5 +39,4 @@ int		main()
 	std::cout << "test2 <= test3 = " << te << std::endl;
 	te = (test2 >= test3);
 	std::cout << "test2 >= test3 = " << te << std::endl;
-	*/
 }
