@@ -19,7 +19,7 @@ namespace ft
 		typedef Container container_type;
 
 		explicit stack(const Container& = Container());
-		
+
 		bool empty() const 
 		{ 
 			return c.empty(); 
