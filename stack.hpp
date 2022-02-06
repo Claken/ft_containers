@@ -65,7 +65,7 @@ namespace ft
 				return (true);
 			}
 			
-			friend bool operator< (const stack<T, Container>& x, const stack<T, Container>& y)
+			friend bool operator<(const stack<T, Container>& x, const stack<T, Container>& y)
 			{
 				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
 				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
@@ -74,12 +74,12 @@ namespace ft
 
 				while (itx != itxe && ity != itye)
 				{
-					if (*itx >= *ity)
-						return (false);
+					if (*itx < *ity)
+						return (true);
 					itx++;
 					ity++;
 				}
-				return (true);
+				return (false);
 			}
 
 			friend bool operator!=(const stack<T, Container>& x, const stack<T, Container>& y)
@@ -91,15 +91,15 @@ namespace ft
 
 				while (itx != itxe && ity != itye)
 				{
-					if (*itx == *ity)
-						return (false);
+					if (*itx != *ity)
+						return (true);
 					itx++;
 					ity++;
 				}
-				return (true);
+				return (false);
 			}
 
-			friend bool operator> (const stack<T, Container>& x, const stack<T, Container>& y)
+			friend bool operator>(const stack<T, Container>& x, const stack<T, Container>& y)
 			{
 				typename std::stack<T>::container_type::const_iterator itx = x.c.begin();
 				typename std::stack<T>::container_type::const_iterator ity = y.c.begin();
@@ -108,12 +108,12 @@ namespace ft
 
 				while (itx != itxe && ity != itye)
 				{
-					if (*itx <= *ity)
-						return (false);
+					if (*itx > *ity)
+						return (true);
 					itx++;
 					ity++;
 				}
-				return (true);
+				return (false);
 			}
 
 			friend bool operator>=(const stack<T, Container>& x, const stack<T, Container>& y)
