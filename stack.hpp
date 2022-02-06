@@ -5,6 +5,7 @@
 
 namespace ft
 {
+	//template <class T, class Container = ft::vector<T> > : default underlaying container as asked in the subject !
 	template <class T, class Container = std::deque<T> >
 	class stack 
 	{
