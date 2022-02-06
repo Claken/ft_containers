@@ -20,7 +20,7 @@ namespace ft
 
 			explicit stack(const container_type& ctnr = container_type())
 			{
-				
+				this->c = ctnr;
 			}
 
 			bool empty() const 
