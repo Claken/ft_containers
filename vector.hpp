@@ -10,18 +10,18 @@ namespace ft
 		public:
 	
 		// types:
-		typedef typename Allocator::reference reference;
-		typedef typename Allocator::const_reference const_reference;
+		typedef typename Allocator::reference 			reference;
+		typedef typename Allocator::const_reference 	const_reference;
 		typedef implementation defined iterator; // See 23.1
 		typedef implementation defined const_iterator; // See 23.1
 		typedef implementation defined size_type; // See 23.1
 		typedef implementation defined difference_type;// See 23.1
-		typedef T value_type;
-		typedef Allocator allocator_type;
-		typedef typename Allocator::pointer pointer;
-		typedef typename Allocator::const_pointer const_pointer
-		typedef std::reverse_iterator<iterator> reverse_iterator;
-		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+		typedef T 										value_type;
+		typedef Allocator 								allocator_type;
+		typedef typename Allocator::pointer 			pointer;
+		typedef typename Allocator::const_pointer 		const_pointer
+		typedef std::reverse_iterator<iterator> 		reverse_iterator;
+		typedef std::reverse_iterator<const_iterator> 	const_reverse_iterator;
 	
 		// 23.2.4.1 construct/copy/destroy:
 		explicit vector(const Allocator& = Allocator());
