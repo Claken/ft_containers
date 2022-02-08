@@ -6,7 +6,7 @@ namespace ft
 {
 	template <class Key, class T, class Compare = std::less<Key>,
 	class Allocator = std::allocator<std::pair<const Key, T> > >
-		class map 
+		class map
 		{
 			public:
 		
@@ -27,7 +27,7 @@ namespace ft
 					typedef std::reverse_iterator<iterator> reverse_iterator;
 					typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 			
-				class value_compare : public binary_function<value_type,value_type,bool> 
+				class value_compare : public binary_function<value_type,value_type,bool>
 				{
 					friend class map;
 
@@ -96,29 +96,16 @@ namespace ft
 				const_iterator 						upper_bound(const key_type& x) const;
 				pair<iterator,iterator>				equal_range(const key_type& x);
 				pair<const_iterator,const_iterator>	equal_range(const key_type& x) const;
+
+			friend bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+			friend bool operator<(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+			friend bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+			friend bool operator>(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+			friend bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+			friend bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+
+			friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y);
+
 		};
 
-		template <class Key, class T, class Compare, class Allocator>
-		bool operator==(const map<Key,T,Compare,Allocator>& x,
-		const map<Key,T,Compare,Allocator>& y);
-		template <class Key, class T, class Compare, class Allocator>
-		bool operator< (const map<Key,T,Compare,Allocator>& x,
-		const map<Key,T,Compare,Allocator>& y);
-		template <class Key, class T, class Compare, class Allocator>
-		bool operator!=(const map<Key,T,Compare,Allocator>& x,
-		const map<Key,T,Compare,Allocator>& y);
-		template <class Key, class T, class Compare, class Allocator>
-		bool operator> (const map<Key,T,Compare,Allocator>& x,
-		const map<Key,T,Compare,Allocator>& y);
-		template <class Key, class T, class Compare, class Allocator>
-		bool operator>=(const map<Key,T,Compare,Allocator>& x,
-		const map<Key,T,Compare,Allocator>& y);
-		template <class Key, class T, class Compare, class Allocator>
-		bool operator<=(const map<Key,T,Compare,Allocator>& x,
-		const map<Key,T,Compare,Allocator>& y);
-
-		// specialized algorithms:
-		template <class Key, class T, class Compare, class Allocator>
-		void swap(map<Key,T,Compare,Allocator>& x,
-		map<Key,T,Compare,Allocator>& y);
 };
