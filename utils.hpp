@@ -4,17 +4,13 @@
 
 namespace ft
 {
-	template <bool Cond, class T = void>
-	struct enable_if
+	template<bool Cond, class T = void>
+	struct enable_if { };
+
+	template<class T>
+	struct enable_if<true, T>
 	{
-
-	};
-
-
-	template <class T>
-	struct is_integral
-	{
-
+		typedef T type;
 	};
 
 	template <class InputIterator1, class InputIterator2>
