@@ -125,13 +125,16 @@ namespace ft
 	template <class T1, class T2>
 	struct pair
 	{
+		private:
+
 		typedef T1 first_type;
 		typedef T2 second_type;
-		
+
 		public:
 
 		first_type		first;
 		second_type		second;
+
 		pair()
 		{
 
@@ -149,6 +152,36 @@ namespace ft
 		{
 
 		}
+		void swap (pair& pr) noexcept (noexcept(swap(first,pr.first)) && noexcept(swap(second,pr.second)))
+		{
+			swap(first,pr.first);
+			swap(second,pr.second);
+		}
+		friend bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+		{
+
+		}
+		friend bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+		{
+
+		}
+		friend bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+		{
+
+		}
+		friend bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+		{
+
+		}
+		friend bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+		{
+
+		}
+		friend bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+		{
+
+		}
+
 	};
 
 	template <class T1, class T2>
