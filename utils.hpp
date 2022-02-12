@@ -23,33 +23,33 @@ namespace ft
 	typedef ft::integral_constant<bool,false>	false_type;
 
 	template <class T>
-	struct is_integral : public false_type { };
+	struct is_integral : public false_type {};
 
 	template <>
-	struct is_integral<bool> : public true_type { };
+	struct is_integral<bool> : public true_type {};
 	template <>
-	struct is_integral<char> : public true_type { };
+	struct is_integral<char> : public true_type {};
 	template <>
-	struct is_integral<wchar_t> : public true_type { };
+	struct is_integral<wchar_t> : public true_type {};
 	template <>
-	struct is_integral<signed char> : public true_type { };
+	struct is_integral<signed char> : public true_type {};
 	template <>
-	struct is_integral<short int> : public true_type { };
+	struct is_integral<short int> : public true_type {};
 	template <>
-	struct is_integral<int> : public true_type { };
+	struct is_integral<int> : public true_type {};
 	template <>
-	struct is_integral<long int> : public true_type { };
+	struct is_integral<long int> : public true_type {};
 	template <>
-	struct is_integral<unsigned char> : public true_type { };
+	struct is_integral<unsigned char> : public true_type {};
 	template <>
-	struct is_integral<unsigned short int> : public true_type { };
+	struct is_integral<unsigned short int> : public true_type {};
 	template <>
-	struct is_integral<unsigned int> : public true_type { };
+	struct is_integral<unsigned int> : public true_type {};
 	template <>
-	struct is_integral<unsigned long int> : public true_type { };
+	struct is_integral<unsigned long int> : public true_type {};
 
 	template<bool Cond, class T = void>
-	struct enable_if { };
+	struct enable_if {};
 
 	template<class T>
 	struct enable_if<true, T>
@@ -135,53 +135,56 @@ namespace ft
 		first_type		first;
 		second_type		second;
 
-		pair()
-		{
+		pair() : first(T1()), second(T2()) {}
 
-		}
 		template<class U, class V>
 		pair (const pair<U,V>& pr)
 		{
-
+			*this = pr;
 		}
+
 		pair (const first_type& a, const second_type& b)
 		{
-
+			this->first = a;
+			this->second = b;
 		}
+
 		pair& operator= (const pair& pr)
 		{
+			this->first = pr.first;
+			this->second = pr.second;
+			return (*this);
+		}
 
-		}
-		void swap (pair& pr) noexcept (noexcept(swap(first,pr.first)) && noexcept(swap(second,pr.second)))
-		{
-			swap(first,pr.first);
-			swap(second,pr.second);
-		}
 		friend bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 		{
-
+			return lhs.first==rhs.first && lhs.second==rhs.second;
 		}
+
 		friend bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 		{
-
+			return !(lhs==rhs);
 		}
+
 		friend bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 		{
-
+			return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
 		}
+
 		friend bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 		{
-
+			return !(rhs<lhs);
 		}
+
 		friend bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 		{
-
+			return rhs<lhs;
 		}
+
 		friend bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 		{
-
+			return !(lhs<rhs);
 		}
-
 	};
 
 	template <class T1, class T2>
