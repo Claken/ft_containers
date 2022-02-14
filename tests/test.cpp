@@ -24,6 +24,7 @@ int		main()
 	std::cout << "max_size : " << test.max_size() << std::endl;
 
 	std::vector<int>::iterator it = test.begin();
+	//std::vector<int>::iterator it(test.begin());
 
 	std::cout << std::endl;
 	std::cout << "it begin " << *it << std::endl;

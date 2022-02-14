@@ -10,7 +10,7 @@ namespace ft
 	{
 		private:
 
-		T				*array;
+		T				*_array;
 		unsigned int	_size;
 
 		public:
@@ -38,6 +38,16 @@ namespace ft
 			public:
 
 				iterator() : ptr(NULL) {}
+
+				iterator(iterator const & copy)
+				{
+					*this = copy;
+				}
+
+				iterator(pointer ptr)
+				{
+					this->ptr = ptr;
+				}
 
 				iterator operator*() const
 				{
@@ -129,7 +139,8 @@ namespace ft
 		// iterators:
 		iterator					begin()
 		{
-
+			iterator it(this->_array + 0);
+			return (it);
 		}
 
 		const_iterator				begin() const
@@ -139,7 +150,8 @@ namespace ft
 
 		iterator					end()
 		{
-
+			iterator it(_array + this->_size);
+			return (it);
 		}
 
 		const_iterator				end() const
@@ -159,7 +171,7 @@ namespace ft
 
 		reverse_iterator			rend()
 		{
-
+			
 		}
 
 		const_reverse_iterator		rend() const
