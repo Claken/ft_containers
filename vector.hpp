@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include "iterator.hpp"
 
 namespace ft
 {
@@ -27,7 +28,91 @@ namespace ft
 		typedef typename Allocator::const_pointer			const_pointer
 		typedef std::reverse_iterator<iterator>				reverse_iterator;
 		typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
-	
+
+		class iterator : public ft::iterator<forward_iterator_tag, T>
+		{
+			private:
+
+				pointer		_ptr;
+
+			public:
+
+				iterator() : ptr(NULL) {}
+
+				iterator operator*() const
+				{
+					return *(this->_ptr);
+				}
+
+				iterator& operator=(iterator const & copy)
+				{
+					this->_ptr = copy._ptr;
+					return (*this);
+				}
+
+				iterator& operator++()
+				{
+					++_ptr;
+					return (*this);
+				}
+
+				iterator& operator++(int)
+				{
+					iterator tmp = *this;
+					++_ptr;
+					return (tmp);
+				}
+
+				iterator& operator--()
+				{
+					--_ptr;
+					return (*this);
+				}
+
+				iterator& operator--(int)
+				{
+					iterator tmp = *this;
+					--_ptr;
+					return (tmp);
+				}
+
+				pointer operator->() const
+				{
+					return &(operator*());
+				}
+
+				iterator& operator-=(difference_type n)
+				{
+					this->_ptr -= n;
+					return (*this);
+				}
+
+				iterator& operator+=(difference_type n)
+				{
+					this->_ptr += n;
+					return (*this);
+				}
+
+				iterator operator-(difference_type n) const
+				{
+					iterator copy = *this;
+					copy._ptr -= n;
+					return (copy);
+				}
+
+				iterator operator+(difference_type n) const
+				{
+					iterator copy = *this;
+					copy._ptr += n;
+					return (copy);
+				}
+
+				reference operator[] (difference_type n) const
+				{
+					return (this->_ptr + n);
+				}
+		}
+
 		// 23.2.4.1 construct/copy/destroy:
 		explicit vector(const Allocator& = Allocator());
 		explicit vector(size_type n, const T& value = T(), const Allocator& = Allocator());
@@ -42,15 +127,46 @@ namespace ft
 		allocator_type				get_allocator() const;
 	
 		// iterators:
-		iterator					begin();
-		const_iterator				begin() const;
-		iterator					end();
-		const_iterator				end() const;
-		reverse_iterator			rbegin();
-		const_reverse_iterator		rbegin() const;
-		reverse_iterator			rend();
-		const_reverse_iterator		rend() const;
-	
+		iterator					begin()
+		{
+
+		}
+
+		const_iterator				begin() const
+		{
+
+		}
+
+		iterator					end()
+		{
+
+		}
+
+		const_iterator				end() const
+		{
+
+		}
+
+		reverse_iterator			rbegin()
+		{
+
+		}
+
+		const_reverse_iterator		rbegin() const
+		{
+
+		}
+
+		reverse_iterator			rend()
+		{
+
+		}
+
+		const_reverse_iterator		rend() const
+		{
+
+		}
+
 		// 23.2.4.2 capacity:
 		size_type					size() const;
 		size_type					max_size() const;

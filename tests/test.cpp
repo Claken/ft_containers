@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include "stack.hpp"
+#include "../stack.hpp"
 
 int		main()
 {
@@ -22,6 +22,14 @@ int		main()
 		std::cout << i << std::endl << std::endl;
 	}
 	std::cout << "max_size : " << test.max_size() << std::endl;
+
+	std::vector<int>::iterator it = test.begin();
+
+	std::cout << std::endl;
+	std::cout << "it begin " << *it << std::endl;
+	it = it + 1;
+	std::cout << "it = it + 1 : " << *it << std::endl;
+	std::cout << std::endl;
 
 	char let = 'a';
 	char let2 = 'a';
