@@ -2,7 +2,7 @@
 #include <vector>
 #include <stack>
 #include "../stack.hpp"
-//#include "../vector.hpp"
+#include "../vector.hpp"
 
 int		main()
 {
@@ -26,11 +26,13 @@ int		main()
 
 	std::vector<int>::iterator it = test.begin();
 	//std::vector<int>::iterator it(test.begin());
+	ft::vector<int> testX;
+	ft::vector<int>::iterator it2 = testX.begin();
 
 	std::cout << std::endl;
-	std::cout << "it begin " << *it << std::endl;
+	std::cout << "it begin " << *it2 << std::endl;
 	it = it + 1;
-	std::cout << "it = it + 1 : " << *it << std::endl;
+	std::cout << "it = it + 1 : " << *it2 << std::endl;
 	std::cout << std::endl;
 
 	char let = 'a';
