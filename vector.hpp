@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <new>
 #include "iterator.hpp"
 
 namespace ft
@@ -12,13 +13,14 @@ namespace ft
 
 		T				*_array;
 		unsigned int	_size;
+		unsigned int	_capacity;
 
 		public:
 	
 		// types:
 		typedef typename Allocator::reference				reference;
 		typedef typename Allocator::const_reference			const_reference;
-		typedef implementation defined iterator; // See 23.1
+		//typedef implementation defined iterator; // See 23.1
 		typedef implementation defined const_iterator; // See 23.1
 		typedef implementation defined size_type; // See 23.1
 		typedef implementation defined difference_type;// See 23.1
@@ -124,12 +126,30 @@ namespace ft
 		}
 
 		// 23.2.4.1 construct/copy/destroy:
-		explicit vector(const Allocator& = Allocator());
+		explicit vector(const Allocator& = Allocator())
+		{
+			try
+			{
+				this->array = Allocator.allocate(0);
+			}
+			catch (std::bad_alloc & ba)
+			{
+				std::cout << ba.what() << std::endl;
+			}
+			this->_size = 0;
+			this->_capacity = 0;
+		}
+
 		explicit vector(size_type n, const T& value = T(), const Allocator& = Allocator());
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const Allocator& = Allocator());
 		vector(const vector<T,Allocator>& x);
-		~vector();
+
+		~vector()
+		{
+			Allocator.deallocate(this->_array, this->_capacity);
+		}
+
 		vector<T,Allocator>& operator=(const vector<T,Allocator>& x);
 		template <class InputIterator>
 		void						assign(InputIterator first, InputIterator last);
@@ -150,7 +170,7 @@ namespace ft
 
 		iterator					end()
 		{
-			iterator it(_array + this->_size);
+			iterator it(this->_array + this->_size);
 			return (it);
 		}
 
@@ -180,10 +200,20 @@ namespace ft
 		}
 
 		// 23.2.4.2 capacity:
-		size_type					size() const;
-		size_type					max_size() const;
+		size_type					size() const
+		{
+			return (this->_size);
+		}
+
+		size_type					max_size() const
+		{
+			return (Allocator.max_size());
+		}
 		void						resize(size_type sz, T c = T());
-		size_type					capacity() const;
+		size_type					capacity() const
+		{
+			return (this->_capacity);
+		}
 		bool						empty() const;
 		void						reserve(size_type n);
 
