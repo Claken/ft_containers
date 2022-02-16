@@ -28,7 +28,6 @@ namespace ft
 		typedef Allocator									allocator_type;
 		typedef typename Allocator::pointer					pointer;
 		typedef typename Allocator::const_pointer			const_pointer;
-		typedef std::reverse_iterator<iterator>				reverse_iterator;
 		typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 		class iterator : public ft::iterator<std::forward_iterator_tag, T>
@@ -124,6 +123,8 @@ namespace ft
 					return (this->_ptr + n);
 				}
 		}
+
+		typedef std::reverse_iterator<iterator>				reverse_iterator;
 
 		// 23.2.4.1 construct/copy/destroy:
 		explicit vector(const Allocator& = Allocator())
