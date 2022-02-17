@@ -10,15 +10,6 @@ namespace ft
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
-		private:
-
-		T				*_array;
-		unsigned int	_size;
-		unsigned int	_capacity;
-		Allocator		_allocator_type;
-
-		public:
-	
 		// types:
 		typedef typename Allocator::reference				reference;
 		typedef typename Allocator::const_reference			const_reference;
@@ -31,6 +22,15 @@ namespace ft
 		typedef typename Allocator::pointer					pointer;
 		typedef typename Allocator::const_pointer			const_pointer;
 		//typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
+
+		private:
+
+		T				*_array;
+		size_type		_size;
+		unsigned int	_capacity;
+		Allocator		_allocator_type;
+
+		public:
 
 		class iterator : public ft::iterator<std::forward_iterator_tag, T>
 		{
@@ -155,7 +155,10 @@ namespace ft
 		}
 		//template <class InputIterator>
 		//vector(InputIterator first, InputIterator last, const Allocator& = Allocator());
-		//vector(const vector<T,Allocator>& x);
+		vector(const vector<T,Allocator>& x)
+		{
+
+		}
 
 		~vector()
 		{
@@ -213,7 +216,7 @@ namespace ft
 
 		size_type					max_size() const
 		{
-			return (Allocator().max_size());
+			return (this->_allocator_type.max_size());
 		}
 		//void						resize(size_type sz, T c = T());
 		size_type					capacity() const
@@ -230,14 +233,49 @@ namespace ft
 		//void						reserve(size_type n);
 
 		// element access:
-		// reference					operator[](size_type n);
-		// const_reference				operator[](size_type n) const;
-		// const_reference				at(size_type n) const;
-		// reference					at(size_type n);
-		// reference					front();
-		// const_reference				front() const;
-		// reference					back();
-		// const_reference				back() const;
+		reference					operator[](size_type n)
+		{
+			return (this->_array[n]);
+		}
+
+		const_reference				operator[](size_type n) const
+		{
+			return (this->_array[n]);
+		}
+
+		const_reference				at(size_type n) const
+		{
+			if (n >= this->_size || n < 0)
+				throw (std::out_of_range("index is out of range"));
+			return (this->_array[n]);
+		}
+
+		reference					at(size_type n)
+		{
+			if (n >= this->_size || n < 0)
+				throw (std::out_of_range("index is out of range\n"));
+			return (this->_array[n]);
+		}
+
+		reference					front()
+		{
+			return (this->_array[0]);
+		}
+
+		const_reference				front() const
+		{
+			return (this->_array[0]);
+		}
+
+		reference					back()
+		{
+			return (this->_array[this->_size - 1]);
+		}
+
+		const_reference				back() const
+		{
+			return (this->_array[this->_size - 1]);
+		}
 
 		// 23.2.4.3 modifiers:
 		// void						push_back(const T& x);
@@ -259,7 +297,7 @@ namespace ft
 	// friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
 
 	// friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y);
-
+		
 	};
 
 

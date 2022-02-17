@@ -23,15 +23,25 @@ int		main()
 		std::cout << i << std::endl << std::endl;
 	}
 	std::cout << "max_size : " << test.max_size() << std::endl;
+	std::cout << "test[-1] == " << test[-1] << std::endl;
+	std::cout << "test[21] == " << test[21] << std::endl;
+	std::cout << "test[25] == " << test[25] << std::endl;
 
 	std::vector<int>::iterator it = test.begin();
 	//std::vector<int>::iterator it(test.begin());
-	ft::vector<int> testX;
+	ft::vector<int> testX(5, 2);
+	testX[0] = 5;
+	testX[4] = 10;
 	ft::vector<int>::iterator it2 = testX.begin();
+
+	std::cout << "testX.front == " << testX.front() << std::endl;
+	std::cout << "testX.back == " << testX.back() << std::endl;
+	std::cout << "test.front == " << test.front() << std::endl;
+	std::cout << "test.back == " << test.back() << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "it begin " << *it2 << std::endl;
-	it = it + 1;
+	it2 = it2 + 1;
 	std::cout << "it = it + 1 : " << *it2 << std::endl;
 	std::cout << "max_size : " << testX.max_size() << std::endl;
 	std::cout << std::endl;
