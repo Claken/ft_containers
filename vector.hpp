@@ -153,8 +153,12 @@ namespace ft
 				this->_array[i] = value;
 			this->_size = n;
 		}
-		//template <class InputIterator>
-		//vector(InputIterator first, InputIterator last, const Allocator& = Allocator());
+		// template <class InputIterator>
+		//  	vector(InputIterator first, InputIterator last, const Allocator& = Allocator())
+		//  	{
+				 
+		//  	}
+	
 		vector(const vector<T,Allocator>& x) : _array(NULL)
 		{
 			*this = x;
@@ -184,11 +188,16 @@ namespace ft
 			this->_size = x._size;
 			for (int i = 0; i < this->_size; i++)
 				this->_array[i] = x._array[i];
+			return (*this);
 		}
 		//template <class InputIterator>
 		//void						assign(InputIterator first, InputIterator last);
-		//void						assign(size_type n, const T& u);
-		//allocator_type				get_allocator() const;
+		// void						assign(size_type n, const T& u);
+		
+		allocator_type				get_allocator() const
+		{
+			return (this->_allocator_type);
+		}
 	
 		// iterators:
 		iterator					begin()
@@ -249,7 +258,20 @@ namespace ft
 				return (true);
 			return (false);
 		}
-		//void						reserve(size_type n);
+		void						reserve(size_type n)
+		{
+			if (n > this->max_size())
+				throw (std::length_error("size n is greater than max size"));
+			if (n > this->_capacity)
+			{
+				vector<T, Allocator> newVector(n);
+				newVector._size = this->_size;
+				newVector._allocator_type = this->_allocator_type;
+				for (int i = 0; i < newVector._size; i++)
+					newVector._array[i] = this->_array[i];
+				*this = newVector;
+			}
+		}
 
 		// element access:
 		reference					operator[](size_type n)
@@ -265,14 +287,14 @@ namespace ft
 		const_reference				at(size_type n) const
 		{
 			if (n >= this->_size || n < 0)
-				throw (std::out_of_range("index is out of range"));
+				throw (std::out_of_range("index n is out of range"));
 			return (this->_array[n]);
 		}
 
 		reference					at(size_type n)
 		{
 			if (n >= this->_size || n < 0)
-				throw (std::out_of_range("index is out of range\n"));
+				throw (std::out_of_range("index n is out of range"));
 			return (this->_array[n]);
 		}
 
@@ -306,7 +328,10 @@ namespace ft
 		// iterator					erase(iterator position);
 		// iterator					erase(iterator first, iterator last);
 		// void						swap(vector<T,Allocator>&);
-		// void						clear();
+		void						clear()
+		{
+			this->_size = 0;
+		}
 
 	// friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
 	// friend bool operator<(const vector<T,Allocator>& x, const vector<T,Allocator>& y);

@@ -17,24 +17,73 @@ int		main()
 		std::cout << "size     : " << test.size() << std::endl;
 		std::cout << "capacity : " << test.capacity() << std::endl;
 		std::cout << "push_back" << std::endl;
-		test.push_back(i);
+		test.push_back(i * 2);
 		std::cout << "size     : " << test.size() << std::endl;
 		std::cout << "capacity : " << test.capacity() << std::endl;
-		std::cout << i << std::endl << std::endl;
+		std::cout << i * 2 << std::endl << std::endl;
 	}
+	/*
+	test.clear();
+	std::cout << "size     : " << test.size() << std::endl;
+	std::cout << "capacity : " << test.capacity() << std::endl;
+	std::vector<int>::iterator it = test.begin();
+	for (int i = 0; i < test.capacity(); i++)
+	{
+		std::cout << "*it == " << *it << std::endl;
+		it++;
+	}
+	*/
+
+	test.reserve(100);
+	std::cout << "new capacity : " << test.capacity() << std::endl;
 	std::cout << "max_size : " << test.max_size() << std::endl;
 	std::cout << "test[-1] == " << test[-1] << std::endl;
 	std::cout << "test[21] == " << test[21] << std::endl;
-	std::cout << "test[25] == " << test[25] << std::endl;
+	try
+	{
+		std::cout << "test.at(21) == " << test.at(21) << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	try
+	{
+		std::cout << "test.at(-5) == " << test.at(-5) << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 
 	std::vector<int>::iterator it = test.begin();
 	//std::vector<int>::iterator it(test.begin());
-	ft::vector<int> testX(11, 2);
-	std::vector<int> testouais(11, 2);
+	ft::vector<int> testX(5, 2);
+	try
+	{
+		std::cout << "test.at(21) == " << testX.at(21) << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	try
+	{
+		std::cout << "test.at(-5) == " << testX.at(-5) << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	std::vector<int> testouais(5, 2);
+	std::cout << "testX[21] == " << testX[21] << std::endl;
+	std::cout << "testX[-1] == " << testX[-1] << std::endl;
 	std::cout << "testouais capacity = " << testouais.capacity() << std::endl;
 	std::cout << "testX capacity     = " << testX.capacity() << std::endl;
+	testX.reserve(100);
+	std::cout << "capacity after testX.reserve(100) : " << testX.capacity() << std::endl;
 	testX[0] = 5;
-	testX[10] = 10;
+	testX[4] = 10;
 	ft::vector<int>::iterator it2 = testX.begin();
 
 	std::cout << "testX.front == " << testX.front() << std::endl;
@@ -46,6 +95,7 @@ int		main()
 	std::cout << "it begin " << *it2 << std::endl;
 	it2 = it2 + 1;
 	std::cout << "it = it + 1 : " << *it2 << std::endl;
+
 	std::cout << "max_size : " << testX.max_size() << std::endl;
 	std::cout << std::endl;
 
