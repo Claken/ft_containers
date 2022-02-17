@@ -33,6 +33,7 @@ int		main()
 	std::cout << "it begin " << *it2 << std::endl;
 	it = it + 1;
 	std::cout << "it = it + 1 : " << *it2 << std::endl;
+	std::cout << "max_size : " << testX.max_size() << std::endl;
 	std::cout << std::endl;
 
 	char let = 'a';

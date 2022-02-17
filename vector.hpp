@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <new>
+#include <cstddef>
 #include "iterator.hpp"
 
 namespace ft
@@ -14,6 +15,7 @@ namespace ft
 		T				*_array;
 		unsigned int	_size;
 		unsigned int	_capacity;
+		Allocator		_allocator_type;
 
 		public:
 	
@@ -28,7 +30,7 @@ namespace ft
 		typedef Allocator									allocator_type;
 		typedef typename Allocator::pointer					pointer;
 		typedef typename Allocator::const_pointer			const_pointer;
-		typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
+		//typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 		class iterator : public ft::iterator<std::forward_iterator_tag, T>
 		{
@@ -122,33 +124,42 @@ namespace ft
 				{
 					return (this->_ptr + n);
 				}
-		}
+		};
 
 		typedef std::reverse_iterator<iterator>				reverse_iterator;
 
 		// 23.2.4.1 construct/copy/destroy:
 		explicit vector(const Allocator& = Allocator())
 		{
-			try
-			{
-				this->_array = Allocator.allocate(0);
-			}
-			catch (std::bad_alloc & ba)
-			{
-				std::cout << ba.what() << std::endl;
-			}
+			this->_array = NULL;
 			this->_size = 0;
 			this->_capacity = 0;
+			this->_allocator_type = Allocator();
 		}
 
-		//explicit vector(size_type n, const T& value = T(), const Allocator& = Allocator());
+		explicit vector(size_type n, const T& value = T(), const Allocator& = Allocator())
+		{
+			this->_allocator_type = Allocator();
+			try
+			{
+				this->_array = this->_allocator_type.allocate(n);
+			}
+			catch(const std::bad_alloc& ba)
+			{
+				std::cerr << ba.what() << std::endl;
+			}
+			for (int i = 0; i < n; i++)
+				this->_array[i] = value;
+			this->_size = n;
+			
+		}
 		//template <class InputIterator>
 		//vector(InputIterator first, InputIterator last, const Allocator& = Allocator());
 		//vector(const vector<T,Allocator>& x);
 
 		~vector()
 		{
-			Allocator.deallocate(this->_array, this->_capacity);
+			Allocator().deallocate(this->_array, this->_capacity);
 		}
 
 		//vector<T,Allocator>& operator=(const vector<T,Allocator>& x);
@@ -202,14 +213,20 @@ namespace ft
 
 		size_type					max_size() const
 		{
-			return (Allocator.max_size());
+			return (Allocator().max_size());
 		}
 		//void						resize(size_type sz, T c = T());
 		size_type					capacity() const
 		{
 			return (this->_capacity);
 		}
-		//bool						empty() const;
+		
+		bool						empty() const
+		{
+			if (this->_size == 0)
+				return (true);
+			return (false);
+		}
 		//void						reserve(size_type n);
 
 		// element access:
