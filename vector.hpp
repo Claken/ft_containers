@@ -139,10 +139,11 @@ namespace ft
 
 		explicit vector(size_type n, const T& value = T(), const Allocator& = Allocator())
 		{
+			this->_capacity = n;
 			this->_allocator_type = Allocator();
 			try
 			{
-				this->_array = this->_allocator_type.allocate(n);
+				this->_array = this->_allocator_type.allocate(this->_capacity);
 			}
 			catch(const std::bad_alloc& ba)
 			{
@@ -151,21 +152,39 @@ namespace ft
 			for (int i = 0; i < n; i++)
 				this->_array[i] = value;
 			this->_size = n;
-			
 		}
 		//template <class InputIterator>
 		//vector(InputIterator first, InputIterator last, const Allocator& = Allocator());
-		vector(const vector<T,Allocator>& x)
+		vector(const vector<T,Allocator>& x) : _array(NULL)
 		{
-
+			*this = x;
 		}
 
 		~vector()
 		{
-			Allocator().deallocate(this->_array, this->_capacity);
+			this->_allocator_type.deallocate(this->_array, this->_capacity);
 		}
 
-		//vector<T,Allocator>& operator=(const vector<T,Allocator>& x);
+		vector<T,Allocator>& operator=(const vector<T,Allocator>& x)
+		{
+			if (this->_array != NULL)
+			{
+				this->_allocator_type.deallocate(this->_array, this->_capacity);
+			}
+			this->_capacity = x._capacity;
+			this->_allocator_type = x._allocator_type;
+			try
+			{
+				this->_array = this->_allocator_type.allocate(this->_capacity);
+			}
+			catch(const std::bad_alloc& ba)
+			{
+				std::cerr << ba.what() << std::endl;
+			}
+			this->_size = x._size;
+			for (int i = 0; i < this->_size; i++)
+				this->_array[i] = x._array[i];
+		}
 		//template <class InputIterator>
 		//void						assign(InputIterator first, InputIterator last);
 		//void						assign(size_type n, const T& u);

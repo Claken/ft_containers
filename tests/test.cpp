@@ -29,9 +29,12 @@ int		main()
 
 	std::vector<int>::iterator it = test.begin();
 	//std::vector<int>::iterator it(test.begin());
-	ft::vector<int> testX(5, 2);
+	ft::vector<int> testX(11, 2);
+	std::vector<int> testouais(11, 2);
+	std::cout << "testouais capacity = " << testouais.capacity() << std::endl;
+	std::cout << "testX capacity     = " << testX.capacity() << std::endl;
 	testX[0] = 5;
-	testX[4] = 10;
+	testX[10] = 10;
 	ft::vector<int>::iterator it2 = testX.begin();
 
 	std::cout << "testX.front == " << testX.front() << std::endl;
