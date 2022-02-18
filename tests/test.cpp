@@ -99,6 +99,21 @@ int		main()
 	std::cout << "max_size : " << testX.max_size() << std::endl;
 	std::cout << std::endl;
 
+
+	std::vector<int> twenty;
+	for (int i = 0; i < 20; i++)
+	{
+		std::cout << "twenty size     : " << twenty.size() << std::endl;
+		std::cout << "twenty capacity : " << twenty.capacity() << std::endl;
+		std::cout << "twenty push_back" << std::endl;
+		twenty.push_back(i * 2);
+		std::cout << "twenty size     : " << twenty.size() << std::endl;
+		std::cout << "twenty capacity : " << twenty.capacity() << std::endl;
+		std::cout << "i == " << i << std::endl;
+		std::cout << "twenty[] == " << twenty[i] << std::endl << std::endl;
+	}
+
+	std::cout << std::endl;
 	char let = 'a';
 	char let2 = 'a';
 	char let3 = 'a';

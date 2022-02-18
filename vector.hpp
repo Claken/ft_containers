@@ -319,7 +319,25 @@ namespace ft
 		}
 
 		// 23.2.4.3 modifiers:
-		// void						push_back(const T& x);
+		void						push_back(const T& x)
+		{
+			if (this->_size + 1 > this->_capacity)
+			{
+				vector<T, Allocator> newVector(this->_size * 2);
+				newVector._size = this->_size + 1;
+				newVector._allocator_type = this->_allocator_type;
+				for (int i = 0; i < this->_size; i++)
+					newVector._array[i] = this->_array[i];
+				newVector._array[this->_size] = x;
+				*this = newVector;
+			}
+			else
+			{
+				this->_array[this->_size] = x;
+				this->_size += 1;
+			}
+		}
+
 		// void						pop_back();
 		// iterator					insert(iterator position, const T& x);
 		// void						insert(iterator position, size_type n, const T& x);
