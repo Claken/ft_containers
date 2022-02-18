@@ -27,7 +27,7 @@ namespace ft
 
 		T				*_array;
 		size_type		_size;
-		unsigned int	_capacity;
+		size_type		_capacity;
 		Allocator		_allocator_type;
 
 		public:
@@ -338,11 +338,20 @@ namespace ft
 			}
 		}
 
-		// void						pop_back();
-		// iterator					insert(iterator position, const T& x);
-		// void						insert(iterator position, size_type n, const T& x);
+		void						pop_back()
+		{
+			this->_size--;
+		}
+
+		
 		// template <class InputIterator>
-		// void						insert(iterator position, InputIterator first, InputIterator last);
+  		// 	void assign (InputIterator first, InputIterator last);	
+		void assign (size_type n, const value_type& val)
+		{
+			size_type newsize = n > this->_capacity ? n : this->_capacity;
+			vector<T, Allocator> newVector(newsize);
+			
+		}
 		// iterator					erase(iterator position);
 		// iterator					erase(iterator first, iterator last);
 		// void						swap(vector<T,Allocator>&);
