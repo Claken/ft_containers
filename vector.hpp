@@ -350,7 +350,17 @@ namespace ft
 		{
 			size_type newsize = n > this->_capacity ? n : this->_capacity;
 			vector<T, Allocator> newVector(newsize);
-			
+			int i = 0;
+			while (i < n)
+				newVector[i++] = val;
+			while (i < this->_size)
+			{
+				newVector[i] = this->_array[i];
+				i++;
+			}
+			newVector._size = n;
+			newVector._allocator_type = this->_allocator_type;
+			*this = newVector;
 		}
 		// iterator					erase(iterator position);
 		// iterator					erase(iterator first, iterator last);
