@@ -362,6 +362,24 @@ namespace ft
 			newVector._allocator_type = this->_allocator_type;
 			*this = newVector;
 		}
+
+		void insert (iterator position, size_type n, const value_type& val)
+		{
+			if (position >= this->end() || this->_size + n > this->_capacity)
+			{
+				vector<T, Allocator> newVector(this->_size + n);
+				newVector._allocator_type = this->_allocator_type;
+			}
+			else
+			{
+				
+			}
+		}
+		// iterator insert (iterator position, const value_type& val);
+		// template <class InputIterator>
+    	// 	void insert (iterator position, InputIterator first, InputIterator last);
+
+
 		// iterator					erase(iterator position);
 		// iterator					erase(iterator first, iterator last);
 		// void						swap(vector<T,Allocator>&);
