@@ -365,14 +365,41 @@ namespace ft
 
 		void insert (iterator position, size_type n, const value_type& val)
 		{
-			if (position >= this->end() || this->_size + n > this->_capacity)
+			if (this->_size + n > this->_capacity)
 			{
 				vector<T, Allocator> newVector(this->_size + n);
 				newVector._allocator_type = this->_allocator_type;
+				int i = 0;
+				for (ft::vector<T, Allocator>::iterator it = this->begin(); it != position; it++)
+					newVector._array[i++] = *it;
+				int j = i;
+				while (i < j + n)
+				{
+					newVector._array[i++] = val;
+				}
+				for (it = it + n; it != this->_end(), it++)
+				{
+					newVector._array[i++] = *it;
+				}
+				*this = newVector;
 			}
 			else
 			{
-				
+				if (position == this->end())
+				{
+					for (int j = this->_size; j < (n + this->_size); j++)
+						this->_array[j] = val;
+				}
+				else
+				{
+					ft::vector<T, Allocator>::iterator place = this->end() - 1;
+					while (place != position)
+					{
+						*(place+n) = *place;
+						place--;
+					}
+					for (int k = 0; k < n; k++)
+				}
 			}
 		}
 		// iterator insert (iterator position, const value_type& val);
