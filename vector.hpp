@@ -59,8 +59,8 @@ namespace ft
 
 				iterator& operator=(iterator const & copy)
 				{
-					std::cout << "here la : ";
-					std::cout << *copy._ptr << std::endl;
+					//std::cout << "here la : ";
+					//std::cout << *copy._ptr << std::endl;
 					this->_ptr = copy._ptr;
 					return (*this);
 				}
@@ -129,31 +129,33 @@ namespace ft
 
 				bool operator==(const iterator it)
 				{
-					return *(this->_ptr) == *it;
+					//return *(this->_ptr) == *it;
+					return this->_ptr == it._ptr;
 				}
 				bool operator<(const iterator it)
 				{
-					std::cout << "<" << std::endl;
-					std::cout << *(this->_ptr) << std::endl;
-					std::cout << *it << std::endl;
-					std::cout << (*(this->_ptr) < *it) << std::endl;
-					return (*(this->_ptr) < *it);
+					//return (*(this->_ptr) < *it);
+					return (this->_ptr < it._ptr);
 				}
 				bool operator!=(const iterator it)
 				{
-					return *(this->_ptr) != *it;
+					//return *(this->_ptr) != *it;
+					return this->_ptr != it._ptr;
 				}
 				bool operator>(const iterator it)
 				{
-					return *(this->_ptr) > *it;
+					//return *(this->_ptr) > *it;
+					return this->_ptr > it._ptr;
 				}
 				bool operator>=(const iterator it)
 				{
-					return *(this->_ptr) >= *it;
+					//return *(this->_ptr) >= *it;
+					return this->_ptr >= it._ptr;
 				}
 				bool operator<=(const iterator it)
 				{
-					return *(this->_ptr) <= *it;
+					//return *(this->_ptr) <= *it;
+					return this->_ptr <= it._ptr;
 				}
 				
 		};
@@ -206,6 +208,7 @@ namespace ft
 
 		iterator& operator=(const iterator& x)
 		{
+			std::cout << "operator =" << std::endl;
 			if (this->_array != NULL)
 			{
 				this->_allocator_type.deallocate(this->_array, this->_capacity);
@@ -222,7 +225,9 @@ namespace ft
 			}
 			this->_size = x._size;
 			for (int i = 0; i < this->_size; i++)
+			{
 				this->_array[i] = x._array[i];
+			}
 			return (*this);
 		}
 		//template <class InputIterator>
@@ -237,9 +242,9 @@ namespace ft
 		// iterators:
 		iterator					begin()
 		{
-			iterator it(this->_array + 1);
+			iterator it(this->_array + 0);
 			//std::cout << "begin = " << *it._ptr << std::endl;
-			std::cout << "begin " << this->_array[0] << std::endl;
+			//std::cout << "begin " << this->_array[0] << std::endl;
 			return (it);
 		}
 
@@ -305,7 +310,10 @@ namespace ft
 				newVector._size = this->_size;
 				newVector._allocator_type = this->_allocator_type;
 				for (int i = 0; i < newVector._size; i++)
+				{
 					newVector._array[i] = this->_array[i];
+					std::cout << "reserve copy : " << newVector._array[i]  << std::endl;
+				}
 				*this = newVector;
 			}
 		}
@@ -409,7 +417,9 @@ namespace ft
 				int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
 				for (it; it != position; it++)
+				{
 					newVector._array[i++] = *it;
+				}
 				int j = i;
 				while (i < j + n)
 				{
@@ -427,21 +437,35 @@ namespace ft
 				if (position == this->end())
 				{
 					for (int j = this->_size; j < (n + this->_size); j++)
+					{
 						this->_array[j] = val;
+					}
 				}
 				else
 				{
+					for (int a = 0; a < this->_size; a++)
+					{
+						std::cout << "before insert : " << this->_array[a] << std::endl;
+					}
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
+					std::cout << "this->end() - 1 : " << *place << std::endl;
 					while (place != position)
 					{
+						std::cout << "*(place+n) : " << *(place+n) << std::endl;
+						std::cout << "*place     : " << *place << std::endl;
 						*(place+n) = *place;
-						place--;
+						--place;
 					}
 					for (int k = 0; k < n; k++)
 					{
 						*place = val;
-						place++;
+						++place;
 					}
+				}
+				this->_size += n;
+				for (int l = 0; l < this->_size; l++)
+				{
+					std::cout << "insert final : " << this->_array[l] << std::endl;
 				}
 			}
 		}

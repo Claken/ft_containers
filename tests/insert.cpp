@@ -6,6 +6,11 @@
 int main ()
 {
 	ft::vector<int> myvector (7,100);
+	ft::vector<int>::iterator itb;
+	itb = myvector.begin();
+	std::cout << "*itb = " << *itb << std::endl;
+
+
 	myvector.reserve(20);
 	ft::vector<int>::iterator it;
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
@@ -21,7 +26,7 @@ int main ()
 	// it = myvector.begin();
 	// std::cout << *(it + 3) << std::endl;
 	// std::cout << *(myvector.end() - 1) << std::endl;
-	myvector.insert (it+3,18,300);
+	myvector.insert (it+3,3,300);
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	// "it" no longer valid, get a new one:
