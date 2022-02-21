@@ -47,7 +47,7 @@ namespace ft
 					*this = copy;
 				}
 
-				iterator(pointer ptr)
+				iterator(pointer const ptr)
 				{
 					this->_ptr = ptr;
 				}
@@ -59,6 +59,8 @@ namespace ft
 
 				iterator& operator=(iterator const & copy)
 				{
+					std::cout << "here la : ";
+					std::cout << *copy._ptr << std::endl;
 					this->_ptr = copy._ptr;
 					return (*this);
 				}
@@ -124,6 +126,36 @@ namespace ft
 				{
 					return (this->_ptr + n);
 				}
+
+				bool operator==(const iterator it)
+				{
+					return *(this->_ptr) == *it;
+				}
+				bool operator<(const iterator it)
+				{
+					std::cout << "<" << std::endl;
+					std::cout << *(this->_ptr) << std::endl;
+					std::cout << *it << std::endl;
+					std::cout << (*(this->_ptr) < *it) << std::endl;
+					return (*(this->_ptr) < *it);
+				}
+				bool operator!=(const iterator it)
+				{
+					return *(this->_ptr) != *it;
+				}
+				bool operator>(const iterator it)
+				{
+					return *(this->_ptr) > *it;
+				}
+				bool operator>=(const iterator it)
+				{
+					return *(this->_ptr) >= *it;
+				}
+				bool operator<=(const iterator it)
+				{
+					return *(this->_ptr) <= *it;
+				}
+				
 		};
 
 		typedef std::reverse_iterator<iterator>				reverse_iterator;
@@ -152,6 +184,9 @@ namespace ft
 			for (int i = 0; i < n; i++)
 				this->_array[i] = value;
 			this->_size = n;
+			std::cout << "this->_array[0] in constructor " << this->_array[0] << std::endl;
+			std::cout << "*(this->_array + 0) in constructor " << *(this->_array + 0) << std::endl;
+			std::cout << "value " << value << std::endl;
 		}
 		// template <class InputIterator>
 		//  	vector(InputIterator first, InputIterator last, const Allocator& = Allocator())
@@ -159,7 +194,7 @@ namespace ft
 				 
 		//  	}
 	
-		vector(const vector<T,Allocator>& x) : _array(NULL)
+		vector(const iterator& x) : _array(NULL)
 		{
 			*this = x;
 		}
@@ -169,7 +204,7 @@ namespace ft
 			this->_allocator_type.deallocate(this->_array, this->_capacity);
 		}
 
-		vector<T,Allocator>& operator=(const vector<T,Allocator>& x)
+		iterator& operator=(const iterator& x)
 		{
 			if (this->_array != NULL)
 			{
@@ -202,7 +237,9 @@ namespace ft
 		// iterators:
 		iterator					begin()
 		{
-			iterator it(this->_array + 0);
+			iterator it(this->_array + 1);
+			//std::cout << "begin = " << *it._ptr << std::endl;
+			std::cout << "begin " << this->_array[0] << std::endl;
 			return (it);
 		}
 
@@ -370,14 +407,16 @@ namespace ft
 				vector<T, Allocator> newVector(this->_size + n);
 				newVector._allocator_type = this->_allocator_type;
 				int i = 0;
-				for (ft::vector<T, Allocator>::iterator it = this->begin(); it != position; it++)
+				ft::vector<T, Allocator>::iterator it = this->begin();
+				for (it; it != position; it++)
 					newVector._array[i++] = *it;
 				int j = i;
 				while (i < j + n)
 				{
 					newVector._array[i++] = val;
 				}
-				for (it = it + n; it != this->_end(), it++)
+				it = it + n;
+				for (it; it != this->end(); it++)
 				{
 					newVector._array[i++] = *it;
 				}
@@ -399,6 +438,10 @@ namespace ft
 						place--;
 					}
 					for (int k = 0; k < n; k++)
+					{
+						*place = val;
+						place++;
+					}
 				}
 			}
 		}
@@ -409,20 +452,20 @@ namespace ft
 
 		// iterator					erase(iterator position);
 		// iterator					erase(iterator first, iterator last);
-		// void						swap(vector<T,Allocator>&);
+		// void						swap(iterator&);
 		void						clear()
 		{
 			this->_size = 0;
 		}
 
-	// friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
-	// friend bool operator<(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
-	// friend bool operator!=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
-	// friend bool operator>(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
-	// friend bool operator>=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
-	// friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	// bool operator==(const iterator it);
+	// bool operator<(const iterator it);
+	// bool operator!=(const iterator it);
+	// bool operator>(const iterator it);
+	// bool operator>=(const iterator it);
+	// bool operator<=(const iterator it);
 
-	// friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y);
+	void swap(iterator& x, iterator it);
 		
 	};
 

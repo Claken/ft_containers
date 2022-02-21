@@ -5,12 +5,14 @@
 
 int main ()
 {
-	std::vector<int> myvector (7,100);
+	ft::vector<int> myvector (7,100);
 	myvector.reserve(20);
-	std::vector<int>::iterator it;
+	ft::vector<int>::iterator it;
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	it = myvector.begin();
+	std::cout << "*it = " << *it << std::endl;
+	std::cout << "*myvector.begin() = " << *(myvector.begin()) << std::endl;
 	// ++it;
 	// *it = 150;
 	// ++it;
