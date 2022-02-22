@@ -26,7 +26,7 @@ int main ()
 	// it = myvector.begin();
 	// std::cout << *(it + 3) << std::endl;
 	// std::cout << *(myvector.end() - 1) << std::endl;
-	myvector.insert (it+3,3,300);
+	myvector.insert (it+7,3,300);
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	// "it" no longer valid, get a new one:

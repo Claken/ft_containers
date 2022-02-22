@@ -71,7 +71,7 @@ namespace ft
 					return (*this);
 				}
 
-				iterator& operator++(int)
+				iterator operator++(int)
 				{
 					iterator tmp = *this;
 					++_ptr;
@@ -84,7 +84,7 @@ namespace ft
 					return (*this);
 				}
 
-				iterator& operator--(int)
+				iterator operator--(int)
 				{
 					iterator tmp = *this;
 					--_ptr;
@@ -130,7 +130,7 @@ namespace ft
 				bool operator==(const iterator it)
 				{
 					//return *(this->_ptr) == *it;
-					return this->_ptr == it._ptr;
+					return (this->_ptr == it._ptr);
 				}
 				bool operator<(const iterator it)
 				{
@@ -306,15 +306,15 @@ namespace ft
 				throw (std::length_error("size n is greater than max size"));
 			if (n > this->_capacity)
 			{
-				vector<T, Allocator> newVector(n);
-				newVector._size = this->_size;
-				newVector._allocator_type = this->_allocator_type;
-				for (int i = 0; i < newVector._size; i++)
+				T* newArray = this->_allocator_type.allocate(n);
+				for (int i = 0; i < this->_size; i++)
 				{
-					newVector._array[i] = this->_array[i];
-					std::cout << "reserve copy : " << newVector._array[i]  << std::endl;
+					newArray[i] = this->_array[i];
 				}
-				*this = newVector;
+				if (this->_array)
+					this->_allocator_type.deallocate(this->_array, this->_capacity);
+				this->_array = newArray;
+				this->_capacity = n;
 			}
 		}
 
@@ -412,62 +412,55 @@ namespace ft
 		{
 			if (this->_size + n > this->_capacity)
 			{
-				vector<T, Allocator> newVector(this->_size + n);
-				newVector._allocator_type = this->_allocator_type;
+				T* newArray = this->_allocator_type.allocate(this->_size + n);
 				int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
-				for (it; it != position; it++)
+				while (it != position)
 				{
-					newVector._array[i++] = *it;
+					newArray[i++] = *it;
+					it++;
 				}
-				int j = i;
-				while (i < j + n)
+				int j = i + n;
+				while (i < j)
 				{
-					newVector._array[i++] = val;
+					newArray[i++] = val;
 				}
-				it = it + n;
-				for (it; it != this->end(); it++)
+				while (it != this->end())
 				{
-					newVector._array[i++] = *it;
+				 	newArray[i++] = *it;
+				 	it++;
 				}
-				*this = newVector;
+				if (this->_array)
+					this->_allocator_type.deallocate(this->_array, this->_capacity);
+				this->_array = newArray;
+				this->_capacity = this->_size + n;
 			}
 			else
 			{
 				if (position == this->end())
 				{
-					for (int j = this->_size; j < (n + this->_size); j++)
+					size_type newSize = n + this->_size;
+					for (int j = this->_size; j < newSize; j++)
 					{
 						this->_array[j] = val;
 					}
 				}
 				else
 				{
-					for (int a = 0; a < this->_size; a++)
-					{
-						std::cout << "before insert : " << this->_array[a] << std::endl;
-					}
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
-					std::cout << "this->end() - 1 : " << *place << std::endl;
 					while (place != position)
 					{
-						std::cout << "*(place+n) : " << *(place+n) << std::endl;
-						std::cout << "*place     : " << *place << std::endl;
 						*(place+n) = *place;
-						--place;
+						place--;
 					}
 					for (int k = 0; k < n; k++)
 					{
 						*place = val;
-						++place;
+						place++;
 					}
 				}
-				this->_size += n;
-				for (int l = 0; l < this->_size; l++)
-				{
-					std::cout << "insert final : " << this->_array[l] << std::endl;
-				}
 			}
+			this->_size += n;
 		}
 		// iterator insert (iterator position, const value_type& val);
 		// template <class InputIterator>
@@ -481,15 +474,20 @@ namespace ft
 		{
 			this->_size = 0;
 		}
+		
+	// friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	
+	// friend bool operator< (const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	
+	// friend bool operator!=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	
+	// friend bool operator> (const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	
+	// friend bool operator>=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	
+	// friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
 
-	// bool operator==(const iterator it);
-	// bool operator<(const iterator it);
-	// bool operator!=(const iterator it);
-	// bool operator>(const iterator it);
-	// bool operator>=(const iterator it);
-	// bool operator<=(const iterator it);
-
-	void swap(iterator& x, iterator it);
+	// friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y);
 		
 	};
 
