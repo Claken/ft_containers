@@ -96,11 +96,12 @@ int		main()
 	it2 = it2 + 1;
 	std::cout << "it = it + 1 : " << *it2 << std::endl;
 
-	std::cout << "max_size : " << testX.max_size() << std::endl;
+	std::cout << "max_size testX: " << testX.max_size() << std::endl;
+	std::cout << "max_size test:  " << test.max_size() << std::endl;
 	std::cout << std::endl;
 
 
-	std::vector<int> twenty;
+	ft::vector<int> twenty;
 	for (int i = 0; i < 20; i++)
 	{
 		std::cout << "twenty size     : " << twenty.size() << std::endl;
