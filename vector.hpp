@@ -280,17 +280,17 @@ namespace ft
 			return (this->_allocator_type.max_size());
 		}
 
-		// void						resize(size_type sz, T c = T())
-		// {
-		// 	if (sz > this->_size)
-		// 	{
-
-		// 	}
-		// 	if (sz < this->size)
-		// 	{
-
-		// 	}
-		// }
+		void						resize(size_type sz, T c = T())
+		{
+			if (sz < this->_size)
+			{
+				this->_size = sz;
+			}
+			if (sz > this->_size)
+			{
+				this->insert(this->end(), sz - this->_size, c);
+			}
+		}
 
 		size_type					capacity() const
 		{
@@ -484,12 +484,32 @@ namespace ft
 			this->insert(position, 1, val);
 			return (this->begin()+pos);
 		}
+
 		// template <class InputIterator>
-    	// 	void insert (iterator position, InputIterator first, InputIterator last);
+    	// 	void insert (iterator position, InputIterator first, InputIterator last)
+		// 	{
+		// 		for (InputIterator it = first; it != last; it++)
+		// 		{
+		// 			insert(position, 1, 123);
+		// 			position++;
+		// 		}
+		// 	}
 
 
-		// iterator					erase(iterator position);
-		// iterator					erase(iterator first, iterator last);
+		// iterator					erase(iterator position)
+		// {
+		// 	int pos = 0;
+		// 	ft::vector<T, Allocator>::iterator it = this->begin();
+		// 	while (it != position)
+		// 	{
+		// 		pos++;
+		// 		it++;
+		// 	}
+
+		// 	return (this->begin()+pos);
+		// }
+
+		//iterator					erase(iterator first, iterator last);
 		// void						swap(iterator&);
 		void						clear()
 		{

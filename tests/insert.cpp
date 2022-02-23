@@ -31,12 +31,12 @@ int main ()
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	// "it" no longer valid, get a new one:
-	//   it = myvector.begin();
+	//it = myvector.begin();
 
-	//   std::vector<int> anothervector (2,400);
-	//   myvector.insert (it+2,anothervector.begin(),anothervector.end());
+	// ft::vector<int> anothervector (2,400);
+	// myvector.insert (it+2, anothervector.begin(), anothervector.end());
 
-	//   int myarray [] = { 501,502,503 };
+	// 		int myarray [] = { 501,502,503 };
 	//   myvector.insert (myvector.begin(), myarray, myarray+3);
 
 	std::cout << "myvector contains:";
