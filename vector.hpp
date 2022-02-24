@@ -499,15 +499,16 @@ namespace ft
 			return (this->begin()+pos);
 		}
 
-		// template <class InputIterator>
-    	// 	void insert (iterator position, InputIterator first, InputIterator last)
-		// 	{
-		// 		for (InputIterator it = first; it != last; it++)
-		// 		{
-		// 			insert(position, 1, 123);
-		// 			position++;
-		// 		}
-		// 	}
+		template <class InputIterator>
+    		void insert (iterator position, InputIterator first, InputIterator last,
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
+			{
+				for (InputIterator it = first; it != last; it++)
+				{
+					insert(position, 1, *it);
+					position++;
+				}
+			}
 
 
 		// iterator					erase(iterator position)
