@@ -49,7 +49,7 @@ namespace ft
 
 		class iterator : public ft::iterator<std::forward_iterator_tag, T>
 		{
-			private:
+			protected:
 
 				pointer		_ptr;
 
@@ -62,9 +62,20 @@ namespace ft
 					*this = copy;
 				}
 
-				iterator(pointer const ptr)
+				explicit iterator(pointer const ptr)
 				{
 					this->_ptr = ptr;
+				}
+
+				template <class Iter>
+				iterator (const iterator<Iter>& it)
+					{
+						this->_ptr = it._ptr;
+					}
+
+				pointer	base() const
+				{
+					return (this->_ptr);
 				}
 
 				reference operator*(void) const
@@ -80,27 +91,27 @@ namespace ft
 
 				iterator& operator++()
 				{
-					++_ptr;
+					++this->_ptr;
 					return (*this);
 				}
 
 				iterator operator++(int)
 				{
 					iterator tmp = *this;
-					++_ptr;
+					++this->_ptr;
 					return (tmp);
 				}
 
 				iterator& operator--()
 				{
-					--_ptr;
+					--this->_ptr;
 					return (*this);
 				}
 
 				iterator operator--(int)
 				{
 					iterator tmp = *this;
-					--_ptr;
+					--this->_ptr;
 					return (tmp);
 				}
 
@@ -436,21 +447,27 @@ namespace ft
 			size_type newSize = n + this->_size;
 			if (newSize > this->_capacity)
 			{
+				std::cout << "here : newSize > this->_capacity" << std::endl;
 				T* newArray = this->try_allocation(newSize);
 				int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
 				while (it != position)
 				{
+					std::cout << "newSize 1" << std::endl;
+					std::cout << "it base  " << it.base() << std::endl;
+					std::cout << "pos base " << position.base() << std::endl;
 					newArray[i++] = *it;
 					it++;
 				}
 				int j = i + n;
 				while (i < j)
 				{
+					std::cout << "newSize 2" << std::endl;
 					newArray[i++] = val;
 				}
 				while (it != this->end())
 				{
+					std::cout << "newSize 3" << std::endl;
 				 	newArray[i++] = *it;
 				 	it++;
 				}
@@ -470,11 +487,14 @@ namespace ft
 				}
 				else
 				{
+					std::cout << "here : place" << std::endl;
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
 					while (place >= position)
 					{
 						*(place+n) = *place;
 						place--;
+						std::cout << "place base " << place.base() << std::endl;
+						std::cout << "pos base   " << position.base() << std::endl;
 					}
 					for (int k = 0; k < n; k++)
 					{
@@ -495,7 +515,7 @@ namespace ft
 				pos++;
 				it++;
 			}
-			this->insert(position, 1, val);
+			this->insert(position, 1, val); 
 			return (this->begin()+pos);
 		}
 

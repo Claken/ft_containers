@@ -5,15 +5,15 @@
 
 int main ()
 {
-	ft::vector<int> myvector (7,100);
+	ft::vector<int> myvector (7,100); //ft
 	std::cout << "size = " << myvector.size() << std::endl;
-	ft::vector<int>::iterator itb;
+	ft::vector<int>::iterator itb; //ft
 	itb = myvector.insert(myvector.begin()+4, 666);
 	std::cout << "*itb = " << *itb << std::endl;
 
 	std::cout << "size = " << myvector.size() << std::endl;
 	myvector.reserve(20);
-	ft::vector<int>::iterator it;
+	ft::vector<int>::iterator it; //ft
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	it = myvector.begin();
@@ -33,7 +33,7 @@ int main ()
 	// "it" no longer valid, get a new one:
 	//it = myvector.begin();
 
-	ft::vector<int> anothervector (3,400);
+	ft::vector<int> anothervector (3,400); //ft 
 	myvector.insert (it+2, anothervector.begin(), anothervector.end());
 
 	// 		int myarray [] = { 501,502,503 };
