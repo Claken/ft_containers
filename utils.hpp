@@ -12,14 +12,14 @@ namespace ft
 		static const T					value = v;
 		typedef T						value_type;
 		typedef integral_constant<T,v>	type;
-		operator value_type() const
+		operator value_type() const throw()
 		{
 			return value;
 		}
 	};
 
 	// template <class T>
-	// struct is_integral : public ft::integral_constant<bool, __is_integral(T)> {};
+	// struct is_integral : public ft::integral_constant<bool, __is_integral(T)> {}; / for clang++ compilation
 
 	template <class T>
 	struct is_integral : public ft::integral_constant<bool, false> { };
