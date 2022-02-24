@@ -4,6 +4,7 @@
 #include <new>
 #include <cstddef>
 #include "iterator.hpp"
+#include "utils.hpp"
 
 namespace ft
 {
@@ -66,9 +67,9 @@ namespace ft
 					this->_ptr = ptr;
 				}
 
-				reference operator*() const
+				reference operator*(void) const
 				{
-					return *(this->_ptr);
+					return (*this->_ptr);
 				}
 
 				iterator& operator=(iterator const & copy)
@@ -191,11 +192,24 @@ namespace ft
 				this->_array[i] = value;
 			this->_size = n;
 		}
-		// template <class InputIterator>
-		//  	vector(InputIterator first, InputIterator last, const Allocator& = Allocator())
-		//  	{
-				 
-		//  	}
+
+		template <class InputIterator>
+		 	vector(InputIterator first, InputIterator last, const Allocator& = Allocator(),
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
+		 	{
+				size_type n = 0;
+				for (InputIterator it = first; it != last; it++)
+					n++;
+				this->_capacity = n;
+				this->_allocator_type = Allocator();
+				this->_array = this->try_allocation(this->_capacity);
+				int i = 0;
+				for (InputIterator it1 = first; it1 != last; it1++)
+				{
+					this->_array[i++] = *it1;
+				}
+				this->_size = n;
+		 	}
 	
 		vector(const iterator& x) : _array(NULL)
 		{
