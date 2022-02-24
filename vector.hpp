@@ -24,27 +24,6 @@ namespace ft
 		typedef typename Allocator::const_pointer			const_pointer;
 		//typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
 
-		private:
-
-		T				*_array;
-		size_type		_size;
-		size_type		_capacity;
-		Allocator		_allocator_type;
-		
-		T* try_allocation(size_type n)
-		{
-			T* newArray;
-			try
-			{
-				newArray = this->_allocator_type.allocate(n);
-			}
-			catch(const std::bad_alloc& ba)
-			{
-				std::cerr << ba.what() << std::endl;
-			}
-			return (newArray);
-		}
-
 		public:
 
 		class iterator : public ft::iterator<std::forward_iterator_tag, T>
@@ -66,12 +45,6 @@ namespace ft
 				{
 					this->_ptr = ptr;
 				}
-
-				template <class Iter>
-				iterator (const iterator<Iter>& it)
-					{
-						this->_ptr = it._ptr;
-					}
 
 				pointer	base() const
 				{
@@ -183,7 +156,7 @@ namespace ft
 				
 		};
 
-		typedef std::reverse_iterator<iterator>				reverse_iterator;
+		typedef ft::reverse_iterator<iterator>				reverse_iterator;
 
 		// 23.2.4.1 construct/copy/destroy:
 		explicit vector(const Allocator& = Allocator())
@@ -274,24 +247,26 @@ namespace ft
 
 		//const_iterator				end() const;
 
-		// reverse_iterator			rbegin()
-		// {
-
-		// }
+		reverse_iterator			rbegin()
+		{
+			reverse_iterator rit(this->end());
+			return (rit);
+		}
 
 		// const_reverse_iterator		rbegin() const
 		// {
-
+		// 	return (this->end() - 1);
 		// }
 
-		// reverse_iterator			rend()
-		// {
-			
-		// }
+		reverse_iterator			rend()
+		{
+			reverse_iterator rit(this->begin());
+			return (rit);
+		}
 
 		// const_reverse_iterator		rend() const
 		// {
-
+		// 	return (this->begin());
 		// }
 
 		// 23.2.4.2 capacity:
@@ -447,27 +422,21 @@ namespace ft
 			size_type newSize = n + this->_size;
 			if (newSize > this->_capacity)
 			{
-				std::cout << "here : newSize > this->_capacity" << std::endl;
 				T* newArray = this->try_allocation(newSize);
 				int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
 				while (it != position)
 				{
-					std::cout << "newSize 1" << std::endl;
-					std::cout << "it base  " << it.base() << std::endl;
-					std::cout << "pos base " << position.base() << std::endl;
 					newArray[i++] = *it;
 					it++;
 				}
 				int j = i + n;
 				while (i < j)
 				{
-					std::cout << "newSize 2" << std::endl;
 					newArray[i++] = val;
 				}
 				while (it != this->end())
 				{
-					std::cout << "newSize 3" << std::endl;
 				 	newArray[i++] = *it;
 				 	it++;
 				}
@@ -487,14 +456,11 @@ namespace ft
 				}
 				else
 				{
-					std::cout << "here : place" << std::endl;
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
 					while (place >= position)
 					{
 						*(place+n) = *place;
 						place--;
-						std::cout << "place base " << place.base() << std::endl;
-						std::cout << "pos base   " << position.base() << std::endl;
 					}
 					for (int k = 0; k < n; k++)
 					{
@@ -508,13 +474,7 @@ namespace ft
 
 		iterator insert (iterator position, const value_type& val)
 		{
-			int pos = 0;
-			ft::vector<T, Allocator>::iterator it = this->begin();
-			while (it != position)
-			{
-				pos++;
-				it++;
-			}
+			int pos = find_pos_with_it(position);
 			this->insert(position, 1, val); 
 			return (this->begin()+pos);
 		}
@@ -523,10 +483,11 @@ namespace ft
     		void insert (iterator position, InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
 			{
+				int pos = find_pos_with_it(position);
 				for (InputIterator it = first; it != last; it++)
 				{
-					insert(position, 1, *it);
-					position++;
+					insert(this->begin()+pos, 1, *it);
+					pos++;
 				}
 			}
 
@@ -564,6 +525,39 @@ namespace ft
 	// friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
 
 	// friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y);
+
+		private:
+
+		T				*_array;
+		size_type		_size;
+		size_type		_capacity;
+		Allocator		_allocator_type;
+		
+		T* try_allocation(size_type n)
+		{
+			T* newArray;
+			try
+			{
+				newArray = this->_allocator_type.allocate(n);
+			}
+			catch(const std::bad_alloc& ba)
+			{
+				std::cerr << ba.what() << std::endl;
+			}
+			return (newArray);
+		}
+
+		int find_pos_with_it(iterator position)
+		{
+			int pos = 0;
+			ft::vector<T, Allocator>::iterator it = this->begin();
+			while (it != position)
+			{
+				pos++;
+				it++;
+			}
+			return (pos);
+		}
 		
 	};
 

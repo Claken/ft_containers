@@ -5,15 +5,15 @@
 
 int main ()
 {
-	ft::vector<int> myvector (7,100); //ft
+	ft::vector<int> myvector (7,100); //f-t
 	std::cout << "size = " << myvector.size() << std::endl;
-	ft::vector<int>::iterator itb; //ft
+	ft::vector<int>::iterator itb; //f-t
 	itb = myvector.insert(myvector.begin()+4, 666);
 	std::cout << "*itb = " << *itb << std::endl;
 
 	std::cout << "size = " << myvector.size() << std::endl;
 	myvector.reserve(20);
-	ft::vector<int>::iterator it; //ft
+	ft::vector<int>::iterator it; //f-t
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	it = myvector.begin();
@@ -28,12 +28,12 @@ int main ()
 	// std::cout << *(it + 3) << std::endl;
 	// std::cout << *(myvector.end() - 1) << std::endl;
 	myvector.insert (it+5,4,300);
-	std::cout << "capacity : " << myvector.capacity() << std::endl;
+	std::cout << "capacity here : " << myvector.capacity() << std::endl;
 
 	// "it" no longer valid, get a new one:
-	//it = myvector.begin();
+	it = myvector.begin();
 
-	ft::vector<int> anothervector (3,400); //ft 
+	ft::vector<int> anothervector (3,400); //f-t 
 	myvector.insert (it+2, anothervector.begin(), anothervector.end());
 
 	// 		int myarray [] = { 501,502,503 };

@@ -20,8 +20,15 @@ int		main()
 		test.push_back(i * 2);
 		std::cout << "size     : " << test.size() << std::endl;
 		std::cout << "capacity : " << test.capacity() << std::endl;
-		std::cout << i * 2 << std::endl << std::endl;
+		std::cout << i << std::endl << std::endl;
 	}
+
+	std::vector<int>::reverse_iterator rit = test.rbegin();
+	std::vector<int>::reverse_iterator ritt = test.rend();
+
+	std::cout << "rbegin : " << *rit << std::endl;
+	std::cout << "rend :   " << *ritt << std::endl;
+
 	/*
 	test.clear();
 	std::cout << "size     : " << test.size() << std::endl;
@@ -113,6 +120,12 @@ int		main()
 		std::cout << "i == " << i << std::endl;
 		std::cout << "twenty[] == " << twenty[i] << std::endl << std::endl;
 	}
+
+	ft::vector<int>::reverse_iterator ok = twenty.rbegin();
+	ft::vector<int>::reverse_iterator tm = twenty.rend();
+
+	std::cout << "rbegin : " << *ok << std::endl;
+	std::cout << "rend :   " << *tm << std::endl;
 
 	std::cout << std::endl;
 	char let = 'a';
