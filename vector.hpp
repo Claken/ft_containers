@@ -221,9 +221,6 @@ namespace ft
 			}
 			return (*this);
 		}
-		//template <class InputIterator>
-		//void						assign(InputIterator first, InputIterator last);
-		// void						assign(size_type n, const T& u);
 		
 		allocator_type				get_allocator() const
 		{
@@ -391,33 +388,25 @@ namespace ft
 
 		void						pop_back()
 		{
-			this->_size--;
+			if (this->_size > 0)
+				this->_size--;
 		}
 
-		
-		// template <class InputIterator>
-  		// 	void assign (InputIterator first, InputIterator last);	
-		void assign (size_type n, const value_type& val)
+		template <class InputIterator>
+  		void 						assign (InputIterator first, InputIterator last,
+		typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
 		{
-			if (n > this->_capacity)
-			{
-				T* newArray = this->try_allocation(n);
-				for (int i = 0; i < n; i++)
-					newArray[i] = val;
-				if (this->_array)
-					this->_allocator_type.deallocate(this->_array, this->_capacity);
-				this->_array = newArray;
-				this->_capacity = n;
-			}
-			else
-			{
-				for (int i = 0; i < n; i++)
-					this->_array[i] = val;
-			}
-			this->_size = n;
+			this->clear();
+			this->insert(this->begin(), first, last);
 		}
 
-		void insert (iterator position, size_type n, const value_type& val)
+		void 						assign (size_type n, const value_type& val)
+		{
+			this->clear();
+			this->insert(this->begin(), n, val);
+		}
+
+		void 						insert (iterator position, size_type n, const value_type& val)
 		{
 			size_type newSize = n + this->_size;
 			if (newSize > this->_capacity)
@@ -472,15 +461,15 @@ namespace ft
 			this->_size = newSize;
 		}
 
-		iterator insert (iterator position, const value_type& val)
+		iterator 					insert (iterator position, const value_type& val)
 		{
 			int pos = find_pos_with_it(position);
-			this->insert(position, 1, val); 
+			this->insert(position, 1, val);
 			return (this->begin()+pos);
 		}
 
 		template <class InputIterator>
-    		void insert (iterator position, InputIterator first, InputIterator last,
+    		void 					insert (iterator position, InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
 			{
 				int pos = find_pos_with_it(position);
