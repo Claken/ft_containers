@@ -283,7 +283,7 @@ namespace ft
 			{
 				this->_size = sz;
 			}
-			if (sz > this->_size)
+			else if (sz > this->_size)
 			{
 				this->insert(this->end(), sz - this->_size, c);
 			}
@@ -394,7 +394,7 @@ namespace ft
 
 		template <class InputIterator>
   		void 						assign (InputIterator first, InputIterator last,
-		typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
+									typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
 		{
 			this->clear();
 			this->insert(this->begin(), first, last);
@@ -470,7 +470,7 @@ namespace ft
 
 		template <class InputIterator>
     		void 					insert (iterator position, InputIterator first, InputIterator last,
-			typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
+									typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = NULL)
 			{
 				int pos = find_pos_with_it(position);
 				for (InputIterator it = first; it != last; it++)
@@ -480,22 +480,29 @@ namespace ft
 				}
 			}
 
+		iterator					erase(iterator position)
+		{
+			int pos = find_pos_with_it(position);	
+			for (iterator it = position; it + 1 != this->end(); it++)
+			{
+				*it = *(it + 1);
+			}
+			this->_size--;
+			return (this->begin()+pos);
+		}
 
-		// iterator					erase(iterator position)
-		// {
-		// 	int pos = 0;
-		// 	ft::vector<T, Allocator>::iterator it = this->begin();
-		// 	while (it != position)
-		// 	{
-		// 		pos++;
-		// 		it++;
-		// 	}
+		iterator					erase(iterator first, iterator last)
+		{
+			int pos = find_pos_with_it(first);
+			for (iterator it = first; it != last; it++)
+			{
+				erase(this->begin()+pos);
+			}
+			return (this->begin()+pos);
+		}
 
-		// 	return (this->begin()+pos);
-		// }
-
-		//iterator					erase(iterator first, iterator last);
 		// void						swap(iterator&);
+
 		void						clear()
 		{
 			this->_size = 0;
