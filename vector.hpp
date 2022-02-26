@@ -498,7 +498,7 @@ namespace ft
 			{
 				erase(this->begin()+pos);
 			}
-			return (this->begin()+pos);
+			return (first);
 		}
 
 		// void						swap(iterator&);
