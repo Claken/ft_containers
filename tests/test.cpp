@@ -7,10 +7,10 @@
 int		main()
 {
 	std::vector<int> test;
-	std::stack<char> test2;
-	std::stack<char> test3;
-	ft::stack<char> ftest2;
-	ft::stack<char> ftest3;
+	std::stack<int> test2;
+	std::stack<int> test3;
+	ft::stack<int> ftest2;
+	ft::stack<int> ftest3;
 
 	for (int i = 0; i < 20; i++)
 	{
@@ -128,10 +128,10 @@ int		main()
 	std::cout << "rend :   " << *tm << std::endl;
 
 	std::cout << std::endl;
-	char let = 'a';
-	char let2 = 'a';
-	char let3 = 'a';
-	char let4 = 'a';
+	int let = 12;
+	int let2 = 24;
+	int let3 = 12;
+	int let4 = 12;
 
 	test2.push(let);
 	test2.push(let2);
@@ -170,9 +170,9 @@ int		main()
 	std::cout << "ftest2 >= ftest3 = " << te << std::endl;
 
 	std::cout << std::endl;
-	std::deque<char> const 					deck(3, 'z');
-	ft::stack<char> 						copy(deck);
-	std::stack<char> 						copy2(deck);
+	std::deque<int> const 					deck(3, 'z');
+	ft::stack<int> 						copy(deck);
+	std::stack<int> 						copy2(deck);
 	std::cout << "copy.size() = " << copy.size() << std::endl;
 	std::cout << "copy.empty() = " << copy.empty() << std::endl;
 	std::cout << "copy.top() = " << copy.top() << std::endl;

@@ -515,11 +515,17 @@ namespace ft
 			this->_size = 0;
 		}
 		
-	// friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+	{
+		return (ft::equal(x.begin()), x.end(), y.begin());
+	}
 	
 	// friend bool operator< (const vector<T,Allocator>& x, const vector<T,Allocator>& y);
 	
-	// friend bool operator!=(const vector<T,Allocator>& x, const vector<T,Allocator>& y);
+	friend bool operator!=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+	{
+		return (!ft::equal(x.begin()), x.end(), y.begin());
+	}
 	
 	// friend bool operator> (const vector<T,Allocator>& x, const vector<T,Allocator>& y);
 	
