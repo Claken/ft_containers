@@ -480,7 +480,7 @@ namespace ft
 				}
 			}
 
-		iterator					erase(iterator position)
+		iterator					erase(iterator position) // A TESTER AVEC DES TESTEURS POUR ETRE SUR QUE CA PASSE !
 		{
 			int pos = find_pos_with_it(position);	
 			for (iterator it = position; it + 1 != this->end(); it++)
@@ -491,17 +491,24 @@ namespace ft
 			return (this->begin()+pos);
 		}
 
-		iterator					erase(iterator first, iterator last)
+		iterator					erase(iterator first, iterator last) // A TESTER AVEC DES TESTEURS POUR ETRE SUR QUE CA PASSE !
 		{
 			int pos = find_pos_with_it(first);
+			if (pos == 0 && last == this->end())
+			{
+				this->clear();
+				return (first);
+			}
 			for (iterator it = first; it != last; it++)
 			{
 				erase(this->begin()+pos);
 			}
+			if (this->_size == 0)
+				return (this->begin());
 			return (first);
 		}
 
-		// void						swap(iterator&);
+		// void						swap(vector&);
 
 		void						clear()
 		{

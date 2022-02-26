@@ -5,11 +5,16 @@
 
 int main ()
 {
-	std::vector<int> myvector;
+	ft::vector<int> myvector;
 
 	// set some values (from 1 to 10)
 	for (int i=1; i<=10; i++)
-		myvector.push_back(i);
+	{
+		if (i == 1)
+			myvector.push_back(100);
+		else
+			myvector.push_back(i);
+	}
 
 	// erase the 6th element
 	// std::vector<int>::iterator it = myvector.erase (myvector.begin()+5);
@@ -17,7 +22,7 @@ int main ()
 	// std::cout << "*it == " << *it << std::endl;
 
 	// // erase the first 3 elements:
-	std::vector<int>::iterator it2 = myvector.erase (myvector.begin(),myvector.end()-1);
+	ft::vector<int>::iterator it2 = myvector.erase (myvector.begin()+4, myvector.end()-3);
 
 	std::cout << "*it2 == " << *it2 << std::endl;
 
