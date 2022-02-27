@@ -3,6 +3,7 @@
 #include <iostream>
 #include <new>
 #include <cstddef>
+#include <algorithm>
 #include "iterator.hpp"
 #include "utils.hpp"
 
@@ -267,7 +268,8 @@ namespace ft
 
 		const_reverse_iterator		rbegin() const
 		{
-			return (this->end() - 1);
+			const_reverse_iterator rit(this->end());
+			return (rit);
 		}
 
 		reverse_iterator			rend()
@@ -278,7 +280,8 @@ namespace ft
 
 		const_reverse_iterator		rend() const
 		{
-			return (this->begin());
+			const_reverse_iterator rit(this->begin());
+			return (rit);
 		}
 
 		// 23.2.4.2 capacity:
@@ -523,7 +526,13 @@ namespace ft
 			return (first);
 		}
 
-		// void						swap(vector&);
+		void						swap(ft::vector<T, Allocator>& x)
+		{
+			std::swap(this->_array, x._array);
+			std::swap(this->_size, x._size);
+			std::swap(this->_capacity, x._capacity);
+			std::swap(this->_allocator_type, x._allocator_type);
+		}
 
 		void						clear()
 		{
@@ -562,7 +571,13 @@ namespace ft
 		return !(y < x);
 	}
 
-	// friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y);
+	friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y)
+	{
+		std::swap(x._array, y._array);
+		std::swap(x._size, y._size);
+		std::swap(x._capacity, y._capacity);
+		std::swap(x._allocator_type, y._allocator_type);
+	}
 
 		private:
 
