@@ -92,7 +92,7 @@ namespace ft
 	{
 		while (first1!=last1)
 		{
-			if (first2==last2 || *first2 < *first1)
+			if (first2==last2 || *first1 > *first2)
 			{
 				return false;
 			}
