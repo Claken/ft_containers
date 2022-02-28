@@ -17,10 +17,10 @@ int main ()
   //   sum+=myvector.back();
   //   myvector.pop_back();
   // }
-  int i = -1;
-  while (++i < myvector.size())
+  unsigned int i = 0;
+  while (i < myvector.size())
   {
-      std::cout << myvector[i] << std::endl;
+      std::cout << myvector[i++] << std::endl;
   }
   std::cout << myvector.capacity() << std::endl;
 

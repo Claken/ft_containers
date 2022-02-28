@@ -28,7 +28,7 @@ namespace ft
 
 				vector_iterator() : _ptr(NULL) {}
 
-				vector_iterator(vector_iterator const & copy)
+				vector_iterator(const vector_iterator &copy)
 				{
 					*this = copy;
 				}
@@ -37,6 +37,8 @@ namespace ft
 				{
 					this->_ptr = ptr;
 				}
+
+				~vector_iterator() {}
 
 				pointer	base() const
 				{
@@ -48,7 +50,7 @@ namespace ft
 					return (*this->_ptr);
 				}
 
-				vector_iterator& operator=(vector_iterator const & copy)
+				vector_iterator& operator=(const vector_iterator& copy)
 				{
 					this->_ptr = copy._ptr;
 					return (*this);
@@ -180,7 +182,7 @@ namespace ft
 			this->_capacity = n;
 			this->_allocator_type = Allocator();
 			this->_array = this->try_allocation(this->_capacity);
-			for (int i = 0; i < n; i++)
+			for (unsigned int i = 0; i < n; i++)
 				this->_array[i] = value;
 			this->_size = n;
 		}
@@ -203,7 +205,7 @@ namespace ft
 				this->_size = n;
 		 	}
 	
-		vector(const iterator& x) : _array(NULL)
+		vector(const iterator<T, Allocator>& x) : _array(NULL)
 		{
 			*this = x;
 		}
@@ -213,7 +215,7 @@ namespace ft
 			this->_allocator_type.deallocate(this->_array, this->_capacity);
 		}
 
-		iterator& operator=(const iterator& x)
+		vector& operator=(const vector<T, Allocator>& x)
 		{
 			if (this->_array != NULL)
 			{
@@ -223,7 +225,7 @@ namespace ft
 			this->_allocator_type = x._allocator_type;
 			this->_array = this->try_allocation(this->_capacity);
 			this->_size = x._size;
-			for (int i = 0; i < this->_size; i++)
+			for (unsigned int i = 0; i < this->_size; i++)
 			{
 				this->_array[i] = x._array[i];
 			}
@@ -321,11 +323,12 @@ namespace ft
 		void						reserve(size_type n)
 		{
 			if (n > this->max_size())
-				throw (std::length_error("size n is greater than max size"));
+				throw (std::length_error("vector::reserve"));
+				//throw (std::length_error("size n is greater than max size"));
 			if (n > this->_capacity)
 			{
 				T* newArray = this->try_allocation(n);
-				for (int i = 0; i < this->_size; i++)
+				for (unsigned int i = 0; i < this->_size; i++)
 				{
 					newArray[i] = this->_array[i];
 				}
@@ -388,9 +391,12 @@ namespace ft
 			{
 				size_type newCap = this->_size == 0 ? 1 : this->_size * 2;
 				T* newArray = this->try_allocation(newCap);
-				int i = -1;
-				while (++i < this->_size)
+				unsigned int i = 0;
+				while (i < this->_size)
+				{
 					newArray[i] = this->_array[i];
+					i++;
+				}
 				newArray[i] = x;
 				if (this->_array)
 					this->_allocator_type.deallocate(this->_array, this->_capacity);
@@ -456,7 +462,7 @@ namespace ft
 			{
 				if (position == this->end())
 				{
-					for (int j = this->_size; j < newSize; j++)
+					for (unsigned int j = this->_size; j < newSize; j++)
 					{
 						this->_array[j] = val;
 					}
@@ -469,7 +475,7 @@ namespace ft
 						*(place+n) = *place;
 						place--;
 					}
-					for (int k = 0; k < n; k++)
+					for (unsigned int k = 0; k < n; k++)
 					{
 						place++;
 						*place = val;
@@ -538,46 +544,46 @@ namespace ft
 		{
 			this->_size = 0;
 		}
+			
+		friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+		{
+			if (x.size() == y.size())
+				return ft::equal(x.begin(), x.end(), y.begin());
+			return (false);
+		}
 		
-	friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
-	{
-		if (x.size() == y.size())
-			return ft::equal(x.begin(), x.end(), y.begin());
-		return (false);
-	}
-	
-	friend bool operator<(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
-	{
-		return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
-	}
-	
-	friend bool operator!=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
-	{
-		return !(x == y);
-	}
-	
-	friend bool operator> (const vector<T,Allocator>& x, const vector<T,Allocator>& y)
-	{
-		return (y < x);
-	}
-	
-	friend bool operator>=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
-	{
-		return !(x < y);
-	}
-	
-	friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
-	{
-		return !(y < x);
-	}
+		friend bool operator<(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+		{
+			return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
+		}
+		
+		friend bool operator!=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+		{
+			return !(x == y);
+		}
+		
+		friend bool operator> (const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+		{
+			return (y < x);
+		}
+		
+		friend bool operator>=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+		{
+			return !(x < y);
+		}
+		
+		friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
+		{
+			return !(y < x);
+		}
 
-	friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y)
-	{
-		std::swap(x._array, y._array);
-		std::swap(x._size, y._size);
-		std::swap(x._capacity, y._capacity);
-		std::swap(x._allocator_type, y._allocator_type);
-	}
+		friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y)
+		{
+			std::swap(x._array, y._array);
+			std::swap(x._size, y._size);
+			std::swap(x._capacity, y._capacity);
+			std::swap(x._allocator_type, y._allocator_type);
+		}
 
 		private:
 
