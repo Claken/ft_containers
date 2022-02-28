@@ -205,7 +205,7 @@ namespace ft
 				this->_size = n;
 		 	}
 	
-		vector(const iterator<T, Allocator>& x) : _array(NULL)
+		vector(const vector& x) : _array(NULL)
 		{
 			*this = x;
 		}
@@ -215,7 +215,7 @@ namespace ft
 			this->_allocator_type.deallocate(this->_array, this->_capacity);
 		}
 
-		vector& operator=(const vector<T, Allocator>& x)
+		vector& operator=(const vector& x)
 		{
 			if (this->_array != NULL)
 			{
