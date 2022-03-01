@@ -28,10 +28,16 @@ namespace ft
 
 				vector_iterator() : _ptr(NULL) {}
 
-				vector_iterator(const vector_iterator &copy)
+				vector_iterator(vector_iterator const &copy)
 				{
 					*this = copy;
 				}
+
+				template<class U>
+					vector_iterator(vector_iterator<U> const &copy)
+					{
+						this->_ptr = copy.base();
+					}
 
 				explicit vector_iterator(pointer const ptr)
 				{
