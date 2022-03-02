@@ -30,7 +30,7 @@ namespace ft
 
 				vector_iterator(vector_iterator const &copy)
 				{
-					*this = copy;
+					this->_ptr = copy._ptr;
 				}
 
 				template<class U>
