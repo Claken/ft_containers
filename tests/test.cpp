@@ -63,7 +63,7 @@ int		main()
 		std::cerr << e.what() << std::endl;
 	}
 
-	std::vector<int>::iterator it = test.begin();
+	//std::vector<int>::iterator it = test.begin();
 	//std::vector<int>::iterator it(test.begin());
 	ft::vector<int> testX(5, 2);
 	try

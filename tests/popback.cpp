@@ -5,26 +5,27 @@
 
 int main ()
 {
-  std::vector<int> myvector;
-  myvector.reserve(20);
-  int sum (0);
-  myvector.push_back (100);
-  myvector.push_back (200);
-  myvector.push_back (300);
+	ft::vector<int> myvector;
+	myvector.reserve(20);
+	int sum (0);
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
 
-  // while (!myvector.empty())
-  // {
-  //   sum+=myvector.back();
-  //   myvector.pop_back();
-  // }
-  unsigned int i = 0;
-  while (i < myvector.size())
-  {
-      std::cout << myvector[i++] << std::endl;
-  }
-  std::cout << myvector.capacity() << std::endl;
+	unsigned int i = 0;
+	while (i < myvector.size())
+	{
+		std::cout << myvector[i++] << std::endl;
+	}
+	std::cout << myvector.capacity() << std::endl;
 
-  std::cout << "The elements of myvector add up to " << sum << '\n';
+	while (!myvector.empty())
+	{
+		sum+=myvector.back();
+		myvector.pop_back();
+	}
 
-  return 0;
+	std::cout << "The elements of myvector add up to " << sum << '\n';
+
+	return 0;
 }

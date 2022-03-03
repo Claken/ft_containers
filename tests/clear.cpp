@@ -1,10 +1,11 @@
 // clearing vectors
 #include <iostream>
 #include <vector>
+#include "../vector.hpp"
 
 int main ()
 {
-  std::vector<int> myvector;
+  ft::vector<int> myvector; // f t 
   myvector.push_back (100);
   myvector.push_back (200);
   myvector.push_back (300);
