@@ -112,6 +112,11 @@ namespace ft
 					return (copy);
 				}
 
+				difference_type operator-(const vector_iterator<T>& instance) const
+				{
+					return (this->_ptr - instance._ptr);
+				}
+
 				vector_iterator operator+(difference_type n) const
 				{
 					vector_iterator copy = *this;
@@ -119,41 +124,52 @@ namespace ft
 					return (copy);
 				}
 
+				difference_type operator+(const vector_iterator<T>& instance) const
+				{
+					return (this->_ptr + instance._ptr);
+				}
+
 				reference operator[] (difference_type n) const
 				{
 					return (this->_ptr + n);
 				}
-
-				bool operator==(const vector_iterator it)
-				{
-					return (this->_ptr == it._ptr);
-				}
-
-				bool operator<(const vector_iterator it)
-				{
-					return (this->_ptr < it._ptr);
-				}
-
-				bool operator!=(const vector_iterator it)
-				{
-					return (this->_ptr != it._ptr);
-				}
-
-				bool operator>(const vector_iterator it)
-				{
-					return (this->_ptr > it._ptr);
-				}
-
-				bool operator>=(const vector_iterator it)
-				{
-					return (this->_ptr >= it._ptr);
-				}
-
-				bool operator<=(const vector_iterator it)
-				{
-					return (this->_ptr <= it._ptr);
-				}
 		};
+
+		template<class T1, class T2>
+		bool operator==(const vector_iterator<T1>& lhs, const vector_iterator<T2>& rhs)
+		{
+			return (lhs.base() == rhs.base());
+		}
+
+		template<class T1, class T2>
+		bool operator!=(const vector_iterator<T1>& lhs, const vector_iterator<T2>& rhs)
+		{
+			return (lhs.base() != rhs.base());
+		}
+
+		template<class T1, class T2>
+		bool operator<(const vector_iterator<T1>& lhs, const vector_iterator<T2>& rhs)
+		{
+			return (lhs.base() < rhs.base());
+		}
+		
+		template<class T1, class T2>
+		bool operator<=(const vector_iterator<T1>& lhs, const vector_iterator<T2>& rhs)
+		{
+			return (lhs.base() <= rhs.base());
+		}
+				
+		template<class T1, class T2>
+		bool operator>(const vector_iterator<T1>& lhs, const vector_iterator<T2>& rhs)
+		{
+			return (lhs.base() > rhs.base());
+		}
+
+		template<class T1, class T2>
+		bool operator>=(const vector_iterator<T1>& lhs, const vector_iterator<T2>& rhs)
+		{
+			return (lhs.base() >= rhs.base());
+		}
 
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
