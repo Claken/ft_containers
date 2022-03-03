@@ -227,7 +227,7 @@ namespace ft
 				this->_size = n;
 		 	}
 	
-		vector(const vector& x) : _array(NULL)
+		vector(const vector& x) : _array(NULL), _size(0), _capacity(0)
 		{
 			*this = x;
 		}
@@ -239,7 +239,7 @@ namespace ft
 
 		vector& operator=(const vector& x)
 		{
-			if (this->_array != NULL)
+			if (this->_array)
 			{
 				this->_allocator_type.deallocate(this->_array, this->_capacity);
 			}

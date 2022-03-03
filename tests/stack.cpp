@@ -7,15 +7,15 @@
 
 int main()
 {
-	std::stack<float>			other_stack;
-	std::vector<std::string>		lst;
+	ft::stack<float>			other_stack;
+	ft::vector<std::string>		lst;
 
 	lst.push_back("salut");
 	lst.push_back("tu vas bien?");
 	lst.push_back("super");
 	lst.push_back("et toi?");
 
-	std::stack<std::string, std::vector<std::string> >	my_stack(lst);
+	ft::stack<std::string, ft::vector<std::string> >	my_stack(lst);
 
 	std::cout << std::boolalpha << other_stack.empty() << std::endl;
 	other_stack.push(8.5); // 8.5;

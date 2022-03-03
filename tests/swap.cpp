@@ -5,22 +5,22 @@
 
 int main (void)
 {
-  ft::vector<int> foo (5,100);   // three ints with a value of 100
-  ft::vector<int> bar (3,200);   // five ints with a value of 200
+	ft::vector<int> foo (5,100);   // three ints with a value of 100
+	ft::vector<int> bar (3,200);   // five ints with a value of 200
 
-  foo.swap(bar);
+	foo.swap(bar);
 
-  std::cout << "foo contains:";
-  for (unsigned i=0; i<foo.size(); i++)
-    std::cout << ' ' << foo[i];
-  std::cout << '\n';
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+		std::cout << ' ' << foo[i];
+	std::cout << '\n';
 
-  std::cout << "bar contains:";
-  for (unsigned i=0; i<bar.size(); i++)
-    std::cout << ' ' << bar[i];
-  std::cout << '\n';
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+		std::cout << ' ' << bar[i];
+	std::cout << '\n';
 
-  return 0;
+	return 0;
 }
 
 //swap (vector overload)
