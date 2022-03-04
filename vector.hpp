@@ -205,7 +205,9 @@ namespace ft
 			this->_allocator_type = Allocator();
 			this->_array = this->try_allocation(this->_capacity);
 			for (unsigned int i = 0; i < n; i++)
-				this->_array[i] = value;
+			{
+				this->_allocator_type.construct(this->_array + i, value);
+			}
 			this->_size = n;
 		}
 
@@ -219,10 +221,11 @@ namespace ft
 				this->_capacity = n;
 				this->_allocator_type = Allocator();
 				this->_array = this->try_allocation(this->_capacity);
-				int i = 0;
+				unsigned int i = 0;
 				for (InputIterator it1 = first; it1 != last; it1++)
 				{
-					this->_array[i++] = *it1;
+					//this->_array[i++] = *it1;
+					this->_allocator_type.construct(this->_array + i++, *it1);
 				}
 				this->_size = n;
 		 	}
@@ -234,14 +237,15 @@ namespace ft
 
 		~vector()
 		{
-			this->_allocator_type.deallocate(this->_array, this->_capacity);
+			this->destroy_and_deallocate();
 		}
 
 		vector& operator=(const vector& x)
 		{
 			if (this->_array)
 			{
-				this->_allocator_type.deallocate(this->_array, this->_capacity);
+				// this->_allocator_type.deallocate(this->_array, this->_capacity);
+				this->destroy_and_deallocate();
 			}
 			this->_capacity = x._capacity;
 			this->_allocator_type = x._allocator_type;
@@ -249,7 +253,8 @@ namespace ft
 			this->_size = x._size;
 			for (unsigned int i = 0; i < this->_size; i++)
 			{
-				this->_array[i] = x._array[i];
+				// this->_array[i] = x._array[i];
+				this->_allocator_type.construct(this->_array + i, x._array[i]);
 			}
 			return (*this);
 		}
@@ -352,10 +357,12 @@ namespace ft
 				T* newArray = this->try_allocation(n);
 				for (unsigned int i = 0; i < this->_size; i++)
 				{
-					newArray[i] = this->_array[i];
+					// newArray[i] = this->_array[i];
+					this->_allocator_type.construct(newArray + i, this->_array[i]);
 				}
 				if (this->_array)
-					this->_allocator_type.deallocate(this->_array, this->_capacity);
+					this->destroy_and_deallocate();
+				// this->_allocator_type.deallocate(this->_array, this->_capacity);
 				this->_array = newArray;
 				this->_capacity = n;
 			}
@@ -416,18 +423,20 @@ namespace ft
 				unsigned int i = 0;
 				while (i < this->_size)
 				{
-					newArray[i] = this->_array[i];
+					this->_allocator_type.construct(newArray + i, this->_array[i]);
 					i++;
 				}
-				newArray[i] = x;
+				this->_allocator_type.construct(newArray + i, x);
 				if (this->_array)
-					this->_allocator_type.deallocate(this->_array, this->_capacity);
+				{
+					this->destroy_and_deallocate();
+				}
 				this->_array = newArray;
 				this->_capacity = newCap;
 			}
 			else
 			{
-				this->_array[this->_size] = x;
+				this->_allocator_type.construct(this->_array + this->_size, x);
 			}
 			this->_size++;
 		}
@@ -462,21 +471,25 @@ namespace ft
 				ft::vector<T, Allocator>::iterator it = this->begin();
 				while (it != position)
 				{
-					newArray[i++] = *it;
+					// newArray[i++] = *it;
+					this->_allocator_type.construct(newArray + i++, *it);
 					it++;
 				}
 				int j = i + n;
 				while (i < j)
 				{
-					newArray[i++] = val;
+					// newArray[i++] = val;
+					this->_allocator_type.construct(newArray + i++, val);
 				}
 				while (it != this->end())
 				{
-				 	newArray[i++] = *it;
+				 	// newArray[i++] = *it;
+					this->_allocator_type.construct(newArray + i++, *it);
 				 	it++;
 				}
 				if (this->_array)
-					this->_allocator_type.deallocate(this->_array, this->_capacity);
+					this->destroy_and_deallocate();
+				// this->_allocator_type.deallocate(this->_array, this->_capacity);
 				this->_array = newArray;
 				this->_capacity = newSize;
 			}
@@ -486,7 +499,8 @@ namespace ft
 				{
 					for (unsigned int j = this->_size; j < newSize; j++)
 					{
-						this->_array[j] = val;
+						// this->_array[j] = val;
+						this->_allocator_type.construct(this->_array + j, val);
 					}
 				}
 				else
@@ -494,13 +508,17 @@ namespace ft
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
 					while (place >= position)
 					{
-						*(place+n) = *place;
+						// *(place+n) = *place;
+						this->_allocator_type.destroy(&(*(place+n)));
+						this->_allocator_type.construct(&(*(place+n)), *place);
 						place--;
 					}
 					for (unsigned int k = 0; k < n; k++)
 					{
 						place++;
-						*place = val;
+						// *place = val;
+						this->_allocator_type.destroy(&(*(place)));
+						this->_allocator_type.construct(&(*place), val);
 					}
 				}
 			}
@@ -531,7 +549,9 @@ namespace ft
 			int pos = find_pos_with_it(position);	
 			for (iterator it = position; it + 1 != this->end(); it++)
 			{
-				*it = *(it + 1);
+				// *it = *(it + 1);
+				this->_allocator_type.destroy(&(*it));
+				this->_allocator_type.construct(&(*it), *(it + 1));
 			}
 			this->_size--;
 			return (this->begin()+pos);
@@ -540,11 +560,11 @@ namespace ft
 		iterator					erase(iterator first, iterator last) // A TESTER AVEC DES TESTEURS POUR ETRE SUR QUE CA PASSE !
 		{
 			int pos = find_pos_with_it(first);
-			if (pos == 0 && last == this->end())
-			{
-				this->clear();
-				return (first);
-			}
+			// if (pos == 0 && last == this->end())
+			// {
+			// 	this->clear();
+			// 	return (first);
+			// }
 			for (iterator it = first; it != last; it++)
 			{
 				erase(this->begin()+pos);
@@ -564,7 +584,8 @@ namespace ft
 
 		void						clear()
 		{
-			this->_size = 0;
+			// this->_size = 0;
+			erase(this->begin(), this->end());
 		}
 			
 		friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
@@ -626,6 +647,16 @@ namespace ft
 				std::cerr << ba.what() << std::endl;
 			}
 			return (newArray);
+		}
+
+		void destroy_and_deallocate(void)
+		{
+			unsigned int i = 0;
+			for (ft::vector<T, Allocator>::iterator it = this->begin(); it != this->end(); it++)
+			{
+				this->_allocator_type.destroy(this->_array + i++);
+			}
+			this->_allocator_type.deallocate(this->_array, this->_capacity);
 		}
 
 		int find_pos_with_it(iterator position)
