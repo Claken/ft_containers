@@ -5,12 +5,12 @@
 
 int main ()
 {
-	ft::vector<int> first(15, 1); //f t
-	ft::vector<int>::iterator it = first.begin(); //f t
+	std::vector<std::string> first(15, "1"); //f t
+	std::vector<std::string>::iterator it = first.begin(); //f t
 
-	*it = 666;
+	*it = "666";
 
-	ft::vector<int> second; // f t 
+	std::vector<std::string> second; // f t 
 	std::vector<int> third;
 
 	std::cout << "first :  ";
@@ -18,14 +18,14 @@ int main ()
 		std::cout << first[i] << ' ';
 	std::cout << std::endl;
 
-	first.assign (7,100);             // 7 ints with a value of 100
+	first.assign (7,"100");             // 7 ints with a value of 100
 
 	std::cout << "first :  ";
 	for(unsigned int i = 0; i < first.capacity(); i++)
 		std::cout << first[i] << ' ';
 	std::cout << std::endl;
 
-	ft::vector<int>::iterator it1; //f t
+	std::vector<std::string>::iterator it1; //f t
 	it1 = first.begin()+1;
 
 	second.assign (it1,first.end()-1); // the 5 central values of first

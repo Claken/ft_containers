@@ -4,18 +4,21 @@
 
 int main ()
 {
-	ft::vector<int> foo (3,2);
-	ft::vector<int> bar (5,2);
+	std::vector<int> foo (3,2);
+	std::vector<int> bar (5,2);
 
 	bar = foo;
-	foo = ft::vector<int>();
+	foo = std::vector<int>();
 
 	std::cout << "Size of foo: " << int(foo.size()) << '\n';
 	std::cout << "Size of bar: " << int(bar.size()) << '\n';
 
-	for (ft::vector<int>::iterator it = bar.begin(); it != bar.end(); it++)
+	std::vector<int>::const_reverse_iterator rit = bar.rbegin();
+	for (std::vector<int>::reverse_iterator it = bar.rbegin(); it != bar.rend(); it++)
 	{
 		std::cout << "bar : " << *it << '\n';
+		if (it == rit)
+			std::cout << "oui" << std::endl;	
 	}
 
 	return 0;
