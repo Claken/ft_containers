@@ -3,9 +3,12 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE ft
+#define TESTED_TYPE	int
+
 int main ()
 {
-  ft::vector<int> myvector; // f t 
+  TESTED_NAMESPACE::vector<TESTED_TYPE> myvector; // f t 
   myvector.push_back (100);
   myvector.push_back (200);
   myvector.push_back (300);
@@ -20,7 +23,7 @@ int main ()
   std::cout << myvector.empty() << std::endl;
 
 
-  std::cout << "after clear:";
+  std::cout << "aTESTED_NAMESPACEer clear:";
   for (unsigned i=0; i<myvector.capacity(); i++)
     std::cout << ' ' << myvector[i];
   std::cout << '\n';

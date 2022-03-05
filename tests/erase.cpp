@@ -3,9 +3,12 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			int
+
 int main ()
 {
-	std::vector<int> myvector;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> myvector;
 
 	// set some values (from 1 to 10)
 	for (int i=1; i<=10; i++)
@@ -22,7 +25,7 @@ int main ()
 	// std::cout << "*it == " << *it << std::endl;
 
 	// // erase the first 3 elements:
-	std::vector<int>::iterator it2 = myvector.erase (myvector.begin()+4, myvector.end()-3);
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it2 = myvector.erase (myvector.begin()+4, myvector.end()-3);
 
 	std::cout << "*it2 == " << *it2 << std::endl;
 

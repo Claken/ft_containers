@@ -3,17 +3,20 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			std::string
+
 int main ()
 {
-	ft::vector<std::string> myvector (7, "100"); //f-t
+	TESTED_NAMESPACE::vector<TESTED_TYPE> myvector (7, "100"); //f-t
 	std::cout << "size = " << myvector.size() << std::endl;
-	ft::vector<std::string>::iterator itb; //f-t
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator itb; //f-t
 	itb = myvector.insert(myvector.begin()+4, "666");
 	std::cout << "*itb = " << *itb << std::endl;
 
 	std::cout << "size = " << myvector.size() << std::endl;
 	myvector.reserve(20);
-	ft::vector<std::string>::iterator it; //f-t
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it; //f-t
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
 	it = myvector.begin();
@@ -33,7 +36,7 @@ int main ()
 	// "it" no longer valid, get a new one:
 	it = myvector.begin();
 
-	std::vector<std::string> anothervector (3,"400"); //f-t 
+	std::vector<TESTED_TYPE> anothervector (3,"400"); //f-t 
 	myvector.insert (it+2, anothervector.begin(), anothervector.end());
 
 	// 		int myarray [] = { 501,502,503 };

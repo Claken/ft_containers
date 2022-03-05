@@ -3,6 +3,9 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			int
+
 int main ()
 {
 	ft::vector<int> myvector;

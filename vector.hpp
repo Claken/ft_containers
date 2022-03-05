@@ -131,7 +131,7 @@ namespace ft
 
 				reference operator[] (difference_type n) const
 				{
-					return (this->_ptr + n);
+					return (this->_ptr[n]);
 				}
 		};
 
@@ -177,11 +177,11 @@ namespace ft
 			return (vector_iterator<T>(it.base() + n));
 		}
 
-		// template<class T>
-		// vector_iterator<T> operator-(typename vector_iterator<T>::difference_type n, const vector_iterator<T>& it)
-		// {
-		// 	return (vector_iterator<T>(it.base() - n));
-		// }
+		template<class T>
+		vector_iterator<T> operator-(typename vector_iterator<T>::difference_type n, const vector_iterator<T>& it)
+		{
+			return (vector_iterator<T>(it.base() - n));
+		}
 
 	template <class T, class Allocator = std::allocator<T> >
 	class vector

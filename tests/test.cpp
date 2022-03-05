@@ -4,6 +4,9 @@
 #include "../stack.hpp"
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			int
+
 int		main()
 {
 	std::vector<int> test;
@@ -170,13 +173,9 @@ int		main()
 	std::cout << "ftest2 >= ftest3 = " << te << std::endl;
 
 	std::cout << std::endl;
-	std::deque<int> const 					deck(3, 'z');
-	ft::stack<int> 						copy(deck);
-	std::stack<int> 						copy2(deck);
+	ft::vector<int> const 					deck(3, 'z');
+	ft::stack<int> 							copy(deck);
 	std::cout << "copy.size() = " << copy.size() << std::endl;
 	std::cout << "copy.empty() = " << copy.empty() << std::endl;
 	std::cout << "copy.top() = " << copy.top() << std::endl;
-	std::cout << "copy2.size() = " << copy2.size() << std::endl;
-	std::cout << "copy2.empty() = " << copy2.empty() << std::endl;
-	std::cout << "copy2.top() = " << copy2.top() << std::endl;
 }

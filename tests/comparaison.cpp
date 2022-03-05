@@ -3,10 +3,13 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			int
+
 int main ()
 {
-	ft::vector<int> foo (3,100);   // three ints with a value of 100
-	ft::vector<int> bar (2,200);   // two ints with a value of 200
+	TESTED_NAMESPACE::vector<TESTED_TYPE> foo (3,100);   // three ints with a value of 100
+	TESTED_NAMESPACE::vector<TESTED_TYPE> bar (2,200);   // two ints with a value of 200
 
 	if (foo == bar)
 		std::cout << "foo and bar are equal\n";

@@ -3,26 +3,29 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			int
+
 int main ()
 {
 	// constructors used in the same order as described above:
 	//std::vector<int> first;                                // empty vector of ints
-	std::vector<int> second (4, 100);                       // four ints with value 100
+	TESTED_NAMESPACE::vector<TESTED_TYPE> second (4, 100);                       // four ints with value 100
     //std::cout << second.size() << std::endl;
-	std::vector<int> third (second.begin(), second.end());  // iterating through second
+	TESTED_NAMESPACE::vector<TESTED_TYPE> third (second.begin(), second.end());  // iterating through second
     std::cout << second.size() << std::endl;
     std::cout << second.capacity() << std::endl;
-	std::vector<int> fourth (third);                       // a copy of third
+	TESTED_NAMESPACE::vector<TESTED_TYPE> fourth (third);                       // a copy of third
 
 	// the iterator constructor can also be used to construct from arrays:
 	//int myints[] = {16,2,77,29};
 	//std::vector<int> fistdh (myints, myints + sizeof(myints) / sizeof(int) );
 
 	std::cout << "The contents of  std third are:";
-	for (std::vector<int>::iterator it = third.begin(); it != third.end(); ++it)
+	for (TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it = third.begin(); it != third.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << std::endl << "The contents of std fourth are:";
-    for (std::vector<int>::iterator it = fourth.begin(); it != fourth.end(); ++it)
+    for (TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it = fourth.begin(); it != fourth.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << '\n';
 

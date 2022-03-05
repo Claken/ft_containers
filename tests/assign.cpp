@@ -3,14 +3,17 @@
 #include <vector>
 #include "../vector.hpp"
 
+#define TESTED_NAMESPACE ft
+#define TESTED_TYPE	std::string
+
 int main ()
 {
-	std::vector<std::string> first(15, "1"); //f t
-	std::vector<std::string>::iterator it = first.begin(); //f t
+	TESTED_NAMESPACE::vector<TESTED_TYPE> first(15, "1"); //f t
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it = first.begin(); //f t
 
 	*it = "666";
 
-	std::vector<std::string> second; // f t 
+	TESTED_NAMESPACE::vector<TESTED_TYPE> second; // f t 
 	std::vector<int> third;
 
 	std::cout << "first :  ";
@@ -25,7 +28,7 @@ int main ()
 		std::cout << first[i] << ' ';
 	std::cout << std::endl;
 
-	std::vector<std::string>::iterator it1; //f t
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it1; //f t
 	it1 = first.begin()+1;
 
 	second.assign (it1,first.end()-1); // the 5 central values of first

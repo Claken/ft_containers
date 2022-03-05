@@ -6,10 +6,13 @@
 #include <string>
 #include "stdlib.h"
 
+#define TESTED_NAMESPACE	ft
+#define TESTED_TYPE			std::string
+
 int main()
 {
 	//ft::stack<float>			other_stack;
-	ft::vector<std::string>		lst;
+	TESTED_NAMESPACE::vector<TESTED_TYPE>		lst;
 	//ft::vector<int>		lst;
 
 	// lst.push_back(1);
