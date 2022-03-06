@@ -197,4 +197,10 @@ namespace ft
 					{
 						return (rhs.base() - lhs.base());
 					}
+
+				template<class Iterator1, class Iterator2>
+					typename reverse_iterator<Iterator1>::difference_type operator-(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
+					{
+						return (rhs.base() - lhs.base());
+					}
 };
