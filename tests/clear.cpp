@@ -3,7 +3,7 @@
 #include <vector>
 #include "../vector.hpp"
 
-#define TESTED_NAMESPACE ft
+#define TESTED_NAMESPACE std
 #define TESTED_TYPE	int
 
 int main ()

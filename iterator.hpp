@@ -76,14 +76,21 @@ namespace ft
 				}
 
 				template <class Iter>
-					reverse_iterator (const reverse_iterator<Iter>& rev_it)
-					{
-						this->current = rev_it.base();
-					}
+				reverse_iterator (const reverse_iterator<Iter>& rev_it)
+				{
+					*this = rev_it;
+				}
 
 				iterator_type base() const
 				{
 					return (this->current);
+				}
+				
+				template <class Iter>
+				reverse_iterator& operator=(const reverse_iterator<Iter>& copy)
+				{
+					this->current = copy.base();
+					return (*this);
 				}
 
 				reference operator*() const

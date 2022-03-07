@@ -30,14 +30,14 @@ namespace ft
 
 				vector_iterator(vector_iterator const &copy)
 				{
-					this->_ptr = copy._ptr;
+					*this = copy;
 				}
 
 				template<class U>
-					vector_iterator(vector_iterator<U> const &copy)
-					{
-						this->_ptr = copy.base();
-					}
+				vector_iterator(vector_iterator<U> const &copy)
+				{
+					*this = copy;
+				}
 
 				explicit vector_iterator(pointer const ptr)
 				{
@@ -56,9 +56,10 @@ namespace ft
 					return (*this->_ptr);
 				}
 
-				vector_iterator& operator=(const vector_iterator& copy)
+				template<class U>
+				vector_iterator& operator=(const vector_iterator<U>& copy)
 				{
-					this->_ptr = copy._ptr;
+					this->_ptr = copy.base();
 					return (*this);
 				}
 
