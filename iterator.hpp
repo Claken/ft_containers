@@ -138,7 +138,7 @@ namespace ft
 				reverse_iterator operator--(int)
 				{
 					reverse_iterator tmp = *this;
-					--this->current;
+					++this->current;
 					return tmp;
 				}
 
