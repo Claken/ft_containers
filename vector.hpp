@@ -37,7 +37,6 @@ namespace ft
 				template<class U>
 				vector_iterator(vector_iterator<U> const &copy)
 				{
-					std::cout << "copy oui" << std::endl;
 					*this = copy;
 				}
 
@@ -54,14 +53,12 @@ namespace ft
 				template<class U>
 				vector_iterator& operator=(const vector_iterator<U>& copy)
 				{
-					std::cout << "OWO 1" << std::endl;
 					this->_ptr = copy.base();
 					return (*this);
 				}
 
 				vector_iterator& operator=(const vector_iterator& copy)
 				{
-					std::cout << "OWO 2" << std::endl;
 					this->_ptr = copy.base();
 					return (*this);
 				}
@@ -119,6 +116,12 @@ namespace ft
 				difference_type operator-(const vector_iterator<T>& instance) const
 				{
 					return (this->_ptr - instance._ptr);
+				}
+
+				template<class U>
+				difference_type operator-(const vector_iterator<U>& instance) const
+				{
+					return (this->_ptr - instance.base());
 				}
 
 				vector_iterator operator+(difference_type n) const
