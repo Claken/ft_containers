@@ -28,23 +28,18 @@ namespace ft
 
 				vector_iterator() : _ptr(NULL) {}
 
-				vector_iterator(vector_iterator const &copy)
-				{
-					*this = copy;
-				}
+				vector_iterator(vector_iterator const &copy) : _ptr(copy._ptr) {}
+
+				explicit vector_iterator(pointer const ptr) : _ptr(ptr) {}
+
+				~vector_iterator() {}
 
 				template<class U>
 				vector_iterator(vector_iterator<U> const &copy)
 				{
+					std::cout << "copy oui" << std::endl;
 					*this = copy;
 				}
-
-				explicit vector_iterator(pointer const ptr)
-				{
-					this->_ptr = ptr;
-				}
-
-				~vector_iterator() {}
 
 				pointer	base() const
 				{
@@ -59,6 +54,14 @@ namespace ft
 				template<class U>
 				vector_iterator& operator=(const vector_iterator<U>& copy)
 				{
+					std::cout << "OWO 1" << std::endl;
+					this->_ptr = copy.base();
+					return (*this);
+				}
+
+				vector_iterator& operator=(const vector_iterator& copy)
+				{
+					std::cout << "OWO 2" << std::endl;
 					this->_ptr = copy.base();
 					return (*this);
 				}
