@@ -200,8 +200,8 @@ namespace ft
 		typedef typename Allocator::const_reference				const_reference;
 		typedef typename ft::vector_iterator<T> 				iterator;
 		typedef typename ft::vector_iterator<const T> 			const_iterator;
-		typedef size_t 											size_type; // See 23.1
-		typedef ptrdiff_t 										difference_type;// See 23.1
+		typedef size_t 											size_type;
+		typedef ptrdiff_t 										difference_type;
 		typedef T												value_type;
 		typedef Allocator										allocator_type;
 		typedef typename Allocator::pointer						pointer;

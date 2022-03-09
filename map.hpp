@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include "utils.hpp"
+#include "iterator.hpp"
 
 namespace ft
 {
@@ -11,21 +13,21 @@ namespace ft
 			public:
 		
 				// types:
-					typedef Key key_type;
-					typedef T mapped_type;
-					typedef pair<const Key, T> value_type;
-					typedef Compare key_compare;
-					typedef Allocator allocator_type;
-					typedef typename Allocator::reference reference;
-					typedef typename Allocator::const_reference const_reference;
-					typedef implementation defined iterator; // See 23.1
-					typedef implementation defined const_iterator; // See 23.1
-					typedef implementation defined size_type; // See 23.1
-					typedef implementation defined difference_type;// See 23.1
-					typedef typename Allocator::pointer pointer;
-					typedef typename Allocator::const_pointer const_pointer;
-					typedef std::reverse_iterator<iterator> reverse_iterator;
-					typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+					typedef Key 										key_type;
+					typedef T 											mapped_type;
+					typedef pair<const Key, T> 							value_type;
+					typedef Compare 									key_compare;
+					typedef Allocator 									allocator_type;
+					typedef typename Allocator::reference 				reference;
+					typedef typename Allocator::const_reference 		const_reference;
+					// typedef implementation defined iterator;
+					// typedef implementation defined const_iterator;
+					typedef size_t 										size_type;
+					typedef ptrdiff_t 									difference_type;
+					typedef typename Allocator::pointer 				pointer;
+					typedef typename Allocator::const_pointer 			const_pointer;
+					// typedef std::reverse_iterator<iterator> 			reverse_iterator;
+					// typedef std::reverse_iterator<const_iterator> 	const_reverse_iterator;
 			
 				class value_compare : public binary_function<value_type,value_type,bool>
 				{
@@ -105,6 +107,19 @@ namespace ft
 			friend bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
 
 			friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y);
+
+			private:
+
+			typedef struct s_btree
+			{
+				struct s_btree	*parent;
+				struct s_btree	*right; 	// if the value is bigger or equal to the value of parent
+				struct s_btree	*left; 		// if the value is smaller than the value of parent
+				key_type		key; 		// to identify the element
+				mapped_type		value;
+			}
+
+
 
 		};
 
