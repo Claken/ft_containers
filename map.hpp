@@ -47,11 +47,27 @@ namespace ft
 				};
 
 			// 23.3.1.1 construct/copy/destroy:
-				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator());
+				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator())
+				{
+					this->_btree = NULL;
+					this->_allocator_type = Allocator();
+					this->_compare_type = comp;
+				}
+
 				template <class InputIterator>
-					map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
-				map(const map<Key,T,Compare,Allocator>& x);
+					map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator())
+					{
+						this->_allocator_type = Allocator();
+						this->_compare_type = comp;
+					}
+				
+				map(const map<Key,T,Compare,Allocator>& x) : _btree(NULL)
+				{
+					*this = x;
+				}
+
 				~map();
+				
 				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x);
 			
 			// iterators:
@@ -110,15 +126,18 @@ namespace ft
 
 			private:
 
-			typedef struct s_btree
+			typedef struct 		s_btree
 			{
 				struct s_btree	*parent;
 				struct s_btree	*right; 	// if the value is bigger or equal to the value of parent
 				struct s_btree	*left; 		// if the value is smaller than the value of parent
 				key_type		key; 		// to identify the element
 				mapped_type		value;
-			}
+			}					t_btree;
 
+			t_btree*			_btree;
+			Allocator			_allocator_type;
+			Compare				_compare_type;
 
 
 		};
