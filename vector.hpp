@@ -670,11 +670,8 @@ namespace ft
 
 		void destroy_and_deallocate(void)
 		{
-			unsigned int i = 0;
 			for (ft::vector<T, Allocator>::iterator it = this->begin(); it != this->end(); it++)
-			{
-				this->_allocator_type.destroy(this->_array + i++);
-			}
+				this->_allocator_type.destroy(&(*it));
 			this->_allocator_type.deallocate(this->_array, this->_capacity);
 		}
 
