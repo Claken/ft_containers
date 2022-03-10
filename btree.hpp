@@ -14,6 +14,8 @@ namespace ft
 			Node					*parent;
 			Node 					*right; 	// if the value is bigger or equal to the value of parent
 			Node 					*left; 		// if the value is smaller than the value of parent
+			Key						first;
+			T						second;
 
 			Node()
 			{
@@ -27,6 +29,8 @@ namespace ft
 				parent = NULL;
 				right = NULL;
 				left = NULL;
+				first = key;
+				second = value;
 			}
 	};
 
