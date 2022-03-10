@@ -15,7 +15,7 @@ namespace ft
 				// types:
 					typedef Key 										key_type;
 					typedef T 											mapped_type;
-					typedef pair<const Key, T> 							value_type;
+					typedef ft::pair<const Key, T> 						value_type;
 					typedef Compare 									key_compare;
 					typedef Allocator 									allocator_type;
 					typedef typename Allocator::reference 				reference;
@@ -49,7 +49,6 @@ namespace ft
 			// 23.3.1.1 construct/copy/destroy:
 				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator())
 				{
-					this->_btree = NULL;
 					this->_allocator_type = Allocator();
 					this->_compare_type = comp;
 				}
@@ -126,19 +125,8 @@ namespace ft
 
 			private:
 
-			typedef struct 		s_btree
-			{
-				struct s_btree	*parent;
-				struct s_btree	*right; 	// if the value is bigger or equal to the value of parent
-				struct s_btree	*left; 		// if the value is smaller than the value of parent
-				key_type		key; 		// to identify the element
-				mapped_type		value;
-			}					t_btree;
-
-			t_btree*			_btree;
 			Allocator			_allocator_type;
 			Compare				_compare_type;
-
 
 		};
 
