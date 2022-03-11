@@ -132,18 +132,13 @@ namespace ft
 		typedef T1 first_type;
 		typedef T2 second_type;
 
-		public:
-
 		first_type		first;
 		second_type		second;
 
 		pair() : first(T1()), second(T2()) {}
 
 		template<class U, class V>
-		pair (const pair<U,V>& pr)
-		{
-			*this = pr;
-		}
+		pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
 
 		pair (const first_type& a, const second_type& b)
 		{
