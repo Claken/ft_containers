@@ -6,7 +6,8 @@
 namespace ft
 {
 
-	template<class Key, class T, class Pair = ft::pair<const Key, T>>
+	template <class Key, class T, class Compare = std::less<Key>,
+	class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class Node
 	{
 		public:
@@ -17,11 +18,13 @@ namespace ft
 			Key						first;
 			T						second;
 
-			Node()
+			Node(const Allocator& = Allocator())
 			{
 				parent = NULL;
 				right = NULL;
 				left = NULL;
+				Allocator().construct(first, Key());
+				Allocator().construct(second, T());
 			}
 
 			Node(Key key, T value)
@@ -29,16 +32,32 @@ namespace ft
 				parent = NULL;
 				right = NULL;
 				left = NULL;
-				first = key;
-				second = value;
+				Allocator().construct(first, key);
+				Allocator().construct(second, value);
+			}
+
+			~Node()
+			{
+				Allocator().destroy(first, key);
+				Allocator().destroy(second, value);
 			}
 	};
 
-	template<class Key, class T, class Pair = ft::pair<const Key, T>>
+	template <class Key, class T, class Compare = std::less<Key>,
+	class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class Tree
 	{
 		private:
+		
+			Node*		_tree;
+			Allocator	_allocator_type;
 
-		Node*	tree;
+		public:
+
+			Tree(const Allocator& = Allocator())
+			{
+				this->_allocator_type = Allocator();
+				this->_tree = this->_allocator_type.allocate(1);
+			}
 	};
 }
