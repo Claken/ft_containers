@@ -54,8 +54,9 @@ namespace ft
 
 		public:
 		
-			typedef ft::pair<const Key, T> 						value_type;
-			typedef Node<Key, T>								node;
+			typedef ft::pair<const Key, T> 			value_type;
+			typedef Node<Key, T>					node;
+			typedef node*							pointer;
 
 			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
 			{
@@ -101,12 +102,12 @@ namespace ft
 				}
 				else
 				{
-					node *newnode = this->_allocator_node.allocate(1);
+					pointer newnode = this->_allocator_node.allocate(1);
 					this->_allocator_node.construct(newnode, Node<Key, T>(x.first, x.second));
 					newnode->full = true;
 
-					node *current = this->_tree;
-					node *svg;
+					pointer current = this->_tree;
+					pointer svg;
 					bool dir;
 
 					while (current != NULL)
@@ -132,12 +133,12 @@ namespace ft
 				}
 			}
 
-			node* tree()
+			pointer tree()
 			{
 				return (this->_tree);
 			}
 
-			void print2D(node *r, int space)
+			void print2D(pointer r, int space)
 			{
 				if (r == NULL) // Base case  1
 					return;
@@ -146,18 +147,27 @@ namespace ft
 				std::cout << std::endl;
 				for (int i = SPACE; i < space; i++) // 5 
 					std::cout << " "; // 5.1  
-				std::cout << r->pair.first << "\n"; // 6
+				std::cout << r->pair.first << std::endl; // 6
 				for (int i = SPACE; i < space; i++) // 5 
 					std::cout << " "; // 5.1
-				std::cout << r->pair.second << "\n"; // 6
+				std::cout << r->pair.second << std::endl; // 6
+				if (r->parent != NULL)
+				{
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << r->parent->pair.first << std::endl;
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << r->parent->pair.second << std::endl;
+				}
 				print2D(r->left, space); // Process left child  7
 			}
 
-//   void printPreorder(TreeNode * r) //(current node, Left, Right) 
+//   void printPreorder(Treepointer  r) //(current node, Left, Right) 
 //   {
 //     if (r == NULL)
 //       return;
-//     /* first print data of node */
+//     /* first print data of pointer /
 //     cout << r -> value << " ";
 //     /* then recur on left sutree */
 //     printPreorder(r -> left);
@@ -167,7 +177,7 @@ namespace ft
 		
 		private:
 		
-			node*				_tree;
+			pointer				_tree;
 			Allocator			_allocator_type;
 			Allocator2			_allocator_node;
 			Compare				_compare;
