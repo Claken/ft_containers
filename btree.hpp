@@ -18,6 +18,7 @@ namespace ft
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
 			ft::pair<const Key, T>			pair;
+			bool							full;
 			Allocator						allocator;
 
 			Node(const Allocator& = Allocator())
@@ -27,6 +28,7 @@ namespace ft
 				parent = NULL;
 				right = NULL;
 				left = NULL;
+				full = false;
 			}
 
 			Node(Key key, T value, const Allocator& = Allocator())
@@ -36,6 +38,7 @@ namespace ft
 				parent = NULL;
 				right = NULL;
 				left = NULL;
+				full = false;
 			}
 
 			~Node()
@@ -52,20 +55,22 @@ namespace ft
 		public:
 		
 			typedef ft::pair<const Key, T> 						value_type;
-			typedef Node<Key, T>*								node;
+			typedef Node<Key, T>								node;
 
-			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2())
+			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
 			{
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
+				this->_compare = comp;
 				this->_tree = this->_allocator_node.allocate(1);
 				this->_allocator_node.construct(this->_tree, Node<Key, T>());
 			}
 
-			Tree(Key key, T value, const Allocator& = Allocator(), const Allocator2& = Allocator2())
+			Tree(Key key, T value, const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
 			{
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
+				this->_compare = comp;
 				this->_tree = this->_allocator_node.allocate(1);
 				this->_allocator_node.construct(this->_tree, Node<Key, T>(key, value));
 			}
@@ -86,17 +91,53 @@ namespace ft
 				return (this->_tree->pair.second);
 			}
 
-			// void insert(const value_type& x)
-			// {
+			void insert(const value_type& x)
+			{
+				if (!this->_tree->full)
+				{
+					this->_allocator_type.destroy(&this->_tree->pair);
+					this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
+					this->_tree->full = true;
+				}
+				else
+				{
+					node *newnode = this->_allocator_node.allocate(1);
+					this->_allocator_node.construct(newnode, Node<Key, T>(x.first, x.second));
+					newnode->full = true;
 
-			// }
+					node *current = this->_tree;
+					node *svg;
+					bool dir;
 
-			node tree()
+					while (current != NULL)
+					{
+						svg = current;
+						if (this->_compare(x.first, current->pair.first))
+						{
+							current = current->left;
+							dir = true;
+						}
+						else
+						{
+							current = current->right;
+							dir = false;
+						}
+					}
+					current = newnode;
+					current->parent = svg;
+					if (dir)
+						current->parent->left = current;
+					else
+						current->parent->right = current;
+				}
+			}
+
+			node* tree()
 			{
 				return (this->_tree);
 			}
 
-			void print2D(node r, int space)
+			void print2D(node *r, int space)
 			{
 				if (r == NULL) // Base case  1
 					return;
@@ -106,6 +147,8 @@ namespace ft
 				for (int i = SPACE; i < space; i++) // 5 
 					std::cout << " "; // 5.1  
 				std::cout << r->pair.first << "\n"; // 6
+				for (int i = SPACE; i < space; i++) // 5 
+					std::cout << " "; // 5.1
 				std::cout << r->pair.second << "\n"; // 6
 				print2D(r->left, space); // Process left child  7
 			}
@@ -124,9 +167,10 @@ namespace ft
 		
 		private:
 		
-			node				_tree;
+			node*				_tree;
 			Allocator			_allocator_type;
 			Allocator2			_allocator_node;
+			Compare				_compare;
 
 	};
 }
