@@ -92,29 +92,32 @@ namespace ft
 				return (this->_tree->pair.second);
 			}
 
-			pointer rightRotate(pointer y)
+			pointer rightRotate(pointer node)
 			{
-				pointer x = y->left;
-				pointer T2 = x->right;
-				pointer pap1 = y->parent;
-				pointer pap2 = x;
+				pointer x = node->left; // noeud a mettre a la place de node
+				pointer T2 = x->right; // place ou mettre node
+				pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
+				pointer par2 = x; // parent du noeud a mettre a la place de node
 
-				// Perform rotation  
-				x->right = y;
-				y->left = T2;
-				x->parent = pap1;
-				y->parent = pap2;
+				x->right = node;
+				node->left = T2;
+				x->parent = par1;
+				node->parent = par2;
 				return x;
 			}
 
-			pointer leftRotate(pointer x)
+			pointer leftRotate(pointer node)
 			{
-				pointer y = x -> right;
-				pointer T2 = y -> left;
+				pointer y = node->right;
+				pointer T2 = y->left;
+				pointer par1 = node->parent;
+				pointer par2 = y;
 
 				// Perform rotation
-				y -> left = x;
-				x -> right = T2;
+				y->left = node;
+				node->right = T2;
+				y->parent = par1;
+				node->parent = par2;
 
 				return y;
 			}
@@ -167,6 +170,7 @@ namespace ft
 						{
 							std::cout << "Right Left is necessary" << std::endl;
 							unba->right = rightRotate(unba->right);
+							std::cout << unba->pair.first << std::endl;
 						}
 					}
 				}
