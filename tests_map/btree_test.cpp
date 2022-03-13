@@ -13,6 +13,8 @@ int main(void)
 
 	std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.height(btree.tree()) << std::endl;
+
 
     btree.insert(ft::pair<char, int>('d', 12));
 
@@ -21,6 +23,8 @@ int main(void)
 
 	std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.height(btree.tree()) << std::endl;
+
 
     btree.insert(ft::pair<char, int>('e', 24));
 
@@ -29,21 +33,34 @@ int main(void)
 
 	std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.height(btree.tree()) << std::endl;
+
 
     btree.insert(ft::pair<char, int>('a', 100));
 
 	std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.height(btree.tree()) << std::endl;
+
 
     btree.insert(ft::pair<char, int>('b', 150));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.height(btree.tree()) << std::endl;
+
 
     btree.insert(ft::pair<char, int>('z', 100000));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height  == " << btree.height(btree.tree()) << std::endl;
+
+    btree.insert(ft::pair<char, int>('y', 500000));
+
+    std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
+    std::cout << "height  == " << btree.height(btree.tree()) << std::endl;
 
     return (0);
 }

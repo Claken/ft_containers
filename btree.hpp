@@ -130,8 +130,43 @@ namespace ft
 						current->parent->left = current;
 					else
 						current->parent->right = current;
+					pointer unba = isUnbalanced(current);
+					if (unba != NULL)
+						std::cout << "unbalanced == " << unba->pair.first << std::endl;
 				}
 			}
+
+			int height(pointer r)
+			{
+				if (r == NULL)
+					return -1;
+				int lheight = height(r->left);
+				int rheight = height(r->right);
+				if (lheight > rheight)
+					return (lheight + 1);
+				else
+					return (rheight + 1);
+			}
+
+			int getBalanceFactor(pointer n)
+			{
+  				if (n == NULL)
+     				return -1;
+   				return abs(height(n->left) - height(n->right));
+  			}
+
+			pointer isUnbalanced(pointer curr)
+			{
+				while (curr != NULL)
+				{
+					if (getBalanceFactor(curr) > 1)
+						return (curr);
+					curr = curr->parent;
+				}
+				return NULL;
+			}
+			
+
 
 			pointer tree()
 			{
@@ -140,19 +175,22 @@ namespace ft
 
 			void print2D(pointer r, int space)
 			{
-				if (r == NULL) // Base case  1
+				if (r == NULL)
 					return;
-				space += SPACE; // Increase distance between levels   2
-				print2D(r->right, space); // Process right child first 3 
+				space += SPACE;
+				print2D(r->right, space);
 				std::cout << std::endl;
-				for (int i = SPACE; i < space; i++) // 5 
-					std::cout << " "; // 5.1  
-				std::cout << r->pair.first << std::endl; // 6
-				for (int i = SPACE; i < space; i++) // 5 
-					std::cout << " "; // 5.1
-				std::cout << r->pair.second << std::endl; // 6
+				for (int i = SPACE; i < space; i++)
+					std::cout << " ";
+				std::cout << r->pair.first << std::endl;
+				for (int i = SPACE; i < space; i++)
+					std::cout << " ";
+				std::cout << r->pair.second << std::endl;
 				if (r->parent != NULL)
 				{
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << "-" << std::endl;
 					for (int i = SPACE; i < space; i++)
 						std::cout << " ";
 					std::cout << r->parent->pair.first << std::endl;
@@ -160,7 +198,7 @@ namespace ft
 						std::cout << " ";
 					std::cout << r->parent->pair.second << std::endl;
 				}
-				print2D(r->left, space); // Process left child  7
+				print2D(r->left, space);
 			}
 
 //   void printPreorder(Treepointer  r) //(current node, Left, Right) 
