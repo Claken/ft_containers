@@ -92,6 +92,33 @@ namespace ft
 				return (this->_tree->pair.second);
 			}
 
+			pointer rightRotate(pointer y)
+			{
+				pointer x = y->left;
+				pointer T2 = x->right;
+				pointer pap1 = y->parent;
+				pointer pap2 = x;
+
+				// Perform rotation  
+				x->right = y;
+				y->left = T2;
+				x->parent = pap1;
+				y->parent = pap2;
+				return x;
+			}
+
+			pointer leftRotate(pointer x)
+			{
+				pointer y = x -> right;
+				pointer T2 = y -> left;
+
+				// Perform rotation
+				y -> left = x;
+				x -> right = T2;
+
+				return y;
+			}
+
 			void insert(const value_type& x)
 			{
 				if (!this->_tree->full)
@@ -132,7 +159,16 @@ namespace ft
 						current->parent->right = current;
 					pointer unba = isUnbalanced(current);
 					if (unba != NULL)
+					{
+						int bf = getBalanceFactor(unba, 0);
 						std::cout << "unbalanced == " << unba->pair.first << std::endl;
+						std::cout << "bf         == " << bf << std::endl;
+						if (bf < -1 && this->_compare(unba->pair.first, unba->right->pair.first))
+						{
+							std::cout << "Right Left is necessary" << std::endl;
+							unba->right = rightRotate(unba->right);
+						}
+					}
 				}
 			}
 
@@ -148,26 +184,27 @@ namespace ft
 					return (rheight + 1);
 			}
 
-			int getBalanceFactor(pointer n)
+			int getBalanceFactor(pointer n, int one)
 			{
-  				if (n == NULL)
-     				return -1;
-   				return abs(height(n->left) - height(n->right));
+  				// if (n == NULL)
+     			// 	return -1;
+				if (one)
+   					return abs(height(n->left) - height(n->right));
+				else
+   					return (height(n->left) - height(n->right));
   			}
 
 			pointer isUnbalanced(pointer curr)
 			{
 				while (curr != NULL)
 				{
-					if (getBalanceFactor(curr) > 1)
+					if (getBalanceFactor(curr, 1) > 1)
 						return (curr);
 					curr = curr->parent;
 				}
 				return NULL;
 			}
 			
-
-
 			pointer tree()
 			{
 				return (this->_tree);
