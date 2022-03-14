@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <cmath>
 #include "utils.hpp"
 
 #define SPACE 10
@@ -43,6 +44,7 @@ namespace ft
 
 			~Node()
 			{
+				std::cout << "pair destroyed" << std::endl;
 				allocator.destroy(&pair);
 			}
 
@@ -63,7 +65,7 @@ namespace ft
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
-				this->_tree = this->_allocator_node.allocate(1);
+				this->_tree = this->_allocator_node.allocate(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<Key, T>());
 			}
 
@@ -72,14 +74,23 @@ namespace ft
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
-				this->_tree = this->_allocator_node.allocate(1);
+				this->_tree = this->_allocator_node.allocate(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<Key, T>(key, value));
 			}
 
 			~Tree()
 			{
-				this->_allocator_node.destroy(this->_tree);
-				this->_allocator_node.deallocate(this->_tree, 1);
+				destroyAndDeallocateAllNodes(this->_tree);
+			}
+
+			void destroyAndDeallocateAllNodes(pointer node)
+			{
+				if (node == NULL)
+					return;
+				destroyAndDeallocateAllNodes(node->right);
+				this->_allocator_node.destroy(node);
+				this->_allocator_node.deallocate(node, sizeof(node));
+				destroyAndDeallocateAllNodes(node->left);
 			}
 
 			typename ft::pair<const Key, T>::first_type first()
@@ -113,19 +124,6 @@ namespace ft
 
 			pointer leftRotate(pointer node)
 			{
-  				pointer y = node->right;
-    			pointer T2 = y->left;
-				pointer par1 = node->parent;
-				pointer par2 = y;
-
-   				// Perform rotation  
-   				y -> left = node;
-   				node -> right = T2;
-				y->parent = par1;
-				node->parent = par2;
-
-   				return y;
-			
 			}
 
 			void insert(const value_type& x)
@@ -138,7 +136,7 @@ namespace ft
 				}
 				else
 				{
-					pointer newnode = this->_allocator_node.allocate(1);
+					pointer newnode = this->_allocator_node.allocate(sizeof(node));
 					this->_allocator_node.construct(newnode, Node<Key, T>(x.first, x.second));
 					newnode->full = true;
 
