@@ -39,12 +39,11 @@ namespace ft
 				parent = NULL;
 				right = NULL;
 				left = NULL;
-				full = false;
+				full = true;
 			}
 
 			~Node()
 			{
-				std::cout << "pair destroyed" << std::endl;
 				allocator.destroy(&pair);
 			}
 
@@ -88,9 +87,10 @@ namespace ft
 				if (node == NULL)
 					return;
 				destroyAndDeallocateAllNodes(node->right);
+				pointer nodeleft = node->left;
 				this->_allocator_node.destroy(node);
 				this->_allocator_node.deallocate(node, sizeof(node));
-				destroyAndDeallocateAllNodes(node->left);
+				destroyAndDeallocateAllNodes(nodeleft);
 			}
 
 			typename ft::pair<const Key, T>::first_type first()
