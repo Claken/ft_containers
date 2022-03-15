@@ -110,20 +110,32 @@ namespace ft
 				pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
 				pointer par2 = x; // parent du noeud a mettre a la place de node
 
-				std::cout << "Rr " << x->pair.first << std::endl;
-				std::cout << "Rr " << T2 << std::endl;
-				std::cout << "Rr " << par1->pair.first << std::endl;
-				std::cout << "Rr " << par2->pair.first << std::endl;
+				// std::cout << "Rr " << x->pair.first << std::endl;
+				// std::cout << "Rr " << T2 << std::endl;
+				// std::cout << "Rr " << par1->pair.first << std::endl;
+				// std::cout << "Rr " << par2->pair.first << std::endl;
 
 				x->right = node;
 				node->left = T2;
 				x->parent = par1;
 				node->parent = par2;
+
 				return x;
 			}
 
 			pointer leftRotate(pointer node)
 			{
+				pointer y = node->right;
+				pointer t2 = y->left;
+				pointer par1 = node->parent;
+				pointer par2 = y;
+
+				y->left = node;
+				node->right = t2;
+				y->parent = par1;
+				node->parent = par2;
+
+				return y;
 			}
 
 			void insert(const value_type& x)
@@ -168,19 +180,23 @@ namespace ft
 					if (unba != NULL)
 					{
 						int bf = getBalanceFactor(unba, 0);
-						std::cout << "unbalanced == " << unba->pair.first << std::endl;
-						std::cout << "bf         == " << bf << std::endl;
-						if (bf < -1 && this->_compare(unba->pair.first, unba->right->pair.first))
+						if (bf > 1 && this->_compare(unba->pair.first, unba->left->pair.first))
 						{
-							std::cout << "Right Left is necessary" << std::endl;
-							std::cout << unba->right->pair.first << std::endl;
+							unba = rightRotate(unba);
+						}
+						else if (bf < -1 && !this->_compare(unba->pair.first, unba->right->pair.first))
+						{
+							unba = leftRotate(unba);
+						}
+						else if (bf > 1 && !this->_compare(unba->pair.first, unba->left->pair.first))
+						{
+							unba->left = leftRotate(unba->left);
+							unba = rightRotate(unba);
+						}
+						else if (bf < -1 && this->_compare(unba->pair.first, unba->right->pair.first))
+						{
 							unba->right = rightRotate(unba->right);
-							std::cout << unba->pair.first << std::endl;
-							// unba = leftRotate(unba);
-							// std::cout << unba->right->pair.first << std::endl;
-							// std::cout << unba->left->pair.first << std::endl;
-							// std::cout << unba->pair.first << std::endl;
-							// std::cout << unba->parent->pair.first << std::endl;
+							unba = leftRotate(unba);
 						}
 					}
 				}
