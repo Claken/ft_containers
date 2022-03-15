@@ -154,7 +154,7 @@ namespace ft
 
 					pointer current = this->_tree;
 					pointer svg;
-					bool dir;
+					bool left;
 
 					while (current != NULL)
 					{
@@ -162,42 +162,46 @@ namespace ft
 						if (this->_compare(x.first, current->pair.first))
 						{
 							current = current->left;
-							dir = true;
+							left = true;
 						}
 						else
 						{
 							current = current->right;
-							dir = false;
+							left = false;
 						}
 					}
 					current = newnode;
 					current->parent = svg;
-					if (dir)
+					if (left)
 						current->parent->left = current;
 					else
 						current->parent->right = current;
-					pointer unba = isUnbalanced(current);
-					if (unba != NULL)
+				}
+			}
+
+			void balanceTree(pointer current)
+			{
+				pointer unba = isUnbalanced(current);
+				if (unba != NULL)
+				{
+					int bf = getBalanceFactor(unba, 0);
+					if (bf > 1 && this->_compare(unba->pair.first, unba->left->pair.first))
 					{
-						int bf = getBalanceFactor(unba, 0);
-						if (bf > 1 && this->_compare(unba->pair.first, unba->left->pair.first))
-						{
-							unba = rightRotate(unba);
-						}
-						else if (bf < -1 && !this->_compare(unba->pair.first, unba->right->pair.first))
-						{
-							unba = leftRotate(unba);
-						}
-						else if (bf > 1 && !this->_compare(unba->pair.first, unba->left->pair.first))
-						{
-							unba->left = leftRotate(unba->left);
-							unba = rightRotate(unba);
-						}
-						else if (bf < -1 && this->_compare(unba->pair.first, unba->right->pair.first))
-						{
-							unba->right = rightRotate(unba->right);
-							unba = leftRotate(unba);
-						}
+						unba = rightRotate(unba);
+					}
+					else if (bf < -1 && !this->_compare(unba->pair.first, unba->right->pair.first))
+					{
+						unba = leftRotate(unba);
+					}
+					else if (bf > 1 && !this->_compare(unba->pair.first, unba->left->pair.first))
+					{
+						unba->left = leftRotate(unba->left);
+						unba = rightRotate(unba);
+					}
+					else if (bf < -1 && this->_compare(unba->pair.first, unba->right->pair.first))
+					{
+						unba->right = rightRotate(unba->right);
+						unba = leftRotate(unba);
 					}
 				}
 			}
