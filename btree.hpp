@@ -272,12 +272,123 @@ namespace ft
 				print2D(r->left, space);
 			}
 
+			// void printPostorder(pointer r) //(Left, Right, Root)
+			// {
+			// 	static int i = 0;
+			// 	std::cout << ++i << std::endl;
+
+				
+			// 	if (r == NULL)
+			// 		return;
+			// 	if (getBalanceFactor(r, 1) > 1)
+			// 	{
+			// 		std::cout << r->pair.first << " ";
+			// 		return ;
+			// 	}
+			// 	// first recur on left subtree 
+			// 	printPostorder(r->left);
+			// 	// then recur on right subtree 
+			// 	printPostorder(r->right);
+			// 	// now deal with the node
+			// }
+
+			bool isTreeEmpty()
+			{
+				if (this->_tree->full == false)
+					return true;
+				else
+					return false;
+			}
+
+			pointer minValueNode(pointer node)
+			{
+  				pointer current = node;
+    			while (current->left != NULL)
+				{
+     				current = current -> left;
+				}
+   				return current;
+ 			}
+
+			void calldeleteNode(Key k)
+			{
+				this->_tree = deleteNode(this->_tree, k);
+			}
+
+			pointer deleteNode(pointer r, Key k)
+			{
+				// base case 
+				if (r == NULL)
+					return NULL;
+				if (this->_compare(k, r->pair.first))
+					r->left = deleteNode(r->left, k);
+				else if (!this->_compare(k, r->pair.first))
+					r->right = deleteNode(r->right, k);
+				// if key is same as root's key, then This is the node to be deleted 
+				else
+				{
+					// node with only one child or no child 
+					if (r->left == NULL)
+					{
+						pointer tmp = r->right;
+						tmp->parent = r->parent;
+						this->_allocator_node.destroy(r);
+						this->_allocator_node.deallocate(r, sizeof(r));
+						return tmp;
+					}
+					else if (r->right == NULL)
+					{
+						pointer tmp = r->left;
+						tmp->parent = r->parent;
+						this->_allocator_node.destroy(r);
+						this->_allocator_node.deallocate(r, sizeof(r));
+						return tmp;
+					}
+					else
+					{
+						// node with two children: Get the inorder successor (smallest in the right subtree) 
+						pointer tmp = minValueNode(r->right);
+
+						// Copy the inorder successor's content to this node
+
+						this->_allocator_type.destroy(&r->pair);
+						this->_allocator_type.construct(&r->pair, tmp->pair);
+
+						// Delete the inorder successor 
+						r->right = deleteNode(r->right, tmp->pair.first);
+						//deleteNode(r->right, temp->value); 
+					}
+				}
+				int bf = getBalanceFactor(r, 0);
+				// Left Left Imbalance/Case or Right rotation 
+				if (bf == 2 && getBalanceFactor(r -> left, 0) >= 0)
+					return rightRotate(r);
+				// Left Right Imbalance/Case or LR rotation 
+				else if (bf == 2 && getBalanceFactor(r -> left, 0) == -1)
+				{
+					r -> left = leftRotate(r -> left);
+					return rightRotate(r);
+				}
+				// Right Right Imbalance/Case or Left rotation	
+				else if (bf == -2 && getBalanceFactor(r -> right, 0) <= -0)
+					return leftRotate(r);
+				// Right Left Imbalance/Case or RL rotation 
+				else if (bf == -2 && getBalanceFactor(r -> right, 0) == 1)
+				{
+					r -> right = rightRotate(r -> right);
+					return leftRotate(r);
+				}
+				return r;
+			}
+
+
+
 //   void printPreorder(Treepointer  r) //(current node, Left, Right) 
 //   {
 //     if (r == NULL)
 //       return;
 //     /* first print data of pointer /
-//     cout << r -> value << " ";
+//     cout << r->pair.first << " ";
 //     /* then recur on left sutree */
 //     printPreorder(r -> left);
 //     /* now recur on right subtree */
