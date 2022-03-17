@@ -69,7 +69,19 @@ int main(void)
     btree.insert(ft::pair<TYPE1, int>("c", 585));
 
     std::cout << PRINT << std::endl;
-    std::cout << "boubou" << std::endl;
+    // std::cout << "boubou" << std::endl;
+    btree.print2D(btree.tree(), 0);
+
+    btree.insert(ft::pair<TYPE1, int>("k", 3));
+    std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
+
+    btree.insert(ft::pair<TYPE1, int>("l", 4));
+    std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
+
+    btree.insert(ft::pair<TYPE1, int>("x", 4));
+    std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
     return (0);

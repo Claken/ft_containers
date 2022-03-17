@@ -109,13 +109,15 @@ namespace ft
 				pointer T2 = x->right; // place ou mettre node
 				pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
 				pointer par2 = x; // parent du noeud a mettre a la place de node
-				
 
 				x->right = node;
 				node->left = T2;
 				x->parent = par1;
 				node->parent = par2;
-				
+				if (x->parent->left && x->parent->left->pair.first == node->pair.first)
+					x->parent->left = node->parent;
+				else
+					x->parent->right = node->parent;
 				return x;
 			}
 
@@ -130,9 +132,10 @@ namespace ft
 				node->right = t2;
 				y->parent = par1;
 				node->parent = par2;
-
-				y->parent->right = node->parent;
-
+				if (y->parent->right && y->parent->right->pair.first == node->pair.first)
+					y->parent->right = node->parent;
+				else
+					y->parent->left = node->parent;
 				return y;
 			}
 
@@ -183,32 +186,30 @@ namespace ft
 				pointer unba = isUnbalanced(current);
 				if (unba != NULL)
 				{
-					std::cout << "unba first = " << unba->pair.first << std::endl;
 					int bf = getBalanceFactor(unba, 0);
-					std::cout << "bf = " << bf << std::endl;
-					// if (bf > 1 && this->_compare(unba->pair.first, unba->left->pair.first))
 					if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
 					{
 						std::cout << "1" << std::endl;
-						unba = rightRotate(unba);
+						unba = leftRotate(unba);
 					}
-					// else if (bf < -1 && !this->_compare(unba->pair.first, unba->right->pair.first))
 					else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
 					{
 						std::cout << "2" << std::endl;
-						unba = leftRotate(unba);
+					
+						unba = rightRotate(unba);
 					}
-					// else if (bf > 1 && !this->_compare(unba->pair.first, unba->left->pair.first))
 					else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
 					{
+
 						std::cout << "3" << std::endl;
+
 						unba->left = leftRotate(unba->left);
 						unba = rightRotate(unba);
 					}
-					// else if (bf < -1 && this->_compare(unba->pair.first, unba->right->pair.first))
 					else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
 					{
 						std::cout << "4" << std::endl;
+
 						unba->right = rightRotate(unba->right);
 						unba = leftRotate(unba);
 					}
