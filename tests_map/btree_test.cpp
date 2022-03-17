@@ -65,9 +65,11 @@ int main(void)
     btree.print2D(btree.tree(), 0);
     std::cout << "height  == " << btree.height(btree.tree()) << std::endl;
 
-    btree.calldeleteNode("b");
+    // btree.calldeleteNode("b");
+    btree.insert(ft::pair<TYPE1, int>("c", 585));
 
     std::cout << PRINT << std::endl;
+    std::cout << "boubou" << std::endl;
     btree.print2D(btree.tree(), 0);
 
     return (0);
