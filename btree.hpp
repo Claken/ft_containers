@@ -15,7 +15,7 @@ namespace ft
 	{
 		public:
 
-			Node							*parent;
+			// Node							*parent;
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
 			ft::pair<const Key, T>			pair;
@@ -26,7 +26,7 @@ namespace ft
 			{
 				allocator = Allocator();
 				allocator.construct(&pair, ft::make_pair(Key(), T()));
-				parent = NULL;
+				// parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = false;
@@ -36,7 +36,7 @@ namespace ft
 			{
 				allocator = Allocator();
 				allocator.construct(&pair, ft::make_pair(key, value));
-				parent = NULL;
+				// parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = true;
@@ -107,17 +107,17 @@ namespace ft
 			{
 				pointer x = node->left; // noeud a mettre a la place de node
 				pointer T2 = x->right; // place ou mettre node
-				pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
-				pointer par2 = x; // parent du noeud a mettre a la place de node
+				// pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
+				// pointer par2 = x; // parent du noeud a mettre a la place de node
 
 				x->right = node;
 				node->left = T2;
-				x->parent = par1;
-				node->parent = par2;
-				if (x->parent->left && x->parent->left->pair.first == node->pair.first)
-					x->parent->left = node->parent;
-				else
-					x->parent->right = node->parent;
+				// x->parent = par1;
+				// node->parent = par2;
+				// if (x->parent->left && x->parent->left->pair.first == node->pair.first)
+				// 	x->parent->left = node->parent;
+				// else
+				// 	x->parent->right = node->parent;
 				return x;
 			}
 
@@ -125,17 +125,17 @@ namespace ft
 			{
 				pointer y = node->right;
 				pointer t2 = y->left;
-				pointer par1 = node->parent;
-				pointer par2 = y;
+				// pointer par1 = node->parent;
+				// pointer par2 = y;
 
 				y->left = node;
 				node->right = t2;
-				y->parent = par1;
-				node->parent = par2;
-				if (y->parent->right && y->parent->right->pair.first == node->pair.first)
-					y->parent->right = node->parent;
-				else
-					y->parent->left = node->parent;
+				// y->parent = par1;
+				// node->parent = par2;
+				// if (y->parent->right && y->parent->right->pair.first == node->pair.first)
+				// 	y->parent->right = node->parent;
+				// else
+				// 	y->parent->left = node->parent;
 				return y;
 			}
 
@@ -171,57 +171,74 @@ namespace ft
 							left = false;
 						}
 					}
-					current = newnode;
-					current->parent = svg;
 					if (left)
-						current->parent->left = current;
+						svg->left = newnode;
 					else
-						current->parent->right = current;
-					balanceTree(current);
+						svg->right = newnode;
+					current = isUnbalanced2(newnode->pair.first, &left);
+					if (current != NULL)
+					{
+						if (left)
+							current->left = balanceSubTree(current->left);
+						else
+							current->right = balanceSubTree(current->right);
+					}
+					// current = newnode;
+					// current->parent = svg;
+					// if (left)
+					// 	current->parent->left = current;
+					// else
+					// 	current->parent->right = current;
+					// balanceTree(newnode);
+					// std::cout << "getHeight == " << getHeight(this->tree()) << std::endl;
+					// pointer test = isUnbalanced2(newnode->pair.first);
+					// if (test)
+					// 	std::cout << "test == " << test->pair.first << std::endl;
 				}
 			}
 
-			void balanceTree(pointer current)
+			pointer balanceSubTree(pointer unba)
 			{
-				pointer unba = isUnbalanced(current);
-				if (unba != NULL)
-				{
+				// pointer unba = isUnbalanced(current);
+				// pointer unba = isUnbalanced2(current->pair.first);
+				// if (unba != NULL)
+				// {
+					std::cout << "unba == " << unba->pair.first << std::endl;
 					int bf = getBalanceFactor(unba, 0);
 					if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
 					{
 						std::cout << "1" << std::endl;
-						unba = leftRotate(unba);
+						return leftRotate(unba);
 					}
 					else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
 					{
 						std::cout << "2" << std::endl;
 					
-						unba = rightRotate(unba);
+						return rightRotate(unba);
 					}
 					else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
 					{
-
 						std::cout << "3" << std::endl;
-
 						unba->left = leftRotate(unba->left);
-						unba = rightRotate(unba);
+						return rightRotate(unba);
 					}
 					else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
 					{
 						std::cout << "4" << std::endl;
 
 						unba->right = rightRotate(unba->right);
-						unba = leftRotate(unba);
+						return leftRotate(unba);
 					}
-				}
+					return unba;
+				// }
 			}
 
-			int height(pointer r)
+			int getHeight(pointer r)
 			{
 				if (r == NULL)
 					return -1;
-				int lheight = height(r->left);
-				int rheight = height(r->right);
+				int lheight = getHeight(r->left);
+				int rheight = getHeight(r->right);
 				if (lheight > rheight)
 					return (lheight + 1);
 				else
@@ -233,9 +250,9 @@ namespace ft
   				// if (n == NULL)
      			// 	return -1;
 				if (one)
-   					return abs(height(n->left) - height(n->right));
+   					return abs(getHeight(n->left) - getHeight(n->right));
 				else
-   					return (height(n->left) - height(n->right));
+   					return (getHeight(n->left) - getHeight(n->right));
   			}
 
 			pointer isUnbalanced(pointer curr)
@@ -246,6 +263,40 @@ namespace ft
 						return (curr);
 					curr = curr->parent;
 				}
+				return NULL;
+			}
+
+			pointer isUnbalanced2(Key value, bool *left)
+			{
+				pointer current = this->_tree;
+				int height = getHeight(this->tree());
+				std::cout << "height == " << height << std::endl;
+				pointer nodes[height];
+				int i = 0;
+				while (current != NULL && current->pair.first != value)
+				{
+					nodes[i++] = current;
+					if (this->_compare(value, current->pair.first))
+						current = current->left;
+					else
+						current = current->right;
+				}
+				for (int i = height-1; i > -1; i--)
+				{
+					if (getBalanceFactor(nodes[i], 1) > 1)
+					{
+						if (i > 0)
+						{
+							if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
+								*left = false;
+							else
+								*left = true;
+							return nodes[i - 1];
+						}
+						std::cout << "desequilibre" << std::endl;
+						return (nodes[i]);
+					}
+				}	
 				return NULL;
 			}
 			
@@ -267,18 +318,18 @@ namespace ft
 				for (int i = SPACE; i < space; i++)
 					std::cout << " ";
 				std::cout << r->pair.second << std::endl;
-				if (r->parent != NULL)
-				{
-					for (int i = SPACE; i < space; i++)
-						std::cout << " ";
-					std::cout << "-" << std::endl;
-					for (int i = SPACE; i < space; i++)
-						std::cout << " ";
-					std::cout << r->parent->pair.first << std::endl;
-					for (int i = SPACE; i < space; i++)
-						std::cout << " ";
-					std::cout << r->parent->pair.second << std::endl;
-				}
+				// if (r->parent != NULL)
+				// {
+				// 	for (int i = SPACE; i < space; i++)
+				// 		std::cout << " ";
+				// 	std::cout << "-" << std::endl;
+				// 	for (int i = SPACE; i < space; i++)
+				// 		std::cout << " ";
+				// 	std::cout << r->parent->pair.first << std::endl;
+				// 	for (int i = SPACE; i < space; i++)
+				// 		std::cout << " ";
+				// 	std::cout << r->parent->pair.second << std::endl;
+				// }
 				print2D(r->left, space);
 			}
 
