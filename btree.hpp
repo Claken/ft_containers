@@ -175,13 +175,27 @@ namespace ft
 						svg->left = newnode;
 					else
 						svg->right = newnode;
-					current = isUnbalanced2(newnode->pair.first, &left);
+					pointer subtree;
+					bool isRoot;
+					current = isUnbalanced2(newnode->pair.first, &left, &isRoot, &subtree);
 					if (current != NULL)
 					{
-						if (left)
-							current->left = balanceSubTree(current->left);
+						subtree = balanceSubTree(subtree);
+						if (isRoot)
+						{
+							std::cout << "isRoot" << std::endl;
+							current = subtree;
+						}
+						else if (left)
+						{
+							std::cout << "left" << std::endl;
+							current->left = subtree;
+						}
 						else
-							current->right = balanceSubTree(current->right);
+						{
+							std::cout << "right" << std::endl;
+							current->right = subtree;
+						}
 					}
 					// current = newnode;
 					// current->parent = svg;
@@ -266,7 +280,7 @@ namespace ft
 				return NULL;
 			}
 
-			pointer isUnbalanced2(Key value, bool *left)
+			pointer isUnbalanced2(Key value, bool *left, bool *isRoot, pointer *subtree)
 			{
 				pointer current = this->_tree;
 				int height = getHeight(this->tree());
@@ -285,15 +299,17 @@ namespace ft
 				{
 					if (getBalanceFactor(nodes[i], 1) > 1)
 					{
+						*subtree = nodes[i];
 						if (i > 0)
 						{
+							*isRoot = false;
 							if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
 								*left = false;
 							else
 								*left = true;
 							return nodes[i - 1];
 						}
-						std::cout << "desequilibre" << std::endl;
+						*isRoot = true;
 						return (nodes[i]);
 					}
 				}	
