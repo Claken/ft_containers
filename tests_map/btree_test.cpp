@@ -91,5 +91,14 @@ int main(void)
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
+    std::cout << "delete 'x','g' et 'f'" << std::endl;
+    btree.calldeleteNode("x");
+    btree.calldeleteNode("g");
+    btree.calldeleteNode("f");
+    btree.calldeleteNode("dzdz");
+    btree.insert(ft::pair<TYPE1, int>("x", 78));
+    std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
+
     return (0);
 }
