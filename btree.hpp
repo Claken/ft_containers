@@ -177,14 +177,15 @@ namespace ft
 						svg->right = newnode;
 					pointer subtree;
 					bool isRoot;
-					current = isUnbalanced2(newnode->pair.first, &left, &isRoot, &subtree);
+					current = isUnbalanced(newnode->pair.first, &left, &isRoot, &subtree);
 					if (current != NULL)
 					{
+						std::cout << "subtree->first == " << subtree->pair.first << std::endl;
 						subtree = balanceSubTree(subtree);
 						if (isRoot)
 						{
 							std::cout << "isRoot" << std::endl;
-							current = subtree;
+							this->_tree = subtree;
 						}
 						else if (left)
 						{
@@ -221,27 +222,30 @@ namespace ft
 					int bf = getBalanceFactor(unba, 0);
 					if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
 					{
-						std::cout << "1" << std::endl;
+						std::cout << "leftRotate" << std::endl;
 						return leftRotate(unba);
 					}
 					else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
 					{
-						std::cout << "2" << std::endl;
+						std::cout << "rightRotate" << std::endl;
 					
 						return rightRotate(unba);
 					}
 					else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
 					{
-						std::cout << "3" << std::endl;
+						std::cout << "left right Rotate" << std::endl;
 						unba->left = leftRotate(unba->left);
 						return rightRotate(unba);
 					}
 					else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
 					{
-						std::cout << "4" << std::endl;
-
+						std::cout << "right left Rotate" << std::endl;
 						unba->right = rightRotate(unba->right);
-						return leftRotate(unba);
+						unba = leftRotate(unba);
+						std::cout << "unba == " << unba->pair.first << std::endl;
+						std::cout << "unba->right == " << unba->right->pair.first << std::endl;
+
+						return (unba);
 					}
 					return unba;
 				// }
@@ -269,18 +273,18 @@ namespace ft
    					return (getHeight(n->left) - getHeight(n->right));
   			}
 
-			pointer isUnbalanced(pointer curr)
-			{
-				while (curr != NULL)
-				{
-					if (getBalanceFactor(curr, 1) > 1)
-						return (curr);
-					curr = curr->parent;
-				}
-				return NULL;
-			}
+			// pointer isUnbalanced(pointer curr)
+			// {
+			// 	while (curr != NULL)
+			// 	{
+			// 		if (getBalanceFactor(curr, 1) > 1)
+			// 			return (curr);
+			// 		curr = curr->parent;
+			// 	}
+			// 	return NULL;
+			// }
 
-			pointer isUnbalanced2(Key value, bool *left, bool *isRoot, pointer *subtree)
+			pointer isUnbalanced(Key value, bool *left, bool *isRoot, pointer *subtree)
 			{
 				pointer current = this->_tree;
 				int height = getHeight(this->tree());
@@ -458,7 +462,18 @@ namespace ft
 				return r;
 			}
 
-
+			pointer findKeyInTree(Key value)
+			{
+				pointer current = this->tree();
+				while (current != NULL && current->pair.first != value)
+				{
+					if (this->_compare(value, current->pair.first))
+						current = current->left;
+					else
+						current = current->right;
+				}
+				return current;
+			}
 
 //   void printPreorder(Treepointer  r) //(current node, Left, Right) 
 //   {
