@@ -95,10 +95,12 @@ int main(void)
     btree.calldeleteNode("x");
     btree.calldeleteNode("g");
     btree.calldeleteNode("f");
-    btree.calldeleteNode("dzdz");
     btree.insert(ft::pair<TYPE1, int>("x", 78));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+
+    btree.callFindKeyInValue("i");
+    btree.callFindKeyInValue("x");
 
     return (0);
 }

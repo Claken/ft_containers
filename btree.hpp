@@ -396,6 +396,20 @@ namespace ft
 				this->_tree = deleteNode(this->_tree, k);
 			}
 
+			void callFindKeyInValue(const Key k)
+			{
+				pointer node = findKeyInTree(k);
+				if (node == NULL)
+					std::cout << "key " << k << " not found" << std::endl;
+				else
+				{
+					std::cout << "key found ! ";
+					std::cout << node->pair.first;
+					std::cout << ", ";
+					std::cout << node->pair.second << std::endl;
+				}
+			}
+
 			pointer deleteNode(pointer r, Key k)
 			{
 				if (r == NULL)
