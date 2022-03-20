@@ -141,7 +141,7 @@ namespace ft
 
 			void insert(const value_type& x)
 			{
-				if (!this->_tree->full)
+				if (this->_tree != NULL && !this->_tree->full)
 				{
 					this->_allocator_type.destroy(&this->_tree->pair);
 					this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
@@ -420,16 +420,18 @@ namespace ft
 					r->right = deleteNode(r->right, k);
 				else
 				{
-					if (r->left == NULL)
+					if (r->left == NULL || r->right == NULL)
 					{
-						pointer tmp = r->right;
-						this->_allocator_node.destroy(r);
-						this->_allocator_node.deallocate(r, sizeof(r));
-						return tmp;
-					}
-					else if (r->right == NULL)
-					{
-						pointer tmp = r->left;
+						pointer tmp;
+						if (r->left == NULL)
+							tmp = r->right;
+						else
+							tmp = r->left;
+						if (r == this->_tree && r->left == NULL && r->right == NULL)
+						{
+							tmp = this->_allocator_node.allocate(sizeof(node));
+							this->_allocator_node.construct(tmp, Node<Key, T>());
+						}
 						this->_allocator_node.destroy(r);
 						this->_allocator_node.deallocate(r, sizeof(r));
 						return tmp;

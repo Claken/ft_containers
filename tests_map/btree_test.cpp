@@ -95,9 +95,22 @@ int main(void)
     btree.calldeleteNode("x");
     btree.calldeleteNode("g");
     btree.calldeleteNode("f");
-    btree.insert(ft::pair<TYPE1, int>("x", 78));
+    btree.calldeleteNode("x");
+    btree.calldeleteNode("e");
+    btree.calldeleteNode("a");
+    btree.calldeleteNode("l");
+    btree.calldeleteNode("b");
+    btree.calldeleteNode("c");
+    btree.calldeleteNode("z");
+    btree.calldeleteNode("d");
+    btree.calldeleteNode("k");
+    btree.calldeleteNode("y");
+
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+
+    std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
+
 
     btree.callFindKeyInValue("i");
     btree.callFindKeyInValue("x");
