@@ -427,9 +427,9 @@ namespace ft
 							tmp = r->right;
 						else
 							tmp = r->left;
-						if (r == this->_tree && r->left == NULL && r->right == NULL)
+						if (r == this->_tree && tmp == NULL)
 						{
-							tmp = this->_allocator_node.allocate(sizeof(node));
+							tmp = this->_allocator_node.allocate(sizeof(node)); 
 							this->_allocator_node.construct(tmp, Node<Key, T>());
 						}
 						this->_allocator_node.destroy(r);
