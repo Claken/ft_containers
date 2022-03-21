@@ -9,6 +9,63 @@
 namespace ft
 {
 
+	template<class T>
+	class tree_iterator
+	{
+		public:
+		typedef T  									value_type;
+      	typedef T& 									reference;
+      	typedef T* 									pointer;
+		typedef ptrdiff_t   		               	difference_type;
+		typedef std::bidirectional_iterator_tag		iterator_category;
+
+		pointer										current_node;
+
+		tree_iterator() {}
+
+		tree_iterator(pointer node) : current_node(node) {}
+
+		reference operator*() const
+		{
+
+		}
+
+      	pointer operator->() const
+		{
+
+		}
+ 
+      	tree_iterator& operator++()
+    	{
+			return *this;
+      	}
+
+      	tree_iterator operator++(int)
+      	{
+      
+	  	}
+
+     	tree_iterator& operator--()
+      	{
+	
+      	}
+		
+		tree_iterator operator--(int)
+      	{
+      
+	  	}
+
+      	bool operator==(const tree_iterator& node) const
+		{
+
+		}
+
+      	bool operator!=(const tree_iterator& node) const
+		{
+
+		}
+  };
+
 	template <class Key, class T, class Compare = std::less<Key>,
 	class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class Node

@@ -91,20 +91,20 @@ int main(void)
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
-    std::cout << "delete 'x','g' et 'f'" << std::endl;
-    btree.calldeleteNode("x");
-    btree.calldeleteNode("g");
-    btree.calldeleteNode("f");
-    btree.calldeleteNode("x");
-    btree.calldeleteNode("e");
-    btree.calldeleteNode("a");
-    btree.calldeleteNode("l");
-    btree.calldeleteNode("b");
-    btree.calldeleteNode("c");
-    btree.calldeleteNode("z");
-    btree.calldeleteNode("d");
-    btree.calldeleteNode("k");
-    btree.calldeleteNode("y");
+    // std::cout << "delete 'x','g' et 'f'" << std::endl;
+    // btree.calldeleteNode("x");
+    // btree.calldeleteNode("g");
+    // btree.calldeleteNode("f");
+    // btree.calldeleteNode("x");
+    // btree.calldeleteNode("e");
+    // btree.calldeleteNode("a");
+    // btree.calldeleteNode("l");
+    // btree.calldeleteNode("b");
+    // btree.calldeleteNode("c");
+    // btree.calldeleteNode("z");
+    // btree.calldeleteNode("d");
+    // btree.calldeleteNode("k");
+    // btree.calldeleteNode("y");
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
