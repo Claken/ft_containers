@@ -237,6 +237,7 @@ namespace ft
 						svg->right = newnode;
 					pointer subtree;
 					bool isRoot;
+					std::cout << "is Unbalanced ?" << std::endl;
 					current = isUnbalanced(newnode->pair.first, &left, &isRoot, &subtree);
 					if (current != NULL)
 					{
@@ -348,7 +349,6 @@ namespace ft
 			{
 				pointer current = this->_tree;
 				int height = getHeight(this->tree());
-				// std::cout << "height == " << height << std::endl;
 				pointer nodes[height];
 				int i = 0;
 				while (current != NULL && current->pair.first != value)
@@ -359,7 +359,7 @@ namespace ft
 					else
 						current = current->right;
 				}
-				for (int i = height-1; i > -1; i--)
+				for (i = i - 1; i > -1; i--)
 				{
 					if (getBalanceFactor(nodes[i], 1) > 1)
 					{
