@@ -119,7 +119,7 @@ int main(void)
     btree.callFindKeyInValue("i");
     btree.callFindKeyInValue("x");
 
-    std::cout << btree.farLeftNode()->pair.first << std::endl;
+    std::cout << btree.MelanchonNode()->pair.first << std::endl;
 
     return (0);
 }

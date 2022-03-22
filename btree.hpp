@@ -66,7 +66,20 @@ namespace ft
 		// {
 
 		// }
+
 		private:
+
+		node_pointer decrease()
+		{
+
+		}
+
+		node_pointer increase()
+		{
+			
+		}
+
+		
   };
 
 	template <class Key, class T, class Compare = std::less<Key>,
@@ -562,11 +575,19 @@ namespace ft
 				return current;
 			}
 
-			pointer farLeftNode()
+			pointer MelanchonNode()
 			{
 				pointer current = this->_tree;
 				while (current->left != NULL)
 					current = current->left;
+				return (current);
+			}
+
+			pointer ZemmourNode()
+			{
+				pointer current = this->_tree;
+				while (current->right != NULL)
+					current = current->right;
 				return (current);
 			}
 
