@@ -9,30 +9,32 @@
 namespace ft
 {
 
-	template<class T>
+	template<class Node, class Value>
 	class tree_iterator
 	{
 		public:
-		typedef T  									value_type;
-      	typedef T& 									reference;
-      	typedef T* 									pointer;
-		typedef ptrdiff_t   		               	difference_type;
+		typedef Value  								value_type;
+      	typedef Value& 								reference;
+      	typedef Value* 								pointer;
+		typedef Node								node_type;
+		typedef Node*								node_pointer;
+		typedef std::ptrdiff_t						difference_type;
 		typedef std::bidirectional_iterator_tag		iterator_category;
 
-		pointer										current_node;
+		node_pointer								current;
 
 		tree_iterator() {}
 
-		tree_iterator(pointer node) : current_node(node) {}
+		tree_iterator(node_pointer node) : current(node) {}
 
 		reference operator*() const
 		{
-
+			return (this->current->pair);
 		}
 
       	pointer operator->() const
 		{
-
+			return (&this->operator*());
 		}
  
       	tree_iterator& operator++()
@@ -55,15 +57,16 @@ namespace ft
       
 	  	}
 
-      	bool operator==(const tree_iterator& node) const
-		{
+      	// bool operator==(const tree_iterator& node) const
+		// {
 
-		}
+		// }
 
-      	bool operator!=(const tree_iterator& node) const
-		{
+      	// bool operator!=(const tree_iterator& node) const
+		// {
 
-		}
+		// }
+		private:
   };
 
 	template <class Key, class T, class Compare = std::less<Key>,
@@ -537,6 +540,14 @@ namespace ft
 						current = current->right;
 				}
 				return current;
+			}
+
+			pointer farLeftNode()
+			{
+				pointer current = this->_tree;
+				while (current->left != NULL)
+					current = current->left;
+				return (current);
 			}
 
 //   void printPreorder(Treepointer  r) //(current node, Left, Right) 
