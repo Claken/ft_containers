@@ -39,18 +39,18 @@ int main(void)
     std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
-    // btree.insert(ft::pair<TYPE1, int>("a", 100));
+    btree.insert(ft::pair<TYPE1, int>("a", 100));
 
-	// std::cout << PRINT << std::endl;
-    // btree.print2D(btree.tree(), 0);
-    // std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
+	std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
-    // btree.insert(ft::pair<TYPE1, int>("b", 150));
+    btree.insert(ft::pair<TYPE1, int>("b", 150));
 
-    // std::cout << PRINT << std::endl;
-    // btree.print2D(btree.tree(), 0);
-    // std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
+    std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
+    std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
     btree.insert(ft::pair<TYPE1, int>("z", 100000));
@@ -66,10 +66,10 @@ int main(void)
     std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     
-    // btree.insert(ft::pair<TYPE1, int>("c", 585));
+    btree.insert(ft::pair<TYPE1, int>("c", 585));
 
-    // std::cout << PRINT << std::endl;
-    // btree.print2D(btree.tree(), 0);
+    std::cout << PRINT << std::endl;
+    btree.print2D(btree.tree(), 0);
 
     btree.insert(ft::pair<TYPE1, int>("k", 3));
     std::cout << PRINT << std::endl;

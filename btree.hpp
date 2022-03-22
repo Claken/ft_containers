@@ -398,6 +398,26 @@ namespace ft
 				for (int i = SPACE; i < space; i++)
 					std::cout << " ";
 				std::cout << r->pair.second << std::endl;
+				if (r->right != NULL)
+				{
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << "-" << std::endl;
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << r->right->pair.first << std::endl;
+				}
+				if (r->left != NULL)
+				{
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << "-" << std::endl;
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << r->left->pair.first << std::endl;
+				}
+			
+				
 				// if (r->parent != NULL)
 				// {
 				// 	for (int i = SPACE; i < space; i++)
