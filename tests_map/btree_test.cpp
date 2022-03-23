@@ -119,7 +119,9 @@ int main(void)
     btree.callFindKeyInValue("i");
     btree.callFindKeyInValue("x");
 
-    std::cout << btree.MelanchonNode()->pair.first << std::endl;
+    btree.printInorder(btree.tree());
+    std::cout << std::endl;
+    btree.printIndisorder(btree.tree());
 
     return (0);
 }

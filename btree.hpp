@@ -22,10 +22,25 @@ namespace ft
 		typedef std::bidirectional_iterator_tag		iterator_category;
 
 		node_pointer								current;
+		node_pointer								root;
 
-		tree_iterator() {}
+		tree_iterator() : current(NULL), root(NULL) {}
 
-		tree_iterator(node_pointer node) : current(node) {}
+		tree_iterator(node_pointer node, node_pointer tree) : current(node), root(tree) {}
+
+		tree_iterator(const tree_iterator& instance)
+		{
+			*this = instance;
+		}
+
+		~tree_iterator() {}
+
+		tree_iterator& operator=(const tree_iterator& instance)
+		{
+			this->current = instance.current;
+			this->root = instance.root;
+			return *this;
+		}
 
 		reference operator*() const
 		{
@@ -49,7 +64,7 @@ namespace ft
 
      	tree_iterator& operator--()
       	{
-	
+			return *this;
       	}
 		
 		tree_iterator operator--(int)
@@ -71,12 +86,32 @@ namespace ft
 
 		node_pointer decrease()
 		{
+			node_pointer curr;
 
+			return curr;
 		}
 
 		node_pointer increase()
 		{
-			
+			node_pointer curr;
+
+			return curr;
+		}
+
+		node_pointer farLeftNode(node_pointer curr)
+		{
+			pointer current = curr;
+			while (current->left != NULL)
+				current = current->left;
+			return (current);
+		}
+
+		node_pointer farRightNode(node_pointer curr)
+		{
+			pointer current = curr;
+			while (current->right != NULL)
+				current = current->right;
+			return (current);
 		}
 
 		
@@ -347,17 +382,6 @@ namespace ft
    					return (getHeight(n->left) - getHeight(n->right));
   			}
 
-			// pointer isUnbalanced(pointer curr)
-			// {
-			// 	while (curr != NULL)
-			// 	{
-			// 		if (getBalanceFactor(curr, 1) > 1)
-			// 			return (curr);
-			// 		curr = curr->parent;
-			// 	}
-			// 	return NULL;
-			// }
-
 			pointer isUnbalanced(Key value, bool *left, bool *isRoot, pointer *subtree)
 			{
 				pointer current = this->_tree;
@@ -429,6 +453,8 @@ namespace ft
 						std::cout << " ";
 					std::cout << r->left->pair.first << std::endl;
 				}
+
+
 			
 				
 				// if (r->parent != NULL)
@@ -446,25 +472,47 @@ namespace ft
 				print2D(r->left, space);
 			}
 
-			// void printPostorder(pointer r) //(Left, Right, Root)
-			// {
-			// 	static int i = 0;
-			// 	std::cout << ++i << std::endl;
+				void printInorder(pointer r) //  (Left, current node, Right)
+				{
+					if (r == NULL)
+						return;
+					printInorder(r->left);
+					std::cout << r->pair.first << " ";
+					printInorder(r->right);
+				}
 
-				
-			// 	if (r == NULL)
-			// 		return;
-			// 	if (getBalanceFactor(r, 1) > 1)
-			// 	{
-			// 		std::cout << r->pair.first << " ";
-			// 		return ;
-			// 	}
-			// 	// first recur on left subtree 
-			// 	printPostorder(r->left);
-			// 	// then recur on right subtree 
-			// 	printPostorder(r->right);
-			// 	// now deal with the node
-			// }
+				void printIndisorder(pointer r) //  (Left, current node, Right)
+				{
+					if (r == NULL)
+						return;
+					// static int i = 0;
+					// std::cout << i++ << std::endl;
+					printIndisorder(r->right);
+					std::cout << r->pair.first << " ";
+					printIndisorder(r->left);
+
+				}
+
+				void printPostorder(pointer r) //(Left, Right, Root)
+				{
+					if (r == NULL)
+						return;
+					// first recur on left subtree 
+					printPostorder(r -> left);
+					// then recur on right subtree 
+					printPostorder(r -> right);
+					// now deal with the node 
+					std::cout << r -> pair.first << " ";
+				}
+
+				void printPreorder(pointer r) //(current node, Left, Right) 
+				{
+					if (r == NULL)
+						return;
+					std::cout << r->pair.first << " ";
+					printPreorder(r -> left);
+					printPreorder(r -> right);
+				}
 
 			bool isTreeEmpty()
 			{
@@ -538,28 +586,6 @@ namespace ft
 					}
 				}
 				return (balanceSubTree(r));
-
-
-				// int bf = getBalanceFactor(r, 0);
-				// // Left Left Imbalance/Case or Right rotation 
-				// if (bf == 2 && getBalanceFactor(r -> left, 0) >= 0)
-				// 	return rightRotate(r);
-				// // Left Right Imbalance/Case or LR rotation 
-				// else if (bf == 2 && getBalanceFactor(r -> left, 0) == -1)
-				// {
-				// 	r -> left = leftRotate(r -> left);
-				// 	return rightRotate(r);
-				// }
-				// // Right Right Imbalance/Case or Left rotation	
-				// else if (bf == -2 && getBalanceFactor(r -> right, 0) <= -0)
-				// 	return leftRotate(r);
-				// // Right Left Imbalance/Case or RL rotation 
-				// else if (bf == -2 && getBalanceFactor(r -> right, 0) == 1)
-				// {
-				// 	r -> right = rightRotate(r -> right);
-				// 	return leftRotate(r);
-				// }
-				// return r;
 			}
 
 			pointer findKeyInTree(Key value)
@@ -574,34 +600,6 @@ namespace ft
 				}
 				return current;
 			}
-
-			pointer MelanchonNode()
-			{
-				pointer current = this->_tree;
-				while (current->left != NULL)
-					current = current->left;
-				return (current);
-			}
-
-			pointer ZemmourNode()
-			{
-				pointer current = this->_tree;
-				while (current->right != NULL)
-					current = current->right;
-				return (current);
-			}
-
-//   void printPreorder(Treepointer  r) //(current node, Left, Right) 
-//   {
-//     if (r == NULL)
-//       return;
-//     /* first print data of pointer /
-//     cout << r->pair.first << " ";
-//     /* then recur on left sutree */
-//     printPreorder(r -> left);
-//     /* now recur on right subtree */
-//     printPreorder(r -> right);
-//   }
 		
 		private:
 		
