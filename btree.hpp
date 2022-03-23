@@ -54,12 +54,15 @@ namespace ft
  
       	tree_iterator& operator++()
     	{
+			this->current = this->increase();
 			return *this;
       	}
 
       	tree_iterator operator++(int)
       	{
-      
+			tree_iterator tmp = *this;
+			this->current = this->increase();
+			return tmp;
 	  	}
 
      	tree_iterator& operator--()
@@ -88,7 +91,11 @@ namespace ft
 		{
 			// node_pointer curr;
 
-			return this->farRightNode(this->current->left);
+			// if (current->left == NULL)
+			// 	return nodes[i];
+			// else
+				return this->farRightNode(this->current->left);
+			// return NULL;
 		}
 
 		node_pointer increase()
@@ -107,13 +114,22 @@ namespace ft
 			}
 			i--;
 			if (current->right == NULL)
-				return nodes[i];
-			return this->farLeftNode(this->current->right);
+			{
+				if (i > -1 && this->current._compare(this->current->pair.first, nodes[i]->pair.first))
+					return nodes[i];
+				else if (i - 1 > -1)
+					return nodes[i - 1];
+			}
+			else
+			{
+				return this->farLeftNode(this->current->right);
+			}
+			return NULL;
 		}
 
 		node_pointer farLeftNode(node_pointer curr)
 		{
-			pointer current = curr;
+			node_pointer current = curr;
 			while (current->left != NULL)
 				current = current->left;
 			return (current);
@@ -121,7 +137,7 @@ namespace ft
 
 		node_pointer farRightNode(node_pointer curr)
 		{
-			pointer current = curr;
+			node_pointer current = curr;
 			while (current->right != NULL)
 				current = current->right;
 			return (current);
@@ -176,9 +192,12 @@ namespace ft
 
 		public:
 		
-			typedef ft::pair<const Key, T> 			value_type;
-			typedef Node<Key, T>					node;
-			typedef node*							pointer;
+			typedef ft::pair<const Key, T> 										value_type;
+			typedef Node<Key, T>												node;
+			typedef node*														pointer;
+			typedef typename ft::tree_iterator<node, value_type> 				iterator;
+			typedef typename ft::tree_iterator<const node, const value_type> 	const_iterator;
+
 
 			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
 			{
@@ -201,6 +220,30 @@ namespace ft
 			~Tree()
 			{
 				destroyAndDeallocateAllNodes(this->_tree);
+			}
+
+			iterator 						begin()
+			{
+				iterator it(this->farLeftNode(this->tree()), this->tree());
+				return it;
+			}
+
+			const_iterator 					begin() const
+			{
+				const_iterator it(this->farLeftNode(this->tree()), this->tree());
+				return it;
+			}
+
+			iterator 						end()
+			{
+				iterator it;
+				return it;
+			}
+
+			const_iterator 					end() const
+			{
+				const_iterator it;
+				return it;
 			}
 
 			void destroyAndDeallocateAllNodes(pointer node)
@@ -612,6 +655,22 @@ namespace ft
 						current = current->right;
 				}
 				return current;
+			}
+
+			pointer farLeftNode(pointer curr)
+			{
+				pointer current = curr;
+				while (current->left != NULL)
+					current = current->left;
+				return (current);
+			}
+
+			pointer farRightNode(pointer curr)
+			{
+				pointer current = curr;
+				while (current->right != NULL)
+					current = current->right;
+				return (current);
 			}
 		
 		private:

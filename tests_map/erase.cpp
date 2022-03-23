@@ -29,6 +29,8 @@ int main ()
 	// show content:
 	for (it=mymap.begin(); it!=mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
+
+	*it;
     std::cout << "empty ? " << mymap.empty() << std::endl;
 
     it = mymap.begin();
