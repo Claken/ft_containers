@@ -86,16 +86,29 @@ namespace ft
 
 		node_pointer decrease()
 		{
-			node_pointer curr;
+			// node_pointer curr;
 
-			return curr;
+			return this->farRightNode(this->current->left);
 		}
 
 		node_pointer increase()
 		{
-			node_pointer curr;
-
-			return curr;
+			node_pointer curr = this->root;
+			int height = this->current.getHeight(curr);
+			node_pointer nodes[height];
+			int i = 0;
+			while (curr != NULL && curr->pair.first != current->pair.first)
+			{
+				nodes[i++] = curr;
+				if (this->current._compare(current->pair.first, curr->pair.first))
+					curr = curr->left;
+				else
+					curr = curr->right;
+			}
+			i--;
+			if (current->right == NULL)
+				return nodes[i];
+			return this->farLeftNode(this->current->right);
 		}
 
 		node_pointer farLeftNode(node_pointer curr)
@@ -477,7 +490,7 @@ namespace ft
 					if (r == NULL)
 						return;
 					printInorder(r->left);
-					std::cout << r->pair.first << " ";
+					std::cout << r->pair.first << " "; 
 					printInorder(r->right);
 				}
 
