@@ -18,7 +18,7 @@ int main ()
 	mymap['e']=50;
 	mymap['f']=60;
 	
-	for (std::map<char,int>::reverse_iterator it=mymap.rbegin(); it!=mymap.rend(); ++it)
+	for (std::map<char,int>::reverse_iterator it=mymap.rend(); it!=mymap.rbegin(); --it)
 	{
 		std::cout << it->first << " => " << it->second << '\n';
 	}

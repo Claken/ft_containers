@@ -25,9 +25,10 @@ namespace ft
 		node_pointer								current;
 		node_pointer								root;
 
-		tree_iterator() : current(NULL), root(NULL) {}
+		tree_iterator() : current(NULL), root(NULL), _isRev(false), _isEnd(false) {}
 
-		tree_iterator(node_pointer node, node_pointer tree) : current(node), root(tree) {}
+		tree_iterator(node_pointer node, node_pointer tree, bool isRev = false, bool end = false)
+		: current(node), root(tree), _isRev(isRev), _isEnd(end) {}
 
 		tree_iterator(const tree_iterator& instance)
 		{
@@ -40,6 +41,8 @@ namespace ft
 		{
 			this->current = instance.current;
 			this->root = instance.root;
+			this->_isRev = instance._isRev;
+			this->_isEnd = instance._isEnd;
 			return *this;
 		}
 
@@ -81,12 +84,20 @@ namespace ft
 
 		private:
 
+		bool			_isRev;
+		bool			_isEnd;
+
 		node_pointer decrease()
 		{
 			node_pointer curr = this->root;
 			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
+			if (this->_isRev && this->_isEnd)
+			{
+				this->_isEnd = false;
+				return current;
+			}
 			while (curr != NULL && curr->pair.first != current->pair.first)
 			{
 				nodes[i++] = curr;
@@ -116,6 +127,8 @@ namespace ft
 			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
+			if (this->_isRev && (this->current == this->farRightNode(this->root) || this->current == this->farLeftNode(this->root)))
+				this->_isEnd = true;
 			while (curr != NULL && curr->pair.first != current->pair.first)
 			{
 				nodes[i++] = curr;
@@ -287,26 +300,30 @@ namespace ft
 
 			reverse_iterator 				rbegin()
 			{
-				iterator it(this->farRightNode(this->tree()), this->tree());
+				iterator it(this->farRightNode(this->tree()), this->tree(), true, true);
 				reverse_iterator rit(it);
 				return rit;
 			}
 		
 			const_reverse_iterator 			rbegin() const
 			{
-				const_iterator it(this->farRightNode(this->tree()), this->tree());
+				const_iterator it(this->farRightNode(this->tree()), this->tree(), true, true);
 				const_reverse_iterator rit(it);
 				return rit;
 			}
 			
 			reverse_iterator 				rend()
 			{
-				return reverse_iterator(iterator());
+				iterator it(this->farLeftNode(this->tree()), this->tree(), true, true);
+				reverse_iterator rit(it);
+				return rit;
 			}
 			
 			const_reverse_iterator 			rend() const
 			{
-				return const_reverse_iterator(const_iterator());
+				const_iterator it(this->farLeftNode(this->tree()), this->tree(), true, true);
+				const_reverse_iterator rit(it);
+				return rit;
 			}
 
 			void destroyAndDeallocateAllNodes(pointer node)

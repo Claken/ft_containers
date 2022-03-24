@@ -119,22 +119,31 @@ int main(void)
     btree.callFindKeyInValue("i");
     btree.callFindKeyInValue("x");
 
+    std::cout << "printInorder : ";
     btree.printInorder(btree.tree());
     std::cout << std::endl;
-    // btree.printIndisorder(btree.tree());
 
-    ft::Tree<TYPE1, int>::iterator it = btree.begin();
-
-    std::cout << std::endl;
-    for (it = btree.begin(); it != btree.end(); ++it)
+    std::cout << "iterator     : ";
+    for (ft::Tree<TYPE1, int>::iterator it = btree.begin(); it != btree.end(); ++it)
     {
         std::cout << it->first << " ";
     }
     std::cout << std::endl;
-    // for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    std::cout << std::endl;
+    std::cout << "reverse_iterator : ";
+    for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    {
+        std::cout << it->first << " ";
+    }
+    // std::cout << std::endl << "j'ai peur" << std::endl;
+    // for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rend(); it != btree.rbegin(); it--)
     // {
-    //     std::cout << "reverse it->first == " << it->first << std::endl;
+    //     std::cout << it->first << " ";
     // }
+    std::cout << std::endl;
+    std::cout << "printIndisorder  : ";
+    btree.printIndisorder(btree.tree());
+    std::cout << std::endl;
 
     return (0);
 }
