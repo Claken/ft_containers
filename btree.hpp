@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include "utils.hpp"
+#include "iterator.hpp"
 
 #define SPACE 10
 
@@ -67,47 +68,58 @@ namespace ft
 
      	tree_iterator& operator--()
       	{
+			this->current = this->decrease();
 			return *this;
       	}
 		
 		tree_iterator operator--(int)
       	{
-      
+			tree_iterator tmp = *this;
+			this->current = this->decrease();
+			return tmp;
 	  	}
-
-      	// bool operator==(const tree_iterator& node) const
-		// {
-
-		// }
-
-      	// bool operator!=(const tree_iterator& node) const
-		// {
-
-		// }
 
 		private:
 
 		node_pointer decrease()
 		{
-			// node_pointer curr;
-
-			// if (current->left == NULL)
-			// 	return nodes[i];
-			// else
-				return this->farRightNode(this->current->left);
-			// return NULL;
-		}
-
-		node_pointer increase()
-		{
 			node_pointer curr = this->root;
-			int height = this->current.getHeight(curr);
+			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
 			while (curr != NULL && curr->pair.first != current->pair.first)
 			{
 				nodes[i++] = curr;
-				if (this->current._compare(current->pair.first, curr->pair.first))
+				if (this->current->compare(current->pair.first, curr->pair.first))
+					curr = curr->left;
+				else
+					curr = curr->right;
+			}
+			i--;
+			if (current->left == NULL)
+			{
+				if (i > -1 && this->current->compare(nodes[i]->pair.first, this->current->pair.first))
+					return nodes[i];
+				else if (i - 1 > -1 && this->current->compare(nodes[i - 1]->pair.first, this->current->pair.first))
+					return nodes[i - 1];
+			}
+			else
+			{
+				return this->farRightNode(this->current->left);
+			}
+			return NULL;
+		}
+
+		node_pointer increase()
+		{
+			node_pointer curr = this->root;
+			int height = this->getHeight(curr);
+			node_pointer nodes[height];
+			int i = 0;
+			while (curr != NULL && curr->pair.first != current->pair.first)
+			{
+				nodes[i++] = curr;
+				if (this->current->compare(current->pair.first, curr->pair.first))
 					curr = curr->left;
 				else
 					curr = curr->right;
@@ -115,9 +127,9 @@ namespace ft
 			i--;
 			if (current->right == NULL)
 			{
-				if (i > -1 && this->current._compare(this->current->pair.first, nodes[i]->pair.first))
+				if (i > -1 && this->current->compare(this->current->pair.first, nodes[i]->pair.first))
 					return nodes[i];
-				else if (i - 1 > -1)
+				else if (i - 1 > -1 && this->current->compare(this->current->pair.first, nodes[i - 1]->pair.first))
 					return nodes[i - 1];
 			}
 			else
@@ -143,8 +155,30 @@ namespace ft
 			return (current);
 		}
 
-		
+		int getHeight(node_pointer r)
+		{
+			if (r == NULL)
+				return -1;
+			int lheight = getHeight(r->left);
+			int rheight = getHeight(r->right);
+			if (lheight > rheight)
+				return (lheight + 1);
+			else
+				return (rheight + 1);
+		}
   };
+
+ 	template<class Tx, class Ux, class Ty, class Uy>
+	bool	operator==(const tree_iterator<Tx, Ux>& x, const tree_iterator<Ty, Uy>& y)
+	{
+		return (x.current == y.current);
+	}
+
+	template<class Tx, class Ux, class Ty, class Uy>
+	bool	operator!=(const tree_iterator<Tx, Ux>& x, const tree_iterator<Ty, Uy>& y)
+	{
+		return (x.current != y.current);
+	}
 
 	template <class Key, class T, class Compare = std::less<Key>,
 	class Allocator = std::allocator<ft::pair<const Key, T> > >
@@ -158,10 +192,12 @@ namespace ft
 			ft::pair<const Key, T>			pair;
 			bool							full;
 			Allocator						allocator;
+			Compare							compare;
 
-			Node(const Allocator& = Allocator())
+			Node(const Allocator& = Allocator(), const Compare& = Compare())
 			{
 				allocator = Allocator();
+				compare = Compare();
 				allocator.construct(&pair, ft::make_pair(Key(), T()));
 				// parent = NULL;
 				right = NULL;
@@ -169,9 +205,10 @@ namespace ft
 				full = false;
 			}
 
-			Node(Key key, T value, const Allocator& = Allocator())
+			Node(Key key, T value, const Allocator& = Allocator(), const Compare& = Compare())
 			{
 				allocator = Allocator();
+				compare = Compare();
 				allocator.construct(&pair, ft::make_pair(key, value));
 				// parent = NULL;
 				right = NULL;
@@ -197,6 +234,8 @@ namespace ft
 			typedef node*														pointer;
 			typedef typename ft::tree_iterator<node, value_type> 				iterator;
 			typedef typename ft::tree_iterator<const node, const value_type> 	const_iterator;
+			typedef ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 
 
 			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
@@ -244,6 +283,30 @@ namespace ft
 			{
 				const_iterator it;
 				return it;
+			}
+
+			reverse_iterator 				rbegin()
+			{
+				iterator it(this->farRightNode(this->tree()), this->tree());
+				reverse_iterator rit(it);
+				return rit;
+			}
+		
+			const_reverse_iterator 			rbegin() const
+			{
+				const_iterator it(this->farRightNode(this->tree()), this->tree());
+				const_reverse_iterator rit(it);
+				return rit;
+			}
+			
+			reverse_iterator 				rend()
+			{
+				return reverse_iterator(iterator());
+			}
+			
+			const_reverse_iterator 			rend() const
+			{
+				return const_reverse_iterator(const_iterator());
 			}
 
 			void destroyAndDeallocateAllNodes(pointer node)

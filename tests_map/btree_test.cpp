@@ -123,5 +123,18 @@ int main(void)
     std::cout << std::endl;
     btree.printIndisorder(btree.tree());
 
+    ft::Tree<TYPE1, int>::iterator it = btree.begin();
+
+    std::cout << std::endl;
+    for (it = btree.begin(); it != btree.end(); it++)
+    {
+        std::cout << "it->first == " << it->first << std::endl;
+    }
+
+    for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    {
+        std::cout << "reverse it->first == " << it->first << std::endl;
+    }
+
     return (0);
 }

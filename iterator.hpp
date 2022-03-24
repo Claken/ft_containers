@@ -4,7 +4,7 @@
 
 namespace ft
 {
-	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 		struct iterator
 		{
 			public :
@@ -33,7 +33,7 @@ namespace ft
 		{
 			public :
 
-			typedef ptrdiff_t								difference_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef T										value_type;
 			typedef T*										pointer;
 			typedef T&										reference;
@@ -45,7 +45,7 @@ namespace ft
 		{
 			public :
 			
-			typedef ptrdiff_t								difference_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef T										value_type;
 			typedef const T*								pointer;
 			typedef const T&								reference;

@@ -30,7 +30,9 @@ int main ()
 	for (it=mymap.begin(); it!=mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 
-	*it;
+	--it;
+	std::cout << it->first << " => " << it->second << '\n';
+
     std::cout << "empty ? " << mymap.empty() << std::endl;
 
     it = mymap.begin();
