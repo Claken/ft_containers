@@ -25,7 +25,8 @@ int main ()
 	// ++it;
 	// *it = 150;
 	// ++it;
-	// *it = 200;
+	// *it = 200
+
 	it = myvector.insert ( it , "200" );
 	it = myvector.begin();
 	std::cout << *(it + 3) << std::endl;

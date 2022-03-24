@@ -80,8 +80,18 @@ namespace ft
 				const_reverse_iterator 			rend() const;
 			
 			// capacity:
-				bool 							empty() const;
-				size_type 						size() const;
+				bool 							empty() const
+				{
+					if (this->_size == 0)
+						return true;
+					return false;
+				}
+
+				size_type 						size() const
+				{
+					return (this->_size);
+				}
+
 				size_type 						max_size() const;
 			
 			// 23.3.1.2 element access:

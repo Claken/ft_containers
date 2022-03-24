@@ -462,8 +462,7 @@ namespace ft
 
 		void						pop_back()
 		{
-			if (this->_size > 0)
-				this->_size--;
+			this->erase(this->end() - 1);
 		}
 
 		template <class InputIterator>
@@ -528,7 +527,7 @@ namespace ft
 					while (place >= position)
 					{
 						// *(place+n) = *place;
-						this->_allocator_type.destroy(&(*(place+n)));
+						// this->_allocator_type.destroy(&(*(place+n)));
 						this->_allocator_type.construct(&(*(place+n)), *place);
 						place--;
 					}
@@ -603,7 +602,6 @@ namespace ft
 
 		void						clear()
 		{
-			// this->_size = 0;
 			erase(this->begin(), this->end());
 		}
 			

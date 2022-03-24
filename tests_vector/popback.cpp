@@ -8,7 +8,7 @@
 
 int main ()
 {
-	ft::vector<int> myvector;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> myvector;
 	myvector.reserve(20);
 	int sum (0);
 	myvector.push_back (100);
