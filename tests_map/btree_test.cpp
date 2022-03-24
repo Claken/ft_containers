@@ -131,18 +131,6 @@ int main(void)
         std::cout << it->first << " ";
     }
     std::cout << std::endl;
-
-    it = btree.begin();
-    while (it->first != "z")
-    {
-        it++;
-    }
-    while (it->first != "a")
-    {
-        std::cout << it->first << " ";
-        --it;
-    }
-    std::cout << it->first << std::endl;
     // for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
     // {
     //     std::cout << "reverse it->first == " << it->first << std::endl;
