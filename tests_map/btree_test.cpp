@@ -121,20 +121,32 @@ int main(void)
 
     btree.printInorder(btree.tree());
     std::cout << std::endl;
-    btree.printIndisorder(btree.tree());
+    // btree.printIndisorder(btree.tree());
 
     ft::Tree<TYPE1, int>::iterator it = btree.begin();
 
     std::cout << std::endl;
-    for (it = btree.begin(); it != btree.end(); it++)
+    for (it = btree.begin(); it != btree.end(); ++it)
     {
-        std::cout << "it->first == " << it->first << std::endl;
+        std::cout << it->first << " ";
     }
+    std::cout << std::endl;
 
-    for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    it = btree.begin();
+    while (it->first != "z")
     {
-        std::cout << "reverse it->first == " << it->first << std::endl;
+        it++;
     }
+    while (it->first != "a")
+    {
+        std::cout << it->first << " ";
+        --it;
+    }
+    std::cout << it->first << std::endl;
+    // for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    // {
+    //     std::cout << "reverse it->first == " << it->first << std::endl;
+    // }
 
     return (0);
 }

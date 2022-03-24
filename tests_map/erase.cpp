@@ -17,6 +17,11 @@ int main ()
 	mymap['d']=40;
 	mymap['e']=50;
 	mymap['f']=60;
+	
+	for (it=mymap.begin(); it!=mymap.end(); ++it)
+	{
+		std::cout << it->first << " => " << it->second << '\n';
+	}
 
 	it=mymap.find('b');
 	mymap.erase (it);                   // erasing by iterator
@@ -25,13 +30,6 @@ int main ()
 
 	it=mymap.find ('a');
 	mymap.erase ( it, mymap.end() );    // erasing by range
-
-	// show content:
-	for (it=mymap.begin(); it!=mymap.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
-
-	--it;
-	std::cout << it->first << " => " << it->second << '\n';
 
     std::cout << "empty ? " << mymap.empty() << std::endl;
 

@@ -98,10 +98,10 @@ namespace ft
 			i--;
 			if (current->left == NULL)
 			{
-				if (i > -1 && this->current->compare(nodes[i]->pair.first, this->current->pair.first))
+				while (i > -1 && this->current->compare(this->current->pair.first, nodes[i]->pair.first))
+					i--;
+				if (i > -1)
 					return nodes[i];
-				else if (i - 1 > -1 && this->current->compare(nodes[i - 1]->pair.first, this->current->pair.first))
-					return nodes[i - 1];
 			}
 			else
 			{
@@ -127,10 +127,10 @@ namespace ft
 			i--;
 			if (current->right == NULL)
 			{
-				if (i > -1 && this->current->compare(this->current->pair.first, nodes[i]->pair.first))
+				while (i > -1 && this->current->compare(nodes[i]->pair.first, this->current->pair.first))
+					i--;
+				if (i > -1)
 					return nodes[i];
-				else if (i - 1 > -1 && this->current->compare(this->current->pair.first, nodes[i - 1]->pair.first))
-					return nodes[i - 1];
 			}
 			else
 			{
