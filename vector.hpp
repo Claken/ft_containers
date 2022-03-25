@@ -471,12 +471,14 @@ namespace ft
 		{
 			this->clear();
 			this->insert(this->begin(), first, last);
+
 		}
 
 		void 						assign (size_type n, const value_type& val)
 		{
 			this->clear();
 			this->insert(this->begin(), n, val);
+
 		}
 
 		void 						insert (iterator position, size_type n, const value_type& val)
@@ -519,16 +521,16 @@ namespace ft
 					for (unsigned int j = this->_size; j < newSize; j++)
 					{
 						this->_allocator_type.construct(this->_array + j, val);
+						// this->_array[j] = val;
 					}
 				}
 				else
 				{
-					std::cout << "place" << std::endl;
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
 					while (place >= position)
 					{
 						// *(place+n) = *place;
-						this->_allocator_type.destroy(&(*(place+n)));
+						// this->_allocator_type.destroy(&(*(place+n)));
 						this->_allocator_type.construct(&(*(place+n)), *place);
 						place--;
 					}
@@ -685,7 +687,6 @@ namespace ft
 			}
 			return (pos);
 		}
-		
 	};
 
 

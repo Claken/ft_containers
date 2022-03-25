@@ -33,6 +33,7 @@ int main ()
 
 	second.assign (it1,first.end()-1); // the 5 central values of first
 
+	std::cout << second.capacity() << std::endl;
 	std::cout << "second : ";
 	for(unsigned int i = 0; i < second.capacity(); i++)
 		std::cout << second[i] << ' ';
