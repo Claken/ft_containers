@@ -484,6 +484,7 @@ namespace ft
 			size_type newSize = n + this->_size;
 			if (newSize > this->_capacity)
 			{
+				// size_type newCap = this->_size == 0 ? 1 : this->_size * 2;
 				T* newArray = this->try_allocation(newSize);
 				int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
@@ -517,17 +518,17 @@ namespace ft
 				{
 					for (unsigned int j = this->_size; j < newSize; j++)
 					{
-						// this->_array[j] = val;
 						this->_allocator_type.construct(this->_array + j, val);
 					}
 				}
 				else
 				{
+					std::cout << "place" << std::endl;
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
 					while (place >= position)
 					{
 						// *(place+n) = *place;
-						// this->_allocator_type.destroy(&(*(place+n)));
+						this->_allocator_type.destroy(&(*(place+n)));
 						this->_allocator_type.construct(&(*(place+n)), *place);
 						place--;
 					}

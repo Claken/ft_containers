@@ -3,7 +3,7 @@
 #include <vector>
 #include "../vector.hpp"
 
-#define TESTED_NAMESPACE	ft
+#define TESTED_NAMESPACE	std
 #define TESTED_TYPE			std::string
 
 int main ()
@@ -15,7 +15,7 @@ int main ()
 	std::cout << "*itb = " << *itb << std::endl;
 
 	std::cout << "size = " << myvector.size() << std::endl;
-	myvector.reserve(20);
+	// myvector.reserve(20);
 	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it; //f-t
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
@@ -31,8 +31,6 @@ int main ()
 	it = myvector.begin();
 	std::cout << *(it + 3) << std::endl;
 	std::cout << *(myvector.end() - 1) << std::endl;
-
-	/*
 
 	myvector.insert (it+5,4,"300");
 	std::cout << "capacity here : " << myvector.capacity() << std::endl;
@@ -50,8 +48,6 @@ int main ()
 	for (it=myvector.begin(); it<myvector.end(); it++)
 		std::cout << ' ' << *it;
 	std::cout << '\n';
-
-	*/
 
 	return 0;
 }
