@@ -139,6 +139,7 @@ namespace ft
 			Allocator			_allocator_type;
 			Compare				_compare_type;
 			size_t				_size;
+			
 
 		};
 

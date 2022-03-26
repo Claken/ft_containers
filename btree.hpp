@@ -193,7 +193,7 @@ namespace ft
 		return (x.current != y.current);
 	}
 
-	template <class Pair, class Compare = std::less<Pair>, class Allocator = std::allocator<Pair> >
+	template <class Pair, class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Pair> >
 	class Node
 	{
 		public:
@@ -217,7 +217,7 @@ namespace ft
 				full = false;
 			}
 
-			Node(Pair value, const Allocator& = Allocator(), const Compare& = Compare())
+			Node(Pair value, const Allocator& = Allocator())
 			{
 				allocator = Allocator();
 				compare = Compare();
@@ -235,14 +235,14 @@ namespace ft
 
 	};
 
-	template <class Pair, class Compare = std::less<Pair>, class Allocator = std::allocator<Pair>, class Allocator2 = std::allocator<Node<Pair> > >
+	template <class Pair, , class Key, class KeyGetter, class Compare = std::less<Key>, class Allocator = std::allocator<Pair>, class Allocator2 = std::allocator<Node<Pair> > >
 	class Tree
 	{
 
 		public:
 		
 			typedef Pair 														value_type;
-			typedef typename value_type::first_type								Key;
+			typedef Key															key_type;
 			typedef typename value_type::second_type							Data;
 			typedef Node<Pair>													node;
 			typedef node*														pointer;
@@ -350,7 +350,7 @@ namespace ft
 				destroyAndDeallocateAllNodes(nodeleft);
 			}
 
-			Key first()
+			key_type first()
 			{
 				return (this->_tree->pair.first);
 			}
@@ -681,14 +681,14 @@ namespace ft
    				return current;
  			}
 
-			void calldeleteNode(Key k)
+			void calldeleteNode(key_type k)
 			{
-				this->_tree = deleteNode(this->_tree, ft::make_pair(k, Data()));
+				this->_tree = deleteNode(this->_tree, k);
 			}
 
-			void callFindKeyInValue(const Key k)
+			void callFindKeyInValue(const key_type k)
 			{
-				pointer node = findKeyInTree(ft::make_pair(k, Data()));
+				pointer node = findKeyInTree(k);
 				if (node == NULL)
 					std::cout << "key " << k << " not found" << std::endl;
 				else
@@ -700,7 +700,7 @@ namespace ft
 				}
 			}
 
-			pointer deleteNode(pointer r, value_type val)
+			pointer deleteNode(pointer r, key_type k)
 			{
 				if (r == NULL)
 					return NULL;
@@ -743,7 +743,7 @@ namespace ft
 				return (balanceSubTree(r));
 			}
 
-			pointer findKeyInTree(value_type value)
+			pointer findKeyInTree(key_type k)
 			{
 				pointer current = this->tree();
 				while (current != NULL && current->pair.first != value.first)
