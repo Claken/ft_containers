@@ -3,6 +3,7 @@
 #include <iostream>
 #include "utils.hpp"
 #include "iterator.hpp"
+#include "btree.hpp"
 
 namespace ft
 {

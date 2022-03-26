@@ -101,7 +101,7 @@ namespace ft
 			while (curr != NULL && curr->pair.first != current->pair.first)
 			{
 				nodes[i++] = curr;
-				if (this->current->compare(current->pair.first, curr->pair.first))
+				if (this->current->compare(current->pair, curr->pair))
 					curr = curr->left;
 				else
 					curr = curr->right;
@@ -109,7 +109,7 @@ namespace ft
 			i--;
 			if (current->left == NULL)
 			{
-				while (i > -1 && this->current->compare(this->current->pair.first, nodes[i]->pair.first))
+				while (i > -1 && this->current->compare(this->current->pair, nodes[i]->pair))
 					i--;
 				if (i > -1)
 					return nodes[i];
@@ -132,7 +132,7 @@ namespace ft
 			while (curr != NULL && curr->pair.first != current->pair.first)
 			{
 				nodes[i++] = curr;
-				if (this->current->compare(current->pair.first, curr->pair.first))
+				if (this->current->compare(current->pair, curr->pair))
 					curr = curr->left;
 				else
 					curr = curr->right;
@@ -140,7 +140,7 @@ namespace ft
 			i--;
 			if (current->right == NULL)
 			{
-				while (i > -1 && this->current->compare(nodes[i]->pair.first, this->current->pair.first))
+				while (i > -1 && this->current->compare(nodes[i]->pair, this->current->pair))
 					i--;
 				if (i > -1)
 					return nodes[i];
@@ -193,8 +193,7 @@ namespace ft
 		return (x.current != y.current);
 	}
 
-	template <class Key, class T, class Compare = std::less<Key>,
-	class Allocator = std::allocator<ft::pair<const Key, T> > >
+	template <class Pair, class Compare = std::less<Pair>, class Allocator = std::allocator<Pair> >
 	class Node
 	{
 		public:
@@ -202,7 +201,7 @@ namespace ft
 			// Node							*parent;
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
-			ft::pair<const Key, T>			pair;
+			Pair							pair;
 			bool							full;
 			Allocator						allocator;
 			Compare							compare;
@@ -211,18 +210,18 @@ namespace ft
 			{
 				allocator = Allocator();
 				compare = Compare();
-				allocator.construct(&pair, ft::make_pair(Key(), T()));
+				allocator.construct(&pair, ft::make_pair(pair.first, pair.second));
 				// parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = false;
 			}
 
-			Node(Key key, T value, const Allocator& = Allocator(), const Compare& = Compare())
+			Node(Pair value, const Allocator& = Allocator(), const Compare& = Compare())
 			{
 				allocator = Allocator();
 				compare = Compare();
-				allocator.construct(&pair, ft::make_pair(key, value));
+				allocator.construct(&pair, ft::make_pair(value.first, value.second));
 				// parent = NULL;
 				right = NULL;
 				left = NULL;
@@ -236,37 +235,51 @@ namespace ft
 
 	};
 
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> >, class Allocator2 = std::allocator<Node<Key, T> > >
+	template <class Pair, class Compare = std::less<Pair>, class Allocator = std::allocator<Pair>, class Allocator2 = std::allocator<Node<Pair> > >
 	class Tree
 	{
 
 		public:
 		
-			typedef ft::pair<const Key, T> 										value_type;
-			typedef Node<Key, T>												node;
+			typedef Pair 														value_type;
+			typedef typename value_type::first_type								Key;
+			typedef typename value_type::second_type							Data;
+			typedef Node<Pair>													node;
 			typedef node*														pointer;
 			typedef typename ft::tree_iterator<node, value_type> 				iterator;
 			typedef typename ft::tree_iterator<const node, const value_type> 	const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
-
-
+			
 			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
 			{
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
 				this->_tree = this->_allocator_node.allocate(sizeof(node));
-				this->_allocator_node.construct(this->_tree, Node<Key, T>());
+				this->_allocator_node.construct(this->_tree, Node<value_type>());
 			}
 
-			Tree(Key key, T value, const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
+			Tree(value_type value, const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
 			{
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
 				this->_tree = this->_allocator_node.allocate(sizeof(node));
-				this->_allocator_node.construct(this->_tree, Node<Key, T>(key, value));
+				this->_allocator_node.construct(this->_tree, Node<value_type>(value));
+			}
+
+			Tree(const Tree &tree) : _tree(NULL)
+			{
+				*this = tree;
+			}
+
+			Tree&	operator=(const Tree& instance)
+			{
+				this->_allocator_type = instance._allocator_type;
+				this->_allocator_node = instance._allocator_node;
+				this->_compare = instance._compare;
+				this->_tree = instance._tree;
 			}
 
 			~Tree()
@@ -337,12 +350,12 @@ namespace ft
 				destroyAndDeallocateAllNodes(nodeleft);
 			}
 
-			typename ft::pair<const Key, T>::first_type first()
+			Key first()
 			{
 				return (this->_tree->pair.first);
 			}
 
-			typename ft::pair<const Key, T>::second_type second()
+			Data second()
 			{
 				return (this->_tree->pair.second);
 			}
@@ -394,7 +407,7 @@ namespace ft
 				else
 				{
 					pointer newnode = this->_allocator_node.allocate(sizeof(node));
-					this->_allocator_node.construct(newnode, Node<Key, T>(x.first, x.second));
+					this->_allocator_node.construct(newnode, Node<value_type>(x));
 					newnode->full = true;
 
 					pointer current = this->_tree;
@@ -404,7 +417,7 @@ namespace ft
 					while (current != NULL)
 					{
 						svg = current;
-						if (this->_compare(x.first, current->pair.first))
+						if (this->_compare(x, current->pair))
 						{
 							current = current->left;
 							left = true;
@@ -422,7 +435,7 @@ namespace ft
 					pointer subtree;
 					bool isRoot;
 					std::cout << "is Unbalanced ?" << std::endl;
-					current = isUnbalanced(newnode->pair.first, &left, &isRoot, &subtree);
+					current = isUnbalanced(newnode->pair, &left, &isRoot, &subtree);
 					if (current != NULL)
 					{
 						std::cout << "subtree->first == " << subtree->pair.first << std::endl;
@@ -518,16 +531,16 @@ namespace ft
    					return (getHeight(n->left) - getHeight(n->right));
   			}
 
-			pointer isUnbalanced(Key value, bool *left, bool *isRoot, pointer *subtree)
+			pointer isUnbalanced(value_type value, bool *left, bool *isRoot, pointer *subtree)
 			{
 				pointer current = this->_tree;
 				int height = getHeight(this->tree());
 				pointer nodes[height];
 				int i = 0;
-				while (current != NULL && current->pair.first != value)
+				while (current != NULL && current->pair.first != value.first)
 				{
 					nodes[i++] = current;
-					if (this->_compare(value, current->pair.first))
+					if (this->_compare(value, current->pair))
 						current = current->left;
 					else
 						current = current->right;
@@ -670,12 +683,12 @@ namespace ft
 
 			void calldeleteNode(Key k)
 			{
-				this->_tree = deleteNode(this->_tree, k);
+				this->_tree = deleteNode(this->_tree, ft::make_pair(k, Data()));
 			}
 
 			void callFindKeyInValue(const Key k)
 			{
-				pointer node = findKeyInTree(k);
+				pointer node = findKeyInTree(ft::make_pair(k, Data()));
 				if (node == NULL)
 					std::cout << "key " << k << " not found" << std::endl;
 				else
@@ -687,14 +700,20 @@ namespace ft
 				}
 			}
 
-			pointer deleteNode(pointer r, Key k)
+			pointer deleteNode(pointer r, value_type val)
 			{
 				if (r == NULL)
 					return NULL;
-				if (this->_compare(k, r->pair.first))
-					r->left = deleteNode(r->left, k);
-				else if (this->_compare(r->pair.first, k))
-					r->right = deleteNode(r->right, k);
+				if (this->_compare(val, r->pair))
+				{
+					std::cout << "left : " << r->pair.first << std::endl;
+					r->left = deleteNode(r->left, val);
+				}
+				else if (this->_compare(r->pair, val))
+				{
+					std::cout << "right : " << r->pair.first << std::endl;
+					r->right = deleteNode(r->right, val);
+				}
 				else
 				{
 					if (r->left == NULL || r->right == NULL)
@@ -707,7 +726,7 @@ namespace ft
 						if (r == this->_tree && tmp == NULL)
 						{
 							tmp = this->_allocator_node.allocate(sizeof(node)); 
-							this->_allocator_node.construct(tmp, Node<Key, T>());
+							this->_allocator_node.construct(tmp, Node<value_type>());
 						}
 						this->_allocator_node.destroy(r);
 						this->_allocator_node.deallocate(r, sizeof(r));
@@ -718,18 +737,18 @@ namespace ft
 						pointer tmp = minValueNode(r->right);
 						this->_allocator_type.destroy(&r->pair);
 						this->_allocator_type.construct(&r->pair, tmp->pair);
-						r->right = deleteNode(r->right, tmp->pair.first);
+						r->right = deleteNode(r->right, tmp->pair);
 					}
 				}
 				return (balanceSubTree(r));
 			}
 
-			pointer findKeyInTree(Key value)
+			pointer findKeyInTree(value_type value)
 			{
 				pointer current = this->tree();
-				while (current != NULL && current->pair.first != value)
+				while (current != NULL && current->pair.first != value.first)
 				{
-					if (this->_compare(value, current->pair.first))
+					if (this->_compare(value, current->pair))
 						current = current->left;
 					else
 						current = current->right;

@@ -4,10 +4,12 @@
 #define TYPE1 std::string
 #define TYPE2 int
 
+#define TYPE ft::pair<TYPE1, TYPE2>
+
 int main(void)
 {
     // ft::Tree<char, std::string> btree('a', "test");
-    ft::Tree<TYPE1, int> btree;
+    ft::Tree<TYPE> btree;
 
     std::cout << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
@@ -18,7 +20,7 @@ int main(void)
     btree.print2D(btree.tree(), 0);
     std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
-    btree.insert(ft::pair<TYPE1, int>("d", 12));
+    btree.insert(ft::pair<TYPE1, TYPE2>("d", 12));
 
     std::cout << "first test =  " << btree.first() << std::endl;
     std::cout << "second test = " << btree.second() << std::endl;
@@ -29,7 +31,7 @@ int main(void)
 
     std::cout << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
-    btree.insert(ft::pair<TYPE1, int>("e", 24));
+    btree.insert(ft::pair<TYPE1, TYPE2>("e", 24));
 
     std::cout << "first test =  " << btree.first() << std::endl;
     std::cout << "second test = " << btree.second() << std::endl;
@@ -39,64 +41,64 @@ int main(void)
     std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
-    btree.insert(ft::pair<TYPE1, int>("a", 100));
+    btree.insert(ft::pair<TYPE1, TYPE2>("a", 100));
 
 	std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
     std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
-    btree.insert(ft::pair<TYPE1, int>("b", 150));
+    btree.insert(ft::pair<TYPE1, TYPE2>("b", 150));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
     std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
-    btree.insert(ft::pair<TYPE1, int>("z", 100000));
+    btree.insert(ft::pair<TYPE1, TYPE2>("z", 100000));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
     std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
-    btree.insert(ft::pair<TYPE1, int>("y", 500000));
+    btree.insert(ft::pair<TYPE1, TYPE2>("y", 500000));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
     std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     
-    btree.insert(ft::pair<TYPE1, int>("c", 585));
+    btree.insert(ft::pair<TYPE1, TYPE2>("c", 585));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
-    btree.insert(ft::pair<TYPE1, int>("k", 3));
+    btree.insert(ft::pair<TYPE1, TYPE2>("k", 3));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
-    btree.insert(ft::pair<TYPE1, int>("l", 85));
+    btree.insert(ft::pair<TYPE1, TYPE2>("l", 85));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
-    btree.insert(ft::pair<TYPE1, int>("x", 78));
+    btree.insert(ft::pair<TYPE1, TYPE2>("x", 78));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
     std::cout << "SEGFAULT HERE" << std::endl;
 
-    btree.insert(ft::pair<TYPE1, int>("f", 879));
+    btree.insert(ft::pair<TYPE1, TYPE2>("f", 879));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
 
-    btree.insert(ft::pair<TYPE1, int>("g", 1));
+    btree.insert(ft::pair<TYPE1, TYPE2>("g", 1));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
-    // std::cout << "delete 'x','g' et 'f'" << std::endl;
-    // btree.calldeleteNode("x");
+    std::cout << "delete 'x'" << std::endl;
+    btree.calldeleteNode("x");
     // btree.calldeleteNode("g");
     // btree.calldeleteNode("f");
     // btree.calldeleteNode("x");
@@ -124,19 +126,19 @@ int main(void)
     std::cout << std::endl;
 
     std::cout << "iterator     : ";
-    for (ft::Tree<TYPE1, int>::iterator it = btree.begin(); it != btree.end(); ++it)
+    for (ft::Tree<TYPE>::iterator it = btree.begin(); it != btree.end(); ++it)
     {
         std::cout << it->first << " ";
     }
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << "reverse_iterator : ";
-    for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    for (ft::Tree<TYPE>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
     {
         std::cout << it->first << " ";
     }
     // std::cout << std::endl << "j'ai peur" << std::endl;
-    // for (ft::Tree<TYPE1, int>::reverse_iterator it = btree.rend(); it != btree.rbegin(); it--)
+    // for (ft::Tree<TYPE>::reverse_iterator it = btree.rend(); it != btree.rbegin(); it--)
     // {
     //     std::cout << it->first << " ";
     // }
