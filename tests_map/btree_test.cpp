@@ -1,4 +1,5 @@
 #include "../btree.hpp"
+#include "../functional.hpp"
 
 #define PRINT "\n-------- PRINT2D --------"
 #define TYPE1 std::string
@@ -9,7 +10,7 @@
 int main(void)
 {
     // ft::Tree<char, std::string> btree('a', "test");
-    ft::Tree<TYPE> btree;
+    ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > btree;
 
     std::cout << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
@@ -126,14 +127,14 @@ int main(void)
     std::cout << std::endl;
 
     std::cout << "iterator     : ";
-    for (ft::Tree<TYPE>::iterator it = btree.begin(); it != btree.end(); ++it)
+    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = btree.begin(); it != btree.end(); ++it)
     {
         std::cout << it->first << " ";
     }
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << "reverse_iterator : ";
-    for (ft::Tree<TYPE>::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
     {
         std::cout << it->first << " ";
     }
@@ -146,6 +147,9 @@ int main(void)
     std::cout << "printIndisorder  : ";
     btree.printIndisorder(btree.tree());
     std::cout << std::endl;
+
+    std::cout << btree.get_allocator_node().max_size() << std::endl;
+    std::cout << btree.get_allocator_type().max_size() << std::endl;
 
     return (0);
 }

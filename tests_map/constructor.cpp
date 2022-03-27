@@ -1,6 +1,7 @@
 // constructing maps
 #include <iostream>
 #include <map>
+#include "../map.hpp"
 
 bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
@@ -12,6 +13,8 @@ struct classcomp {
 int main ()
 {
 	std::map<char,int> caca;
+
+	std::cout << caca.max_size() << std::endl;
 
 	caca['a']=10;
 	caca['b']=15;

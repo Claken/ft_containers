@@ -4,13 +4,14 @@
 #include <cmath>
 #include "utils.hpp"
 #include "iterator.hpp"
+#include "functional.hpp"
 
 #define SPACE 10
 
 namespace ft
 {
 
-	template<class Node, class Value>
+	template<class Node, class Value, class KeyGetter>
 	class tree_iterator
 	{
 		public:
@@ -86,6 +87,7 @@ namespace ft
 
 		bool			_isRev;
 		bool			_isEnd;
+		KeyGetter		_getter;
 
 		node_pointer decrease()
 		{
@@ -98,10 +100,10 @@ namespace ft
 				this->_isEnd = false;
 				return current;
 			}
-			while (curr != NULL && curr->pair.first != current->pair.first)
+			while (curr != NULL && _getter(curr->pair) != _getter(current->pair))
 			{
 				nodes[i++] = curr;
-				if (this->current->compare(current->pair, curr->pair))
+				if (this->current->compare(_getter(current->pair), _getter(curr->pair)))
 					curr = curr->left;
 				else
 					curr = curr->right;
@@ -109,7 +111,7 @@ namespace ft
 			i--;
 			if (current->left == NULL)
 			{
-				while (i > -1 && this->current->compare(this->current->pair, nodes[i]->pair))
+				while (i > -1 && this->current->compare(_getter(current->pair), _getter(nodes[i]->pair)))
 					i--;
 				if (i > -1)
 					return nodes[i];
@@ -129,10 +131,10 @@ namespace ft
 			int i = 0;
 			if (this->_isRev && (this->current == this->farRightNode(this->root) || this->current == this->farLeftNode(this->root)))
 				this->_isEnd = true;
-			while (curr != NULL && curr->pair.first != current->pair.first)
+			while (curr != NULL && _getter(curr->pair) != _getter(current->pair))
 			{
 				nodes[i++] = curr;
-				if (this->current->compare(current->pair, curr->pair))
+				if (this->current->compare(_getter(current->pair), _getter(curr->pair)))
 					curr = curr->left;
 				else
 					curr = curr->right;
@@ -140,7 +142,7 @@ namespace ft
 			i--;
 			if (current->right == NULL)
 			{
-				while (i > -1 && this->current->compare(nodes[i]->pair, this->current->pair))
+				while (i > -1 && this->current->compare(_getter(nodes[i]->pair), _getter(this->current->pair)))
 					i--;
 				if (i > -1)
 					return nodes[i];
@@ -181,19 +183,19 @@ namespace ft
 		}
   };
 
- 	template<class Tx, class Ux, class Ty, class Uy>
-	bool	operator==(const tree_iterator<Tx, Ux>& x, const tree_iterator<Ty, Uy>& y)
+ 	template<class Tx, class Ux, class Ty, class Uy, class KG>
+	bool	operator==(const tree_iterator<Tx, Ux, KG>& x, const tree_iterator<Ty, Uy, KG>& y)
 	{
 		return (x.current == y.current);
 	}
 
-	template<class Tx, class Ux, class Ty, class Uy>
-	bool	operator!=(const tree_iterator<Tx, Ux>& x, const tree_iterator<Ty, Uy>& y)
+	template<class Tx, class Ux, class Ty, class Uy, class KG>
+	bool	operator!=(const tree_iterator<Tx, Ux, KG>& x, const tree_iterator<Ty, Uy, KG>& y)
 	{
 		return (x.current != y.current);
 	}
 
-	template <class Pair, class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Pair> >
+	template <class Pair, class Compare, class Allocator = std::allocator<Pair> >
 	class Node
 	{
 		public:
@@ -235,38 +237,48 @@ namespace ft
 
 	};
 
-	template <class Pair, , class Key, class KeyGetter, class Compare = std::less<Key>, class Allocator = std::allocator<Pair>, class Allocator2 = std::allocator<Node<Pair> > >
+	template <class Pair, class Key, class KeyGetter, class Compare = std::less<Key>, class Allocator = std::allocator<Pair>, class Allocator2 = std::allocator<Node<Pair, Compare> > >
 	class Tree
 	{
-
 		public:
 		
-			typedef Pair 														value_type;
-			typedef Key															key_type;
-			typedef typename value_type::second_type							Data;
-			typedef Node<Pair>													node;
-			typedef node*														pointer;
-			typedef typename ft::tree_iterator<node, value_type> 				iterator;
-			typedef typename ft::tree_iterator<const node, const value_type> 	const_iterator;
-			typedef ft::reverse_iterator<iterator>								reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
+			typedef Pair 																	value_type;
+			typedef Key																		key_type;
+			typedef Compare																	key_compare;
+			typedef typename value_type::second_type										Data;
+			typedef Node<Pair, Compare>														node;
+			typedef node*																	pointer;
+			typedef typename ft::tree_iterator<node, value_type, KeyGetter> 				iterator;
+			typedef typename ft::tree_iterator<const node, const value_type, KeyGetter> 	const_iterator;
+			typedef ft::reverse_iterator<iterator>											reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>									const_reverse_iterator;
 			
-			Tree(const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
+		private:
+		
+			pointer				_tree;
+			Allocator			_allocator_type;
+			Allocator2			_allocator_node;
+			key_compare			_compare;
+			KeyGetter			_getter;
+
+		public:
+
+			explicit Tree(const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
 			{
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
 				this->_tree = this->_allocator_node.allocate(sizeof(node));
-				this->_allocator_node.construct(this->_tree, Node<value_type>());
+				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
 			}
 
-			Tree(value_type value, const Allocator& = Allocator(), const Allocator2& = Allocator2(), const Compare& comp = Compare())
+			Tree(value_type value, const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
 			{
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
 				this->_tree = this->_allocator_node.allocate(sizeof(node));
-				this->_allocator_node.construct(this->_tree, Node<value_type>(value));
+				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>(value));
 			}
 
 			Tree(const Tree &tree) : _tree(NULL)
@@ -280,6 +292,7 @@ namespace ft
 				this->_allocator_node = instance._allocator_node;
 				this->_compare = instance._compare;
 				this->_tree = instance._tree;
+				return *this;
 			}
 
 			~Tree()
@@ -360,6 +373,16 @@ namespace ft
 				return (this->_tree->pair.second);
 			}
 
+			Allocator get_allocator_type() const
+			{
+				return this->_allocator_type;
+			}
+
+			Allocator2 get_allocator_node() const
+			{
+				return this->_allocator_node;
+			}
+
 			pointer rightRotate(pointer node)
 			{
 				pointer x = node->left; // noeud a mettre a la place de node
@@ -407,7 +430,7 @@ namespace ft
 				else
 				{
 					pointer newnode = this->_allocator_node.allocate(sizeof(node));
-					this->_allocator_node.construct(newnode, Node<value_type>(x));
+					this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
 					newnode->full = true;
 
 					pointer current = this->_tree;
@@ -417,7 +440,7 @@ namespace ft
 					while (current != NULL)
 					{
 						svg = current;
-						if (this->_compare(x, current->pair))
+						if (this->_compare(_getter(x), _getter(current->pair)))
 						{
 							current = current->left;
 							left = true;
@@ -435,7 +458,7 @@ namespace ft
 					pointer subtree;
 					bool isRoot;
 					std::cout << "is Unbalanced ?" << std::endl;
-					current = isUnbalanced(newnode->pair, &left, &isRoot, &subtree);
+					current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
 					if (current != NULL)
 					{
 						std::cout << "subtree->first == " << subtree->pair.first << std::endl;
@@ -531,16 +554,16 @@ namespace ft
    					return (getHeight(n->left) - getHeight(n->right));
   			}
 
-			pointer isUnbalanced(value_type value, bool *left, bool *isRoot, pointer *subtree)
+			pointer isUnbalanced(key_type k, bool *left, bool *isRoot, pointer *subtree)
 			{
 				pointer current = this->_tree;
 				int height = getHeight(this->tree());
 				pointer nodes[height];
 				int i = 0;
-				while (current != NULL && current->pair.first != value.first)
+				while (current != NULL && current->pair.first != k)
 				{
 					nodes[i++] = current;
-					if (this->_compare(value, current->pair))
+					if (this->_compare(k, _getter(current->pair)))
 						current = current->left;
 					else
 						current = current->right;
@@ -704,15 +727,15 @@ namespace ft
 			{
 				if (r == NULL)
 					return NULL;
-				if (this->_compare(val, r->pair))
+				if (this->_compare(k, _getter(r->pair)))
 				{
 					std::cout << "left : " << r->pair.first << std::endl;
-					r->left = deleteNode(r->left, val);
+					r->left = deleteNode(r->left, k);
 				}
-				else if (this->_compare(r->pair, val))
+				else if (this->_compare(_getter(r->pair), k))
 				{
 					std::cout << "right : " << r->pair.first << std::endl;
-					r->right = deleteNode(r->right, val);
+					r->right = deleteNode(r->right, k);
 				}
 				else
 				{
@@ -726,7 +749,7 @@ namespace ft
 						if (r == this->_tree && tmp == NULL)
 						{
 							tmp = this->_allocator_node.allocate(sizeof(node)); 
-							this->_allocator_node.construct(tmp, Node<value_type>());
+							this->_allocator_node.construct(tmp, Node<value_type, key_compare>());
 						}
 						this->_allocator_node.destroy(r);
 						this->_allocator_node.deallocate(r, sizeof(r));
@@ -737,7 +760,7 @@ namespace ft
 						pointer tmp = minValueNode(r->right);
 						this->_allocator_type.destroy(&r->pair);
 						this->_allocator_type.construct(&r->pair, tmp->pair);
-						r->right = deleteNode(r->right, tmp->pair);
+						r->right = deleteNode(r->right, _getter(tmp->pair));
 					}
 				}
 				return (balanceSubTree(r));
@@ -746,9 +769,9 @@ namespace ft
 			pointer findKeyInTree(key_type k)
 			{
 				pointer current = this->tree();
-				while (current != NULL && current->pair.first != value.first)
+				while (current != NULL && _getter(current->pair) != k)
 				{
-					if (this->_compare(value, current->pair))
+					if (this->_compare(k, _getter(current->pair)))
 						current = current->left;
 					else
 						current = current->right;
@@ -771,13 +794,6 @@ namespace ft
 					current = current->right;
 				return (current);
 			}
-		
-		private:
-		
-			pointer				_tree;
-			Allocator			_allocator_type;
-			Allocator2			_allocator_node;
-			Compare				_compare;
 
 	};
 }
