@@ -77,7 +77,11 @@ namespace ft
 
 				~map() {}
 				
-				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x);
+				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x)
+				{
+					this->_tree = x._tree;
+					this->_size = x._size;
+				}
 			
 			// iterators:
 				iterator 						begin()

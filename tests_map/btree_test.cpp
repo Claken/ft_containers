@@ -151,5 +151,7 @@ int main(void)
     std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
     std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
 
+    ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
+
     return (0);
 }

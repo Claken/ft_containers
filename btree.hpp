@@ -305,7 +305,16 @@ namespace ft
 				this->_allocator_type = instance._allocator_type;
 				this->_allocator_node = instance._allocator_node;
 				this->_compare = instance._compare;
-				this->_tree = instance._tree;
+				if (this->_tree != NULL)
+				{
+					this->destroyAndDeallocateAllNodes(this->_tree);
+				}
+				this->_tree = this->try_allocation_node(sizeof(node));
+				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
+				for (const_iterator it = instance.begin(); it != instance.end(); it++)
+				{
+					this->insert(*it);
+				}
 				return *this;
 			}
 
@@ -471,25 +480,20 @@ namespace ft
 						svg->right = newnode;
 					pointer subtree;
 					bool isRoot;
-					std::cout << "is Unbalanced ?" << std::endl;
 					current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
 					if (current != NULL)
 					{
-						std::cout << "subtree->first == " << subtree->pair.first << std::endl;
 						subtree = balanceSubTree(subtree);
 						if (isRoot)
 						{
-							std::cout << "isRoot" << std::endl;
 							this->_tree = subtree;
 						}
 						else if (left)
 						{
-							std::cout << "left" << std::endl;
 							current->left = subtree;
 						}
 						else
 						{
-							std::cout << "right" << std::endl;
 							current->right = subtree;
 						}
 					}
@@ -603,12 +607,12 @@ namespace ft
 				return NULL;
 			}
 			
-			pointer tree()
+			pointer tree() const
 			{
 				return (this->_tree);
 			}
 
-			void print2D(pointer r, int space)
+			void print2D(pointer r, int space = 0)
 			{
 				if (r == NULL)
 					return;
@@ -793,7 +797,7 @@ namespace ft
 				return current;
 			}
 
-			pointer farLeftNode(pointer curr)
+			pointer farLeftNode(pointer curr) const
 			{
 				pointer current = curr;
 				while (current->left != NULL)
@@ -801,7 +805,7 @@ namespace ft
 				return (current);
 			}
 
-			pointer farRightNode(pointer curr)
+			pointer farRightNode(pointer curr) const
 			{
 				pointer current = curr;
 				while (current->right != NULL)
