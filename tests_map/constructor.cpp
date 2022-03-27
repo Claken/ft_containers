@@ -12,21 +12,22 @@ struct classcomp {
 
 int main ()
 {
-	std::map<char,int> caca;
+	ft::map<char,int> caca;
 
 	std::cout << caca.max_size() << std::endl;
+	std::cout << caca.size() << std::endl;
 
-	caca['a']=10;
-	caca['b']=15;
-	caca['c']=20;
-	caca['d']=25;
+	// caca['a']=10;
+	// caca['b']=15;
+	// caca['c']=20;
+	// caca['d']=25;
 
-	for (std::map<char,int>::iterator it = caca.begin(); it != caca.end(); it++)
-	{
-		std::cout << "it->first  = " << it->first << std::endl;
-		std::cout << "it->second = " << it->second << std::endl;
-		std::cout << std::endl;
-	}
+	// for (std::map<char,int>::iterator it = caca.begin(); it != caca.end(); it++)
+	// {
+	// 	std::cout << "it->first  = " << it->first << std::endl;
+	// 	std::cout << "it->second = " << it->second << std::endl;
+	// 	std::cout << std::endl;
+	// }
 
 	//   std::map<char,int> second (first.begin(),first.end());
 

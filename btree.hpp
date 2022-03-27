@@ -261,6 +261,20 @@ namespace ft
 			key_compare			_compare;
 			KeyGetter			_getter;
 
+			pointer try_allocation_node(size_t n)
+			{
+				pointer tmp;
+				try
+				{
+					tmp = this->_allocator_node.allocate(n);
+				}
+				catch(const std::bad_alloc& ba)
+				{
+					std::cerr << ba.what() << std::endl;
+				}
+				return tmp;
+			}
+				
 		public:
 
 			explicit Tree(const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
@@ -268,7 +282,7 @@ namespace ft
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
-				this->_tree = this->_allocator_node.allocate(sizeof(node));
+				this->_tree = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
 			}
 
@@ -277,7 +291,7 @@ namespace ft
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
-				this->_tree = this->_allocator_node.allocate(sizeof(node));
+				this->_tree = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>(value));
 			}
 
@@ -429,7 +443,7 @@ namespace ft
 				}
 				else
 				{
-					pointer newnode = this->_allocator_node.allocate(sizeof(node));
+					pointer newnode = this->try_allocation_node(sizeof(node));
 					this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
 					newnode->full = true;
 
@@ -748,7 +762,7 @@ namespace ft
 							tmp = r->left;
 						if (r == this->_tree && tmp == NULL)
 						{
-							tmp = this->_allocator_node.allocate(sizeof(node)); 
+							tmp = this->try_allocation_node(sizeof(node));
 							this->_allocator_node.construct(tmp, Node<value_type, key_compare>());
 						}
 						this->_allocator_node.destroy(r);

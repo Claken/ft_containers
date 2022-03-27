@@ -28,10 +28,10 @@ namespace ft
 
 			private:
 
-			typedef ft::Tree<value_type, key_type, _select_first<value_type>, key_compare, allocator_type>  tree_type;
+					typedef ft::Tree<value_type, key_type, _select_first<value_type>, key_compare, allocator_type>  tree_type;
 			
-			size_t														_size;
-			tree_type 													_tree;
+					tree_type 													_tree;
+					size_t														_size;
 
 			public:
 
@@ -40,7 +40,7 @@ namespace ft
 					typedef ft::reverse_iterator<iterator> 				reverse_iterator;
 					typedef ft::reverse_iterator<const_iterator> 		const_reverse_iterator;
 			
-				class value_compare : public binary_function<value_type,value_type,bool>
+				class value_compare : public std::binary_function<value_type,value_type,bool>
 				{
 					friend class map;
 
@@ -58,10 +58,10 @@ namespace ft
 				};
 
 			// 23.3.1.1 construct/copy/destroy:
-				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator), _size(0) {}
+				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator()), _size(0) {}
 
 				template <class InputIterator>
-					map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator), _size(0)
+					map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator()), _size(0)
 					{
 						for (InputIterator it = first; it != last; it++)
 						{
@@ -75,10 +75,7 @@ namespace ft
 					*this = x;
 				}
 
-				~map()
-				{
-
-				}
+				~map() {}
 				
 				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x);
 			
@@ -138,7 +135,7 @@ namespace ft
 
 				size_type 						max_size() const
 				{
-					return this->_tree.get_allocator().max_size();
+					return this->_tree.get_allocator_type().max_size();
 				}
 			
 			// 23.3.1.2 element access:

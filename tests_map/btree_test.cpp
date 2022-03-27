@@ -148,8 +148,8 @@ int main(void)
     btree.printIndisorder(btree.tree());
     std::cout << std::endl;
 
-    std::cout << btree.get_allocator_node().max_size() << std::endl;
-    std::cout << btree.get_allocator_type().max_size() << std::endl;
+    std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
+    std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
 
     return (0);
 }
