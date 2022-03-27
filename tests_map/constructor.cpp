@@ -10,12 +10,20 @@ struct classcomp {
 	{return lhs<rhs;}
 };
 
+#define TESTED_NAMESPACE ft
+
 int main ()
 {
-	ft::map<char,int> caca;
+	TESTED_NAMESPACE::map<char,int> caca;
+	TESTED_NAMESPACE::map<char,int> cici;
 
 	std::cout << caca.max_size() << std::endl;
 	std::cout << caca.size() << std::endl;
+
+	std::cout << caca.get_allocator().max_size() << std::endl;
+
+	if (caca > cici)
+		std::cout << "equal" << std::endl;
 
 	// caca['a']=10;
 	// caca['b']=15;

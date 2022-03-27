@@ -139,7 +139,7 @@ namespace ft
 
 				size_type 						max_size() const
 				{
-					return this->_tree.get_allocator_type().max_size();
+					return this->_tree.get_allocator_node().max_size();
 				}
 			
 			// 23.3.1.2 element access:
@@ -179,12 +179,41 @@ namespace ft
 				pair<iterator,iterator>				equal_range(const key_type& x);
 				pair<const_iterator,const_iterator>	equal_range(const key_type& x) const;
 
-			friend bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
-			friend bool operator<(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
-			friend bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
-			friend bool operator>(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
-			friend bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
-			friend bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+				allocator_type get_allocator() const
+				{
+					return this->_tree.get_allocator_type();
+				}
+
+			friend bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+			{
+
+				return x.size() == y.size() && x._tree == y._tree;
+			}
+
+			friend bool operator<(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+			{
+				return x._tree < y._tree;
+			}
+
+			friend bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+			{
+				return x._tree != y._tree;
+			}
+
+			friend bool operator>(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+			{
+				return x._tree > y._tree;
+			}
+
+			friend bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+			{
+				return x._tree >= y._tree;
+			}
+
+			friend bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+			{
+				return x._tree <= y._tree;
+			}
 
 			friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y);
 

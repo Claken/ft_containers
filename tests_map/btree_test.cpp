@@ -153,5 +153,10 @@ int main(void)
 
     ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
 
+    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
+    {
+        std::cout << it->first << " ";
+    }
+
     return (0);
 }
