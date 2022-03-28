@@ -184,38 +184,37 @@ namespace ft
 					return this->_tree.get_allocator_type();
 				}
 
-			friend bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
-			{
+				friend bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+				{
+					return x.size() == y.size() && x._tree == y._tree;
+				}
 
-				return x.size() == y.size() && x._tree == y._tree;
-			}
+				friend bool operator<(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+				{
+					return x._tree < y._tree;
+				}
 
-			friend bool operator<(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
-			{
-				return x._tree < y._tree;
-			}
+				friend bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+				{
+					return !(x == y);
+				}
 
-			friend bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
-			{
-				return x._tree != y._tree;
-			}
+				friend bool operator>(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+				{
+					return (y < x);
+				}
 
-			friend bool operator>(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
-			{
-				return x._tree > y._tree;
-			}
+				friend bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+				{
+					return !(x < y);
+				}
 
-			friend bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
-			{
-				return x._tree >= y._tree;
-			}
+				friend bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
+				{
+					return !(y < x);
+				}
 
-			friend bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
-			{
-				return x._tree <= y._tree;
-			}
-
-			friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y);
+				friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y) {};
 
 		};
 

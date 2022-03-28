@@ -22,7 +22,7 @@ int main ()
 
 	std::cout << caca.get_allocator().max_size() << std::endl;
 
-	if (caca > cici)
+	if (caca == cici)
 		std::cout << "equal" << std::endl;
 
 	// caca['a']=10;

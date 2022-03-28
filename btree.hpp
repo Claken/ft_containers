@@ -813,34 +813,14 @@ namespace ft
 				return (current);
 			}
 
-			friend bool operator==(const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& x, const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& y)
+			friend bool operator==(const Tree& x, const Tree& y)
 			{
 				return ft::equal(x.begin(), x.end(), y.begin());
 			}
 	
-			friend bool operator<(const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& x, const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& y)
+			friend bool operator<(const Tree& x, const Tree& y)
 			{
 				return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
-			}
-	
-			friend bool operator!=(const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& x, const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& y)
-			{
-				return !(x == y);
-			}
-
-			friend bool operator>(const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& x, const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& y)
-			{
-				return (y < x);
-			}
-	
-			friend bool operator>=(const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& x, const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& y)
-			{
-				return !(x < y);
-			}
-			
-			friend bool operator<=(const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& x, const Tree<Pair,Key,KeyGetter,Compare,Allocator,Allocator2>& y)
-			{
-				return !(y < x);
 			}
 
 	};
