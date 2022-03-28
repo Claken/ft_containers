@@ -220,6 +220,7 @@ namespace ft
 				}
 
 				size_type 							count(const key_type& x) const;
+
 				iterator 							lower_bound(const key_type& x);
 				const_iterator 						lower_bound(const key_type& x) const;
 				iterator 							upper_bound(const key_type& x);

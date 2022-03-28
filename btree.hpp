@@ -793,7 +793,7 @@ namespace ft
 				return (balanceSubTree(r));
 			}
 
-			pointer findKeyInTree(key_type k)
+			pointer findKeyInTree(const key_type k)
 			{
 				pointer current = this->tree();
 				while (current != NULL && _getter(current->pair) != k)
@@ -806,7 +806,7 @@ namespace ft
 				return current;
 			}
 
-			iterator findKeyPositionInTree(key_type k)
+			iterator findKeyPositionInTree(const key_type k)
 			{
 				iterator current = this->begin();
 				while (current != this->end() && _getter(*current) != k)
@@ -816,7 +816,7 @@ namespace ft
 				return current;
 			}
 
-			const_iterator findKeyPositionInTreeConst(key_type k)
+			const_iterator findKeyPositionInTreeConst(const key_type k) const
 			{
 				iterator current = this->begin();
 				while (current != this->end() && _getter(*current) != k)

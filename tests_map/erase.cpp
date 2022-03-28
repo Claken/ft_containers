@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define TESTED_NS ft
+#define TESTED_NS std
 
 int main ()
 {
@@ -20,7 +20,7 @@ int main ()
 	mymap['d']=40;
 	mymap['e']=50;
 	mymap['f']=60;
-	
+
 	for (TESTED_NS::map<char,int>::reverse_iterator it=mymap.rend(); it!=mymap.rbegin(); --it)
 	{
 		std::cout << it->first << " => " << it->second << '\n';
