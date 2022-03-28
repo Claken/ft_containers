@@ -8,7 +8,7 @@
 
 namespace ft
 {
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 		class map
 		{
 			public:
@@ -29,6 +29,7 @@ namespace ft
 			private:
 
 					typedef ft::Tree<value_type, key_type, _select_first<value_type>, key_compare, allocator_type>  tree_type;
+					typedef typename tree_type::pointer																node_pointer;
 			
 					tree_type 													_tree;
 					size_t														_size;
@@ -65,8 +66,7 @@ namespace ft
 					{
 						for (InputIterator it = first; it != last; it++)
 						{
-							this->_tree.insert(*it);
-							this->_size++;
+							this->insert(*it);
 						}
 					}
 				
@@ -127,9 +127,7 @@ namespace ft
 			// capacity:
 				bool 							empty() const
 				{
-					if (this->_size == 0)
-						return true;
-					return false;
+					return (this->_size == 0);
 				}
 
 				size_type 						size() const
@@ -143,16 +141,49 @@ namespace ft
 				}
 			
 			// 23.3.1.2 element access:
-				T& operator[](const key_type& x);
+				T& operator[](const key_type& k)
+				{
+					return (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
+				}
 
 			// modifiers:
-				pair<iterator, bool> 			insert(const value_type& x);
+				pair<iterator, bool> 			insert(const value_type& x)
+				{
+					iterator node = this->_tree.findKeyPositionInTree(x.first);
+					if (node != this->end())
+						return ft::make_pair(node, false);
+					this->_tree.insert(x);
+					this->_size++;
+					node = this->_tree.findKeyPositionInTree(x.first);
+					return ft::make_pair(node, true);
+				}
+
 				iterator 						insert(iterator position, const value_type& x);
+				
 				template <class InputIterator>
-					void 						insert(InputIterator first, InputIterator last);
-				void 							erase(iterator position);
+					void 						insert(InputIterator first, InputIterator last)
+					{
+						for (InputIterator it = first; it != last; it++)
+						{
+							this->insert(*it);
+						}
+					}
+				
+				void 							erase(iterator position)
+				{
+					this->_tree.calldeleteNode(position->first);
+					this->_size--;
+				}
+
 				size_type 						erase(const key_type& x);
-				void 							erase(iterator first, iterator last);
+
+				void 							erase(iterator first, iterator last)
+				{
+					for (iterator it = first; it != last; it++)
+					{
+						erase(it);
+					}
+				}
 				void 							swap(map<Key,T,Compare,Allocator>&);
 				void 							clear();
 

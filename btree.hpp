@@ -797,6 +797,16 @@ namespace ft
 				return current;
 			}
 
+			iterator findKeyPositionInTree(key_type k)
+			{
+				iterator current = this->begin();
+				while (current != this->end() && _getter(*current) != k)
+				{
+					current++;
+				}
+				return current;
+			}
+
 			pointer farLeftNode(pointer curr) const
 			{
 				pointer current = curr;
