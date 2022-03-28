@@ -1,14 +1,17 @@
 // erasing from map
 #include <iostream>
 #include <map>
+#include "../map.hpp"
+
+#define TESTED_NS ft
 
 int main ()
 {
-	std::map<char,int> mymap;
+	TESTED_NS::map<char,int> mymap;
 
     std::cout << "empty ? " << mymap.empty() << std::endl;
 
-	std::map<char,int>::iterator it;
+	TESTED_NS::map<char,int>::iterator it;
 
 	// insert some values:
 	mymap['a']=10;
@@ -18,7 +21,7 @@ int main ()
 	mymap['e']=50;
 	mymap['f']=60;
 	
-	for (std::map<char,int>::reverse_iterator it=mymap.rend(); it!=mymap.rbegin(); --it)
+	for (TESTED_NS::map<char,int>::reverse_iterator it=mymap.rend(); it!=mymap.rbegin(); --it)
 	{
 		std::cout << it->first << " => " << it->second << '\n';
 	}
@@ -26,7 +29,7 @@ int main ()
 	it=mymap.find('b');
 	mymap.erase (it);                   // erasing by iterator
 
-	mymap.erase ('c');                  // erasing by key
+	std::cout << mymap.erase ('c') << std::endl;                  // erasing by key
 
 	it=mymap.find ('a');
 	mymap.erase ( it, mymap.end() );    // erasing by range

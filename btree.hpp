@@ -260,6 +260,7 @@ namespace ft
 			Allocator2			_allocator_node;
 			key_compare			_compare;
 			KeyGetter			_getter;
+			std::size_t			_size;
 
 			pointer try_allocation_node(size_t n)
 			{
@@ -284,6 +285,7 @@ namespace ft
 				this->_compare = comp;
 				this->_tree = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
+				this->_size = 0;
 			}
 
 			Tree(value_type value, const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
@@ -293,9 +295,10 @@ namespace ft
 				this->_compare = comp;
 				this->_tree = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>(value));
+				this->_size = 1;
 			}
 
-			Tree(const Tree &tree) : _tree(NULL)
+			Tree(const Tree &tree) : _tree(NULL), _size(0)
 			{
 				*this = tree;
 			}
@@ -386,14 +389,19 @@ namespace ft
 				destroyAndDeallocateAllNodes(nodeleft);
 			}
 
-			key_type first()
+			key_type first() const
 			{
 				return (this->_tree->pair.first);
 			}
 
-			Data second()
+			Data second() const
 			{
 				return (this->_tree->pair.second);
+			}
+
+			std::size_t size() const
+			{
+				return this->_size;
 			}
 
 			Allocator get_allocator_type() const
@@ -449,12 +457,14 @@ namespace ft
 					this->_allocator_type.destroy(&this->_tree->pair);
 					this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
 					this->_tree->full = true;
+					this->_size++;
 				}
 				else
 				{
 					pointer newnode = this->try_allocation_node(sizeof(node));
 					this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
 					newnode->full = true;
+					this->_size++;
 
 					pointer current = this->_tree;
 					pointer svg;
@@ -747,12 +757,10 @@ namespace ft
 					return NULL;
 				if (this->_compare(k, _getter(r->pair)))
 				{
-					std::cout << "left : " << r->pair.first << std::endl;
 					r->left = deleteNode(r->left, k);
 				}
 				else if (this->_compare(_getter(r->pair), k))
 				{
-					std::cout << "right : " << r->pair.first << std::endl;
 					r->right = deleteNode(r->right, k);
 				}
 				else
@@ -771,6 +779,7 @@ namespace ft
 						}
 						this->_allocator_node.destroy(r);
 						this->_allocator_node.deallocate(r, sizeof(r));
+						this->_size--;
 						return tmp;
 					}
 					else
@@ -798,6 +807,16 @@ namespace ft
 			}
 
 			iterator findKeyPositionInTree(key_type k)
+			{
+				iterator current = this->begin();
+				while (current != this->end() && _getter(*current) != k)
+				{
+					current++;
+				}
+				return current;
+			}
+
+			const_iterator findKeyPositionInTreeConst(key_type k)
 			{
 				iterator current = this->begin();
 				while (current != this->end() && _getter(*current) != k)

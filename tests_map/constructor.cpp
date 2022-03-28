@@ -10,7 +10,7 @@ struct classcomp {
 	{return lhs<rhs;}
 };
 
-#define TESTED_NAMESPACE std
+#define TESTED_NAMESPACE ft
 
 int main ()
 {

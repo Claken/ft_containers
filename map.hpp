@@ -32,7 +32,6 @@ namespace ft
 					typedef typename tree_type::pointer																node_pointer;
 			
 					tree_type 													_tree;
-					size_t														_size;
 
 			public:
 
@@ -59,10 +58,10 @@ namespace ft
 				};
 
 			// 23.3.1.1 construct/copy/destroy:
-				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator()), _size(0) {}
+				explicit map(const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator()) {}
 
 				template <class InputIterator>
-					map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator()), _size(0)
+					map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator()) : _tree(comp, Allocator())
 					{
 						for (InputIterator it = first; it != last; it++)
 						{
@@ -70,7 +69,7 @@ namespace ft
 						}
 					}
 				
-				map(const map<Key,T,Compare,Allocator>& x) : _tree(NULL), _size(0)
+				map(const map<Key,T,Compare,Allocator>& x) : _tree(NULL)
 				{
 					*this = x;
 				}
@@ -80,7 +79,6 @@ namespace ft
 				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x)
 				{
 					this->_tree = x._tree;
-					this->_size = x._size;
 				}
 			
 			// iterators:
@@ -127,12 +125,12 @@ namespace ft
 			// capacity:
 				bool 							empty() const
 				{
-					return (this->_size == 0);
+					return (this->size() == 0);
 				}
 
 				size_type 						size() const
 				{
-					return (this->_size);
+					return (this->_tree.size());
 				}
 
 				size_type 						max_size() const
@@ -153,7 +151,6 @@ namespace ft
 					if (node != this->end())
 						return ft::make_pair(node, false);
 					this->_tree.insert(x);
-					this->_size++;
 					node = this->_tree.findKeyPositionInTree(x.first);
 					return ft::make_pair(node, true);
 				}
@@ -172,20 +169,32 @@ namespace ft
 				void 							erase(iterator position)
 				{
 					this->_tree.calldeleteNode(position->first);
-					this->_size--;
 				}
 
-				size_type 						erase(const key_type& x);
+				size_type 						erase(const key_type& x)
+				{
+					size_type init_size = this->size();
+					this->_tree.calldeleteNode(x);
+					return init_size - this->size();
+				}
 
 				void 							erase(iterator first, iterator last)
 				{
+					size_type n = std::distance(first, last);
+					iterator tab[n];
+					unsigned int i = 0;
 					for (iterator it = first; it != last; it++)
-					{
-						erase(it);
-					}
+						tab[i++] = it;
+					for (i = 0; i < n; i++)
+						erase(tab[i]);
 				}
+
 				void 							swap(map<Key,T,Compare,Allocator>&);
-				void 							clear();
+
+				void 							clear()
+				{
+					erase(this->begin(), this->end());
+				}
 
 			// observers:
 				key_compare key_comp() const
@@ -200,8 +209,16 @@ namespace ft
 
 			// 23.3.1.3 map operations:
 
-				iterator 							find(const key_type& x);
-				const_iterator 						find(const key_type& x) const;
+				iterator 							find(const key_type& x)
+				{
+					return (this->_tree.findKeyPositionInTree(x));
+				}
+
+				const_iterator 						find(const key_type& x) const
+				{
+					return (this->_tree.findKeyPositionInTreeConst(x));
+				}
+
 				size_type 							count(const key_type& x) const;
 				iterator 							lower_bound(const key_type& x);
 				const_iterator 						lower_bound(const key_type& x) const;
@@ -217,7 +234,7 @@ namespace ft
 
 				friend bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 				{
-					return x.size() == y.size() && x._tree == y._tree;
+					return x._tree == y._tree;
 				}
 
 				friend bool operator<(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
