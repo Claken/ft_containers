@@ -432,6 +432,16 @@ namespace ft
 				return x;
 			}
 
+			void 							swap(Tree& x)
+			{
+				std::swap(this->_tree, x._tree);
+				std::swap(this->_allocator_type, x._allocator_type);
+				std::swap(this->_allocator_node, x._allocator_node);
+				std::swap(this->_compare, x._compare);
+				std::swap(this->_getter, x._getter);
+				std::swap(this->_size, x._size);
+			}
+
 			pointer leftRotate(pointer node)
 			{
 				pointer y = node->right;
@@ -620,6 +630,64 @@ namespace ft
 			pointer tree() const
 			{
 				return (this->_tree);
+			}
+
+			iterator 							lower_bound(const key_type& x)
+			{
+				iterator it = this->findKeyPositionInTree(x);
+				for (; it != this->end(); it++)
+				{
+					if (!this->_compare(_getter(*it), x))
+						return it;
+				}
+				return it;
+			}
+
+			const_iterator 						lower_bound(const key_type& x) const
+			{
+				const_iterator it = this->findKeyPositionInTreeConst(x);
+				for (; it != this->end(); it++)
+				{
+					if (!this->_compare(_getter(*it), x))
+						return it;
+				}
+				return it;
+			}
+
+			iterator 							upper_bound(const key_type& x)
+			{
+				iterator it = this->findKeyPositionInTree(x);
+				for (; it != this->end(); it++)
+				{
+					if (this->_compare(x, _getter(*it)))
+						return it;
+				}
+				return it;
+			}
+
+			const_iterator 						upper_bound(const key_type& x) const
+			{
+				const_iterator it = this->findKeyPositionInTreeConst(x);
+				for (; it != this->end(); it++)
+				{
+					if (!this->_compare(x, _getter(*it)))
+						return it;
+				}
+				return it;
+			}
+
+			pair<iterator,iterator>				equal_range(const key_type& x)
+			{
+				iterator itlow = this->lower_bound(x);
+				iterator itup = this->upper_bound(x);
+				return ft::make_pair(itlow, itup);
+			}
+
+			pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
+			{
+				const_iterator itlow = this->lower_bound(x);
+				const_iterator itup = this->upper_bound(x);
+				return ft::make_pair(itlow, itup);
 			}
 
 			void print2D(pointer r, int space = 0)
@@ -818,7 +886,7 @@ namespace ft
 
 			const_iterator findKeyPositionInTreeConst(const key_type k) const
 			{
-				iterator current = this->begin();
+				const_iterator current = this->begin();
 				while (current != this->end() && _getter(*current) != k)
 				{
 					current++;

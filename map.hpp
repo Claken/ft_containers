@@ -189,7 +189,10 @@ namespace ft
 						erase(tab[i]);
 				}
 
-				void 							swap(map<Key,T,Compare,Allocator>&);
+				void 							swap(map<Key,T,Compare,Allocator>& x)
+				{
+					this->_tree.swap(x._tree);
+				}
 
 				void 							clear()
 				{
@@ -224,12 +227,43 @@ namespace ft
 					return this->_tree.findKeyInTree(x) != NULL ? 1 : 0;
 				}
 
-				iterator 							lower_bound(const key_type& x);
-				const_iterator 						lower_bound(const key_type& x) const;
-				iterator 							upper_bound(const key_type& x);
-				const_iterator 						upper_bound(const key_type& x) const;
-				pair<iterator,iterator>				equal_range(const key_type& x);
-				pair<const_iterator,const_iterator>	equal_range(const key_type& x) const;
+				iterator 							lower_bound(const key_type& x)
+				{
+					iterator ret = this->_tree.lower_bound(x);
+					return ret;
+				}
+
+				const_iterator 						lower_bound(const key_type& x) const
+				{
+					const_iterator ret = this->_tree.lower_bound(x);
+					return ret;
+				}
+
+				iterator 							upper_bound(const key_type& x)
+				{
+					return this->_tree.upper_bound(x);
+					// iterator ret = this->_tree.upper_bound(x);
+					// return ret;
+				}
+
+				const_iterator 						upper_bound(const key_type& x) const
+				{
+					return this->_tree.upper_bound(x);
+					// const_iterator ret = this->_tree.upper_bound(x);
+					// return ret;
+				}
+
+				pair<iterator,iterator>				equal_range(const key_type& x)
+				{
+					ft::pair<iterator,iterator> a_pair = this->_tree.equal_range(x);
+					return a_pair;
+				}
+
+				pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
+				{
+					ft::pair<const_iterator,const_iterator> a_pair = this->_tree.equal_range(x);
+					return a_pair;
+				}
 
 				allocator_type get_allocator() const
 				{
@@ -266,7 +300,10 @@ namespace ft
 					return !(y < x);
 				}
 
-				friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y) {};
+				friend void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y)
+				{
+					x.swap(y);
+				}
 
 		};
 
