@@ -492,6 +492,66 @@ namespace ft
 				return y;
 			}
 
+			iterator insert(iterator position, const value_type& x)
+			{
+				if (this->_tree != NULL && !this->_tree->full)
+				{
+					this->_allocator_type.destroy(&this->_tree->pair);
+					this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
+					this->_tree->full = true;
+					this->_size++;
+				}
+				else
+				{
+					pointer newnode = this->try_allocation_node(sizeof(node));
+					this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
+					newnode->full = true;
+					this->_size++;
+
+					pointer current = position;
+					pointer svg;
+					bool left;
+
+					while (current != NULL)
+					{
+						svg = current;
+						if (this->_compare(_getter(x), _getter(current->pair)))
+						{
+							current = current->left;
+							left = true;
+						}
+						else
+						{
+							current = current->right;
+							left = false;
+						}
+					}
+					if (left)
+						svg->left = newnode;
+					else
+						svg->right = newnode;
+					pointer subtree;
+					bool isRoot;
+					current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
+					if (current != NULL)
+					{
+						subtree = balanceSubTree(subtree);
+						if (isRoot)
+						{
+							this->_tree = subtree;
+						}
+						else if (left)
+						{
+							current->left = subtree;
+						}
+						else
+						{
+							current->right = subtree;
+						}
+					}
+				}
+			}
+
 			void insert(const value_type& x)
 			{
 				if (this->_tree != NULL && !this->_tree->full)
