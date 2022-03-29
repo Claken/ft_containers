@@ -440,6 +440,11 @@ namespace ft
 				return this->_allocator_node;
 			}
 
+			key_compare	get_compare() const
+			{
+				return this->_compare;
+			}
+
 			pointer rightRotate(pointer node)
 			{
 				pointer x = node->left; // noeud a mettre a la place de node

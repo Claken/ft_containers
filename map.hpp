@@ -31,7 +31,7 @@ namespace ft
 					typedef ft::Tree<value_type, key_type, _select_first<value_type>, key_compare, allocator_type>  tree_type;
 					typedef typename tree_type::pointer																node_pointer;
 			
-					tree_type 													_tree;
+					tree_type 																						_tree;
 
 			public:
 
@@ -202,7 +202,7 @@ namespace ft
 			// observers:
 				key_compare key_comp() const
 				{
-					return this->_compare_type;
+					return this->_tree.get_compare();
 				}
 
 				value_compare value_comp() const
