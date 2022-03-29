@@ -344,6 +344,7 @@ namespace ft
 				{
 					this->insert(*it);
 				}
+				this->_size = instance._size;
 				return *this;
 			}
 

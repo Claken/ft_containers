@@ -79,6 +79,7 @@ namespace ft
 				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x)
 				{
 					this->_tree = x._tree;
+					return *this;
 				}
 			
 			// iterators:
