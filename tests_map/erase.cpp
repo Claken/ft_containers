@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define TESTED_NS std
+#define TESTED_NS ft
 
 int main ()
 {
@@ -19,7 +19,10 @@ int main ()
 	mymap['c']=30;
 	mymap['d']=40;
 	mymap['e']=50;
-	mymap['f']=60;
+
+
+	mymap.insert(TESTED_NS::pair<char, int>('e', 789));
+	std::cout << "count == " << mymap.count('e') << std::endl;
 
 	for (TESTED_NS::map<char,int>::reverse_iterator it=mymap.rend(); it!=mymap.rbegin(); --it)
 	{

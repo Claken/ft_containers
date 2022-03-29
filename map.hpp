@@ -219,7 +219,10 @@ namespace ft
 					return (this->_tree.findKeyPositionInTreeConst(x));
 				}
 
-				size_type 							count(const key_type& x) const;
+				size_type 							count(const key_type& x) const
+				{
+					return this->_tree.findKeyInTree(x) != NULL ? 1 : 0;
+				}
 
 				iterator 							lower_bound(const key_type& x);
 				const_iterator 						lower_bound(const key_type& x) const;

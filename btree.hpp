@@ -793,7 +793,7 @@ namespace ft
 				return (balanceSubTree(r));
 			}
 
-			pointer findKeyInTree(const key_type k)
+			pointer findKeyInTree(const key_type k) const
 			{
 				pointer current = this->tree();
 				while (current != NULL && _getter(current->pair) != k)

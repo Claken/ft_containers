@@ -31,6 +31,8 @@ int main ()
 	caca['d']=25;
 	caca['d']=7;
 
+	caca.insert(TESTED_NAMESPACE::pair<char, int>('e', 789));
+
 	for (TESTED_NAMESPACE::map<char,int>::iterator it = caca.begin(); it != caca.end(); it++)
 	{
 		std::cout << "it->first  = " << it->first << std::endl;
