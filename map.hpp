@@ -242,27 +242,21 @@ namespace ft
 				iterator 							upper_bound(const key_type& x)
 				{
 					return this->_tree.upper_bound(x);
-					// iterator ret = this->_tree.upper_bound(x);
-					// return ret;
 				}
 
 				const_iterator 						upper_bound(const key_type& x) const
 				{
 					return this->_tree.upper_bound(x);
-					// const_iterator ret = this->_tree.upper_bound(x);
-					// return ret;
 				}
 
 				pair<iterator,iterator>				equal_range(const key_type& x)
 				{
-					ft::pair<iterator,iterator> a_pair = this->_tree.equal_range(x);
-					return a_pair;
+					return this->_tree.equal_range(x);
 				}
 
 				pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
 				{
-					ft::pair<const_iterator,const_iterator> a_pair = this->_tree.equal_range(x);
-					return a_pair;
+					return this->_tree.equal_range(x);
 				}
 
 				allocator_type get_allocator() const
