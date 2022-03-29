@@ -36,6 +36,22 @@ namespace ft
 			*this = instance;
 		}
 
+		template<class U, class V>
+		tree_iterator(const tree_iterator<U, V, KeyGetter>& instance)
+		{
+			*this = instance;
+		}
+
+		bool getisEnd() const
+		{
+			return this->_isEnd;
+		}
+
+		bool getisRev() const
+		{
+			return this->_isRev;
+		}
+
 		~tree_iterator() {}
 
 		tree_iterator& operator=(const tree_iterator& instance)
@@ -44,6 +60,16 @@ namespace ft
 			this->root = instance.root;
 			this->_isRev = instance._isRev;
 			this->_isEnd = instance._isEnd;
+			return *this;
+		}
+
+		template<class U, class V>
+		tree_iterator& operator=(const tree_iterator<U, V, KeyGetter>& instance)
+		{
+			this->current = instance.current;
+			this->root = instance.root;
+			this->_isRev = instance.getisRev();
+			this->_isEnd = instance.getisEnd();
 			return *this;
 		}
 
