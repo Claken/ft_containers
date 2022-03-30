@@ -301,6 +301,42 @@ namespace ft
 				}
 				return tmp;
 			}
+
+			void balance_function (pointer newnode, bool left)
+			{
+				pointer subtree;
+				bool isRoot;
+				pointer current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
+				if (current != NULL)
+				{
+					subtree = balanceSubTree(subtree);
+					if (isRoot)
+					{
+						this->_tree = subtree;
+					}
+					else if (left)
+					{
+						current->left = subtree;
+					}
+					else
+					{
+						current->right = subtree;
+					}
+				}
+			}
+
+			pointer find_parent(iterator position)
+			{
+				iterator it = this->begin();
+				for (; it != this->end(); it++)
+				{
+					if (it.current->left && _getter(it.current->left->pair) == _getter(*position))
+						return it.current;
+					else if (it.current->right && _getter(it.current->right->pair) == _getter(*position))
+						return it.current;
+				}
+				return it.current;
+			}
 				
 		public:
 
@@ -530,25 +566,7 @@ namespace ft
 						svg->left = newnode;
 					else
 						svg->right = newnode;
-					pointer subtree;
-					bool isRoot;
-					current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
-					if (current != NULL)
-					{
-						subtree = balanceSubTree(subtree);
-						if (isRoot)
-						{
-							this->_tree = subtree;
-						}
-						else if (left)
-						{
-							current->left = subtree;
-						}
-						else
-						{
-							current->right = subtree;
-						}
-					}
+					this->balance_function(newnode, left);
 					// current = newnode;
 					// current->parent = svg;
 					// if (left)
@@ -561,6 +579,38 @@ namespace ft
 					// if (test)
 					// 	std::cout << "test == " << test->pair.first << std::endl;
 				}
+			}
+
+			iterator insert(iterator position, const value_type &x)
+			{
+				pointer newnode = this->try_allocation_node(sizeof(node));
+				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
+				newnode->full = true;
+				// this->_size++;
+
+				pointer current = position.current;
+				pointer svg = find_parent(position);
+				bool left;
+
+				while (current != NULL)
+				{
+					svg = current;
+					if (this->_compare(_getter(x), _getter(current->pair)))
+					{
+						current = current->left;
+						left = true;
+					}
+					else
+					{
+						current = current->right;
+						left = false;
+					}
+				}
+				if (left)
+					svg->left = newnode;
+				else
+					svg->right = newnode;
+				this->balance_function(newnode, left);
 			}
 
 			pointer balanceSubTree(pointer unba)
