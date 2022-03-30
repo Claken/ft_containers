@@ -586,31 +586,41 @@ namespace ft
 				pointer newnode = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
 				newnode->full = true;
-				// this->_size++;
 
 				pointer current = position.current;
-				pointer svg = find_parent(position);
+				pointer svg;
 				bool left;
 
-				while (current != NULL)
+				if (current == NULL)
 				{
-					svg = current;
-					if (this->_compare(_getter(x), _getter(current->pair)))
-					{
-						current = current->left;
-						left = true;
-					}
-					else
-					{
-						current = current->right;
-						left = false;
-					}
+					this->_allocator_node.destroy(newnode);
+					this->_allocator_node.deallocate(newnode, sizeof(newnode));
+					insert(x);
 				}
-				if (left)
-					svg->left = newnode;
 				else
-					svg->right = newnode;
-				this->balance_function(newnode, left);
+				{
+					this->_size++;
+					while (current != NULL)
+					{
+						svg = current;
+						if (this->_compare(_getter(x), _getter(current->pair)))
+						{
+							current = current->left;
+							left = true;
+						}
+						else
+						{
+							current = current->right;
+							left = false;
+						}
+					}
+					if (left)
+						svg->left = newnode;
+					else
+						svg->right = newnode;
+					this->balance_function(newnode, left);
+				}
+				return this->findKeyPositionInTree(_getter(x));
 			}
 
 			pointer balanceSubTree(pointer unba)
@@ -994,7 +1004,7 @@ namespace ft
 
 			friend bool operator==(const Tree& x, const Tree& y)
 			{
-				return ft::equal(x.begin(), x.end(), y.begin());
+				return x._size == y._size && ft::equal(x.begin(), x.end(), y.begin());
 			}
 	
 			friend bool operator<(const Tree& x, const Tree& y)

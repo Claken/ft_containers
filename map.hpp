@@ -156,7 +156,14 @@ namespace ft
 					return ft::make_pair(node, true);
 				}
 
-				iterator 						insert(iterator position, const value_type& x);
+				iterator 						insert(iterator position, const value_type& x)
+				{
+					iterator pos;
+					iterator node = this->_tree.findKeyPositionInTree(x.first);
+					if (node == this->end())
+						pos = this->insert(position, x);
+
+				}
 				
 				template <class InputIterator>
 					void 						insert(InputIterator first, InputIterator last)
