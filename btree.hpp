@@ -23,13 +23,20 @@ namespace ft
 		typedef std::ptrdiff_t						difference_type;
 		typedef std::bidirectional_iterator_tag		iterator_category;
 
-		node_pointer								current;
-		node_pointer								root;
+		private:
+	
+		node_pointer	_current;
+		node_pointer	_root;
+		bool			_isRev;
+		bool			_isEnd;
+		KeyGetter		_getter;
 
-		tree_iterator() : current(NULL), root(NULL), _isRev(false), _isEnd(false) {}
+		public:
+
+		tree_iterator() : _current(NULL), _root(NULL), _isRev(false), _isEnd(false) {}
 
 		tree_iterator(node_pointer node, node_pointer tree, bool isRev = false, bool end = false)
-		: current(node), root(tree), _isRev(isRev), _isEnd(end) {}
+		: _current(node), _root(tree), _isRev(isRev), _isEnd(end) {}
 
 		tree_iterator(const tree_iterator& instance)
 		{
@@ -52,12 +59,22 @@ namespace ft
 			return this->_isRev;
 		}
 
+		node_pointer getRoot() const
+		{
+			return this->_root;
+		}
+
+		node_pointer base() const
+		{
+			return this->_current;
+		}
+
 		~tree_iterator() {}
 
 		tree_iterator& operator=(const tree_iterator& instance)
 		{
-			this->current = instance.current;
-			this->root = instance.root;
+			this->_current = instance._current;
+			this->_root = instance._root;
 			this->_isRev = instance._isRev;
 			this->_isEnd = instance._isEnd;
 			return *this;
@@ -66,8 +83,8 @@ namespace ft
 		template<class U, class V>
 		tree_iterator& operator=(const tree_iterator<U, V, KeyGetter>& instance)
 		{
-			this->current = instance.current;
-			this->root = instance.root;
+			this->_current = instance.base();
+			this->root = instance.getRoot();
 			this->_isRev = instance.getisRev();
 			this->_isEnd = instance.getisEnd();
 			return *this;
@@ -75,7 +92,7 @@ namespace ft
 
 		reference operator*() const
 		{
-			return (this->current->pair);
+			return (this->_current->pair);
 		}
 
       	pointer operator->() const
@@ -85,97 +102,93 @@ namespace ft
  
       	tree_iterator& operator++()
     	{
-			this->current = this->increase();
+			this->_current = this->increase();
 			return *this;
       	}
 
       	tree_iterator operator++(int)
       	{
 			tree_iterator tmp = *this;
-			this->current = this->increase();
+			this->_current = this->increase();
 			return tmp;
 	  	}
 
      	tree_iterator& operator--()
       	{
-			this->current = this->decrease();
+			this->_current = this->decrease();
 			return *this;
       	}
 		
 		tree_iterator operator--(int)
       	{
 			tree_iterator tmp = *this;
-			this->current = this->decrease();
+			this->_current = this->decrease();
 			return tmp;
 	  	}
 
 		private:
 
-		bool			_isRev;
-		bool			_isEnd;
-		KeyGetter		_getter;
-
 		node_pointer decrease()
 		{
-			node_pointer curr = this->root;
+			node_pointer curr = this->_root;
 			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
 			if (this->_isRev && this->_isEnd)
 			{
 				this->_isEnd = false;
-				return current;
+				return _current;
 			}
-			while (curr != NULL && _getter(curr->pair) != _getter(current->pair))
+			while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
 			{
 				nodes[i++] = curr;
-				if (this->current->compare(_getter(current->pair), _getter(curr->pair)))
+				if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
 					curr = curr->left;
 				else
 					curr = curr->right;
 			}
 			i--;
-			if (current->left == NULL)
+			if (_current->left == NULL)
 			{
-				while (i > -1 && this->current->compare(_getter(current->pair), _getter(nodes[i]->pair)))
+				while (i > -1 && this->_current->compare(_getter(_current->pair), _getter(nodes[i]->pair)))
 					i--;
 				if (i > -1)
 					return nodes[i];
 			}
 			else
 			{
-				return this->farRightNode(this->current->left);
+				return this->farRightNode(this->_current->left);
 			}
 			return NULL;
 		}
 
 		node_pointer increase()
 		{
-			node_pointer curr = this->root;
+			node_pointer curr = this->_root;
 			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
-			if (this->_isRev && (this->current == this->farRightNode(this->root) || this->current == this->farLeftNode(this->root)))
+			if (this->_isRev && (this->_current == this->farRightNode(this->_root) || this->_current == this->farLeftNode(this->_root)))
 				this->_isEnd = true;
-			while (curr != NULL && _getter(curr->pair) != _getter(current->pair))
+			while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
 			{
 				nodes[i++] = curr;
-				if (this->current->compare(_getter(current->pair), _getter(curr->pair)))
+				if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
 					curr = curr->left;
 				else
 					curr = curr->right;
 			}
 			i--;
-			if (current->right == NULL)
+			if (_current->right == NULL)
 			{
-				while (i > -1 && this->current->compare(_getter(nodes[i]->pair), _getter(this->current->pair)))
+				while (i > -1 && this->_current->compare(_getter(nodes[i]->pair), _getter(this->_current->pair)))
 					i--;
 				if (i > -1)
 					return nodes[i];
 			}
 			else
 			{
-				return this->farLeftNode(this->current->right);
+				return this->farLeftNode(this->_current->right);
 			}
 			return NULL;
 		}
@@ -212,13 +225,13 @@ namespace ft
  	template<class Tx, class Ux, class Ty, class Uy, class KG>
 	bool	operator==(const tree_iterator<Tx, Ux, KG>& x, const tree_iterator<Ty, Uy, KG>& y)
 	{
-		return (x.current == y.current);
+		return (x.base() == y.base());
 	}
 
 	template<class Tx, class Ux, class Ty, class Uy, class KG>
 	bool	operator!=(const tree_iterator<Tx, Ux, KG>& x, const tree_iterator<Ty, Uy, KG>& y)
 	{
-		return (x.current != y.current);
+		return (x.base() != y.base());
 	}
 
 	template <class Pair, class Compare, class Allocator = std::allocator<Pair> >
@@ -528,7 +541,7 @@ namespace ft
 				return y;
 			}
 
-			void insert(const value_type& x)
+			iterator insert(const value_type& x)
 			{
 				if (this->_tree != NULL && !this->_tree->full)
 				{
@@ -579,48 +592,7 @@ namespace ft
 					// if (test)
 					// 	std::cout << "test == " << test->pair.first << std::endl;
 				}
-			}
-
-			iterator insert(iterator position, const value_type &x)
-			{
-				pointer newnode = this->try_allocation_node(sizeof(node));
-				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
-				newnode->full = true;
-
-				pointer current = position.current;
-				pointer svg;
-				bool left;
-
-				if (current == NULL)
-				{
-					this->_allocator_node.destroy(newnode);
-					this->_allocator_node.deallocate(newnode, sizeof(newnode));
-					insert(x);
-				}
-				else
-				{
-					this->_size++;
-					while (current != NULL)
-					{
-						svg = current;
-						if (this->_compare(_getter(x), _getter(current->pair)))
-						{
-							current = current->left;
-							left = true;
-						}
-						else
-						{
-							current = current->right;
-							left = false;
-						}
-					}
-					if (left)
-						svg->left = newnode;
-					else
-						svg->right = newnode;
-					this->balance_function(newnode, left);
-				}
-				return this->findKeyPositionInTree(_getter(x));
+				return this->findKeyPositionInTree(x.first);
 			}
 
 			pointer balanceSubTree(pointer unba)

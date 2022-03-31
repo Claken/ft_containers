@@ -151,19 +151,11 @@ namespace ft
 					iterator node = this->_tree.findKeyPositionInTree(x.first);
 					if (node != this->end())
 						return ft::make_pair(node, false);
-					this->_tree.insert(x);
-					node = this->_tree.findKeyPositionInTree(x.first);
+					node = this->_tree.insert(x);
 					return ft::make_pair(node, true);
 				}
 
-				iterator 						insert(iterator position, const value_type& x)
-				{
-					iterator pos;
-					iterator node = this->_tree.findKeyPositionInTree(x.first);
-					if (node == this->end())
-						pos = this->insert(position, x);
-
-				}
+				iterator 						insert(iterator position, const value_type& x);
 				
 				template <class InputIterator>
 					void 						insert(InputIterator first, InputIterator last)
@@ -204,6 +196,8 @@ namespace ft
 
 				void 							clear()
 				{
+					if (this->empty())
+						return ;
 					erase(this->begin(), this->end());
 				}
 
