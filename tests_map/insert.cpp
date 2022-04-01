@@ -20,11 +20,11 @@ int main ()
   //   std::cout << " with a value of " << ret.first->second << '\n';
   // }
 
-  // second insert function version (with hint position):
-  // TESTED_NS::map<char,int>::iterator it = mymap.begin();
-  // // it++;
-  // TESTED_NS::map<char,int>::iterator it1 =  mymap.insert (it, TESTED_NS::pair<char,int>('a',300));  // max efficiency inserting
-  // mymap.insert (it, TESTED_NS::pair<char,int>('c',400));  // no max efficiency inserting
+  TESTED_NS::map<char,int>::iterator it = mymap.begin();
+  it++;
+  mymap.insert (it, TESTED_NS::pair<char,int>('b',300));  // max efficiency inserting
+  // it--;
+  mymap.insert (it, TESTED_NS::pair<char,int>('c',400));  // no max efficiency inserting
 
   // std::cout << it1->first << " " << it1->second << std::endl;
 

@@ -315,10 +315,11 @@ namespace ft
 				return tmp;
 			}
 
-			void balance_function (pointer newnode, bool left)
+			void balance_function (pointer newnode)
 			{
 				pointer subtree;
 				bool isRoot;
+				bool left;
 				pointer current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
 				if (current != NULL)
 				{
@@ -350,6 +351,47 @@ namespace ft
 				}
 				return it.current;
 			}
+
+			pointer create_node(const value_type& x)
+			{
+				pointer newnode = this->try_allocation_node(sizeof(node));
+				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
+				newnode->full = true;
+				this->_size++;
+				return newnode;
+			}
+
+			void insert_node(pointer newnode, pointer position)
+			{
+				pointer current = position;
+				pointer svg;
+				bool left;
+
+				while (current != NULL)
+				{
+					svg = current;
+					if (this->_compare(_getter(newnode->pair), _getter(current->pair)))
+					{
+						current = current->left;
+						left = true;
+					}
+					else
+					{
+						current = current->right;
+						left = false;
+					}
+				}
+				if (left)
+					svg->left = newnode;
+				else
+					svg->right = newnode;
+			}
+
+			bool ft_compare(const value_type &a, const value_type &b) const
+			{
+				return this->_compare(_getter(a), _getter(b));
+			}
+
 				
 		public:
 
@@ -552,86 +594,81 @@ namespace ft
 				}
 				else
 				{
-					pointer newnode = this->try_allocation_node(sizeof(node));
-					this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
-					newnode->full = true;
-					this->_size++;
-
-					pointer current = this->_tree;
-					pointer svg;
-					bool left;
-
-					while (current != NULL)
-					{
-						svg = current;
-						if (this->_compare(_getter(x), _getter(current->pair)))
-						{
-							current = current->left;
-							left = true;
-						}
-						else
-						{
-							current = current->right;
-							left = false;
-						}
-					}
-					if (left)
-						svg->left = newnode;
-					else
-						svg->right = newnode;
-					this->balance_function(newnode, left);
-					// current = newnode;
-					// current->parent = svg;
-					// if (left)
-					// 	current->parent->left = current;
-					// else
-					// 	current->parent->right = current;
-					// balanceTree(newnode);
-					// std::cout << "getHeight == " << getHeight(this->tree()) << std::endl;
-					// pointer test = isUnbalanced2(newnode->pair.first);
-					// if (test)
-					// 	std::cout << "test == " << test->pair.first << std::endl;
+					pointer newnode = create_node(x);
+					insert_node(newnode, this->_tree);
+					balance_function(newnode);
 				}
 				return this->findKeyPositionInTree(x.first);
 			}
 
+			iterator insert(iterator hint, const value_type& x)
+			{
+				if (hint == this->begin())
+				{
+					if (_size && ft_compare(x, *hint))
+					{
+						pointer newnode = create_node(x);
+						this->insert_node(newnode, hint.base());
+						balance_function(newnode);
+						return this->findKeyPositionInTree(x.first);
+					}
+					return this->insert(x);
+				}
+				if (hint == this->end())
+				{
+					pointer rightMost = farRightNode(this->_tree);
+					if (ft_compare(rightMost->pair, x))
+					{
+						pointer newnode = create_node(x);
+						this->insert_node(newnode, rightMost);
+						balance_function(newnode);
+						return this->findKeyPositionInTree(x.first);
+					}
+					return this->insert(x);
+				}
+				iterator prev = hint;
+				--prev;
+				std::cout << "hint in between" << std::endl;	
+				if (ft_compare(prev.base()->pair, x) && ft_compare(x, hint.base()->pair))
+				{
+					pointer newnode = create_node(x);
+					if (prev.base()->right != NULL)
+					{
+						std::cout << "hint" << std::endl;
+						this->insert_node(newnode, hint.base());
+						balance_function(newnode);
+						return this->findKeyPositionInTree(x.first);
+					}
+					std::cout << "prev" << std::endl;
+					this->insert_node(newnode, prev.base());
+					balance_function(newnode);
+					return this->findKeyPositionInTree(x.first);
+				}
+				return this->insert(x);
+			}
+
 			pointer balanceSubTree(pointer unba)
 			{
-				// pointer unba = isUnbalanced(current);
-				// pointer unba = isUnbalanced2(current->pair.first);
-				// if (unba != NULL)
-				// {
-					// std::cout << "unba == " << unba->pair.first << std::endl;
-					int bf = getBalanceFactor(unba, 0);
-					if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
-					{
-						// std::cout << "leftRotate" << std::endl;
-						return leftRotate(unba);
-					}
-					else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
-					{
-						// std::cout << "rightRotate" << std::endl;
-					
-						return rightRotate(unba);
-					}
-					else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
-					{
-						// std::cout << "left right Rotate" << std::endl;
-						unba->left = leftRotate(unba->left);
-						return rightRotate(unba);
-					}
-					else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
-					{
-						// std::cout << "right left Rotate" << std::endl;
-						unba->right = rightRotate(unba->right);
-						unba = leftRotate(unba);
-						// std::cout << "unba == " << unba->pair.first << std::endl;
-						// std::cout << "unba->right == " << unba->right->pair.first << std::endl;
-
-						return (unba);
-					}
-					return unba;
-				// }
+				int bf = getBalanceFactor(unba, 0);
+				if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
+				{
+					return leftRotate(unba);
+				}
+				else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
+				{
+					return rightRotate(unba);
+				}
+				else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
+				{
+					unba->left = leftRotate(unba->left);
+					return rightRotate(unba);
+				}
+				else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
+				{
+					unba->right = rightRotate(unba->right);
+					return leftRotate(unba);
+				}
+				return unba;
 			}
 
 			int getHeight(pointer r)
@@ -734,7 +771,7 @@ namespace ft
 				const_iterator it = this->findKeyPositionInTreeConst(x);
 				for (; it != this->end(); it++)
 				{
-					if (!this->_compare(x, _getter(*it)))
+					if (this->_compare(x, _getter(*it)))
 						return it;
 				}
 				return it;
@@ -742,16 +779,12 @@ namespace ft
 
 			pair<iterator,iterator>				equal_range(const key_type& x)
 			{
-				iterator itlow = this->lower_bound(x);
-				iterator itup = this->upper_bound(x);
-				return ft::make_pair(itlow, itup);
+				return ft::make_pair(lower_bound(x), upper_bound(x));
 			}
 
 			pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
 			{
-				const_iterator itlow = this->lower_bound(x);
-				const_iterator itup = this->upper_bound(x);
-				return ft::make_pair(itlow, itup);
+				return ft::make_pair(lower_bound(x), upper_bound(x));
 			}
 
 			void print2D(pointer r, int space = 0)
