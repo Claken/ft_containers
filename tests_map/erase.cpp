@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define TESTED_NS ft
+#define TESTED_NS std
 
 int main ()
 {
@@ -24,7 +24,7 @@ int main ()
 	mymap.insert(TESTED_NS::pair<char, int>('e', 789));
 	std::cout << "count == " << mymap.count('e') << std::endl;
 
-	for (TESTED_NS::map<char,int>::reverse_iterator it=mymap.rend(); it!=mymap.rbegin(); --it)
+	for (TESTED_NS::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
 	{
 		std::cout << it->first << " => " << it->second << '\n';
 	}
