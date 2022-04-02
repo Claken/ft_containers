@@ -10,7 +10,7 @@ struct classcomp {
 	{return lhs<rhs;}
 };
 
-#define TESTED_NAMESPACE ft
+#define TESTED_NAMESPACE std
 
 int main ()
 {
@@ -25,11 +25,11 @@ int main ()
 	if (caca == cici)
 		std::cout << "equal" << std::endl;
 
-	// caca['a']=10;
-	// caca['b']=15;
-	// caca['c']=20;
-	// caca['d']=25;
-	// caca['d']=7;
+	caca['a']=10;
+	caca['b']=15;
+	caca['c']=20;
+	caca['d']=25;
+	caca['d']=7;
 
 	caca.insert(TESTED_NAMESPACE::pair<char, int>('e', 789));
 

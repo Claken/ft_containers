@@ -137,20 +137,20 @@ int main(void)
     {
         std::cout << it->first << " ";
     }
-    std::cout << std::endl << "j'ai peur" << std::endl;
-    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rend(); it != btree.rbegin(); it--)
-    {
-        std::cout << it->first << std::endl;
-    }
+    // std::cout << std::endl << "j'ai peur" << std::endl;
+    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rend(); it != btree.rbegin(); it--)
+    // {
+    //     std::cout << it->first << std::endl;
+    // }
     std::cout << std::endl;
-    // std::cout << "printIndisorder  : ";
-    // btree.printIndisorder(btree.tree());
-    // std::cout << std::endl;
+    std::cout << "printIndisorder  : ";
+    btree.printIndisorder(btree.tree());
+    std::cout << std::endl;
 
-    // std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
-    // std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
+    std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
+    std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
 
-    // ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
+    ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
 
     // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
     // {
