@@ -149,7 +149,7 @@ namespace ft
 				pair<iterator, bool> 			insert(const value_type& x)
 				{
 					iterator node = this->_tree.findKeyPositionInTree(x.first);
-					if (node != this->end())
+					if (node != this->end() && node.base() != NULL)
 						return ft::make_pair(node, false);
 					node = this->_tree.insert(x);
 					return ft::make_pair(node, true);
