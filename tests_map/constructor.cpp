@@ -10,7 +10,7 @@ struct classcomp {
 	{return lhs<rhs;}
 };
 
-#define TESTED_NAMESPACE std
+#define TESTED_NAMESPACE ft
 
 int main ()
 {
@@ -41,21 +41,37 @@ int main ()
 	}
 	std::cout << caca.size() << std::endl;
 
-	// TESTED_NAMESPACE::map<char,int> second (caca.begin(),caca.end());
+	TESTED_NAMESPACE::map<char,int> second (caca.begin(),caca.end());
 
-	// for (TESTED_NAMESPACE::map<char,int>::iterator it = second.begin(); it != second.end(); it++)
-	// {
-	// 	std::cout << "it->first  = " << it->first << std::endl;
-	// 	std::cout << "it->second = " << it->second << std::endl;
-	// 	std::cout << std::endl;
-	// }
+	for (TESTED_NAMESPACE::map<char,int>::iterator it = second.begin(); it != second.end(); it++)
+	{
+		std::cout << "it->first  = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
 
-	//   std::map<char,int> third (second);
+	TESTED_NAMESPACE::map<char,int> third (second);
 
-	//   std::map<char,int,classcomp> fourth;                 // class as Compare
+	for (TESTED_NAMESPACE::map<char,int>::iterator it = third.begin(); it != third.end(); it++)
+	{
+		std::cout << "it->first  = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
 
-	//   bool(*fn_pt)(char,char) = fncomp;
-	//   std::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+	TESTED_NAMESPACE::map<char,int,classcomp> fourth;                 // class as Compare
+
+	for (TESTED_NAMESPACE::map<char,int>::iterator it = fourth.begin(); it != fourth.end(); it++)
+	{
+		std::cout << "it->first  = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+		std::cout << std::endl;
+	}
+
+	bool(*fn_pt)(char,char) = fncomp;
+	TESTED_NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
 
 	return 0;
 }

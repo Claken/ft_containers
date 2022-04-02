@@ -28,21 +28,14 @@ namespace ft
 		node_pointer	_current;
 		node_pointer	_root;
 		node_pointer	_end;
-		// bool			_isRev;
-		// bool			_isEnd;
 		KeyGetter		_getter;
 
 		public:
-
-		// tree_iterator() : _current(NULL), _root(NULL), _isRev(false), _isEnd(false) {}
 
 		tree_iterator() : _current(NULL), _root(NULL), _end(NULL) {}
 
 		tree_iterator(node_pointer end, node_pointer tree) : _current(end), _root(tree), _end(end) {}
 		
-		// tree_iterator(node_pointer node, node_pointer tree, bool isRev = false, bool end = false)
-		// : _current(node), _root(tree), _isRev(isRev), _isEnd(end) {}
-
 		tree_iterator(node_pointer node, node_pointer tree, node_pointer end)
 		: _current(node), _root(tree), _end(end) {}
 
@@ -56,16 +49,6 @@ namespace ft
 		{
 			*this = instance;
 		}
-
-		// bool getisEnd() const
-		// {
-		// 	return this->_isEnd;
-		// }
-
-		// bool getisRev() const
-		// {
-		// 	return this->_isRev;
-		// }
 
 		node_pointer getRoot() const
 		{
@@ -89,8 +72,6 @@ namespace ft
 			this->_current = instance._current;
 			this->_root = instance._root;
 			this->_end = instance._end;
-			// this->_isRev = instance._isRev;
-			// this->_isEnd = instance._isEnd;
 			return *this;
 		}
 
@@ -100,8 +81,6 @@ namespace ft
 			this->_current = instance.base();
 			this->_root = instance.getRoot();
 			this->_end = instance.getEnd();
-			// this->_isRev = instance.getisRev();
-			// this->_isEnd = instance.getisEnd();
 			return *this;
 		}
 

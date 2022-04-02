@@ -69,7 +69,7 @@ namespace ft
 						}
 					}
 				
-				map(const map<Key,T,Compare,Allocator>& x) : _tree(NULL)
+				map(const map<Key,T,Compare,Allocator>& x)
 				{
 					*this = x;
 				}
