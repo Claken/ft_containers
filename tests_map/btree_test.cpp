@@ -137,11 +137,6 @@ int main(void)
     {
         std::cout << it->first << " ";
     }
-    // std::cout << std::endl << "j'ai peur" << std::endl;
-    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rend(); it != btree.rbegin(); it--)
-    // {
-    //     std::cout << it->first << std::endl;
-    // }
     std::cout << std::endl;
     std::cout << "printIndisorder  : ";
     btree.printIndisorder(btree.tree());
@@ -152,10 +147,10 @@ int main(void)
 
     ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
 
-    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
-    // {
-    //     std::cout << it->first << " ";
-    // }
-
+    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
+    {
+        std::cout << it->first << " ";
+    }
+    
     return (0);
 }

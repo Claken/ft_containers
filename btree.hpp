@@ -355,10 +355,10 @@ namespace ft
 			void place_sentry_at_end(void)
 			{
 				pointer farRight = this->farRightNode(this->_tree);
-				std::cout << "farRight == " << farRight->pair.first << std::endl;
+				// std::cout << "farRight == " << farRight->pair.first << std::endl;
 				if (farRight->right != this->_sentry)
 				{
-					std::cout << "NO END IN FAR RIGHT" << std::endl;
+					// std::cout << "NO END IN FAR RIGHT" << std::endl;
 					farRight->right = this->_sentry;
 				}
 			}
@@ -483,7 +483,7 @@ namespace ft
 				this->_size = 1;
 			}
 
-			Tree(const Tree &tree) : _tree(NULL), _size(0)
+			Tree(const Tree &tree) : _tree(NULL), _sentry(NULL), _size(0)
 			{
 				*this = tree;
 			}
@@ -493,18 +493,16 @@ namespace ft
 				this->_allocator_type = instance._allocator_type;
 				this->_allocator_node = instance._allocator_node;
 				this->_compare = instance._compare;
-				// if (this->_tree != NULL)
-				// {
-				// 	this->destroyAndDeallocateAllNodes(this->_tree);
-				// }
-				// this->_tree = this->try_allocation_node(sizeof(node));
-				// this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
-				// for (const_iterator it = instance.begin(); it != instance.end(); it++)
-				// {
-				// 	this->insert(*it);
-				// }
-				if (this->_tree != this->_sentry)
+				if (no_null(this->_tree))
+				{
 					this->destroyAndDeallocateAllNodes(this->_tree);
+				}
+				else
+				{
+					this->_sentry = this->try_allocation_node(sizeof(node));
+					this->_allocator_node.construct(this->_sentry, *instance._sentry);
+				}
+				this->_tree = this->_sentry;
 				for (const_iterator it = instance.begin(); it != instance.end(); it++)
 				{
 					this->insert(*it);
@@ -682,12 +680,12 @@ namespace ft
 				}
 				else
 				{
-					std::cout << "insert else" << std::endl;
+					// std::cout << "insert else" << std::endl;
 					pointer newnode = create_node(x);
-					std::cout << "newnode == " << newnode->pair.first << std::endl;
+					// std::cout << "newnode == " << newnode->pair.first << std::endl;
 					insert_node(newnode, this->_tree);
 					balance_function(newnode);
-					std::cout << "end of insert else" << std::endl;
+					// std::cout << "end of insert else" << std::endl;
 				}
 				return this->findKeyPositionInTree(x.first);
 			}
