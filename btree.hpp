@@ -203,7 +203,6 @@ namespace ft
 			{
 				nodes[i++] = curr;
 				// this->_current->compare(_getter(_current->pair), _getter(curr->pair))
-				std::cout << "nodes == " << curr->pair.first << std::endl;
 				if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
 					curr = curr->left;
 				else
@@ -211,7 +210,7 @@ namespace ft
 			}
 			i--;
 			// if (_current->right == NULL)
-			if (equal_null(_current) && no_null(nodes[i]))
+			if (equal_null(_current) && i > -1 && no_null(nodes[i]))
 				return this->farLeftNode(nodes[i]);
 			if (equal_null(_current->right))
 			{
@@ -222,7 +221,7 @@ namespace ft
 			}
 			// else
 			// {
-				return this->farLeftNode(this->_current->right);
+			return this->farLeftNode(this->_current->right);
 			// }
 			// return NULL;
 		}
@@ -231,7 +230,7 @@ namespace ft
 		{
 			node_pointer current = curr;
 			// while (current->left != NULL)
-			while (no_null(curr))
+			while (no_null(current->left))
 				current = current->left;
 			return (current);
 		}
@@ -240,7 +239,7 @@ namespace ft
 		{
 			node_pointer current = curr;
 			// while (current->right != NULL)
-			while (no_null(curr))
+			while (no_null(current->right))
 				current = current->right;
 			return (current);
 		}
@@ -353,6 +352,17 @@ namespace ft
 				return tmp;
 			}
 
+			void place_sentry_at_end(void)
+			{
+				pointer farRight = this->farRightNode(this->_tree);
+				std::cout << "farRight == " << farRight->pair.first << std::endl;
+				if (farRight->right != this->_sentry)
+				{
+					std::cout << "NO END IN FAR RIGHT" << std::endl;
+					farRight->right = this->_sentry;
+				}
+			}
+
 			void balance_function (pointer newnode)
 			{
 				pointer subtree;
@@ -374,8 +384,8 @@ namespace ft
 					{
 						current->right = subtree;
 					}
-					this->farRightNode(this->_tree)->right = this->_sentry;
 				}
+				place_sentry_at_end();
 			}
 
 			pointer find_parent(iterator position)
@@ -406,7 +416,8 @@ namespace ft
 				pointer svg;
 				bool left;
 
-				while (current != NULL)
+				// while (current != NULL)
+				while (no_null(current))
 				{
 					svg = current;
 					if (this->_compare(_getter(newnode->pair), _getter(current->pair)))
@@ -671,9 +682,12 @@ namespace ft
 				}
 				else
 				{
+					std::cout << "insert else" << std::endl;
 					pointer newnode = create_node(x);
+					std::cout << "newnode == " << newnode->pair.first << std::endl;
 					insert_node(newnode, this->_tree);
 					balance_function(newnode);
+					std::cout << "end of insert else" << std::endl;
 				}
 				return this->findKeyPositionInTree(x.first);
 			}
@@ -773,7 +787,7 @@ namespace ft
 				pointer nodes[height];
 				int i = 0;
 				// while (current != NULL && current->pair.first != k) 
-				while (no_null(current) && _getter(current->pair))
+				while (no_null(current) && _getter(current->pair) != k)
 				{
 					nodes[i++] = current;
 					if (this->_compare(k, _getter(current->pair)))
@@ -1036,7 +1050,7 @@ namespace ft
 				}
 				// return balanceSubTree(r));
 				r = balanceSubTree(r);
-				this->farRightNode(this->_tree)->right = this->_sentry;
+				place_sentry_at_end();
 				return r;
 			}
 
