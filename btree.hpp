@@ -27,21 +27,24 @@ namespace ft
 	
 		node_pointer	_current;
 		node_pointer	_root;
-		// node_pointer	_end;
-		bool			_isRev;
-		bool			_isEnd;
+		node_pointer	_end;
+		// bool			_isRev;
+		// bool			_isEnd;
 		KeyGetter		_getter;
 
 		public:
 
-		tree_iterator() : _current(NULL), _root(NULL), _isRev(false), _isEnd(false) {}
-		// tree_iterator(node_pointer end) : _current(NULL), _root(NULL), _end(end), _isRev(false), _isEnd(false) {}
+		// tree_iterator() : _current(NULL), _root(NULL), _isRev(false), _isEnd(false) {}
 
-		tree_iterator(node_pointer node, node_pointer tree, bool isRev = false, bool end = false)
-		: _current(node), _root(tree), _isRev(isRev), _isEnd(end) {}
+		tree_iterator() : _current(NULL), _root(NULL), _end(NULL) {}
 
-		// tree_iterator(node_pointer node, node_pointer tree, node_pointer end, bool isRev = false, bool end = false)
-		// : _current(node), _root(tree), _end(end), _isRev(isRev), _isEnd(end) {}
+		tree_iterator(node_pointer end, node_pointer tree) : _current(end), _root(tree), _end(end) {}
+		
+		// tree_iterator(node_pointer node, node_pointer tree, bool isRev = false, bool end = false)
+		// : _current(node), _root(tree), _isRev(isRev), _isEnd(end) {}
+
+		tree_iterator(node_pointer node, node_pointer tree, node_pointer end)
+		: _current(node), _root(tree), _end(end) {}
 
 		tree_iterator(const tree_iterator& instance)
 		{
@@ -54,15 +57,15 @@ namespace ft
 			*this = instance;
 		}
 
-		bool getisEnd() const
-		{
-			return this->_isEnd;
-		}
+		// bool getisEnd() const
+		// {
+		// 	return this->_isEnd;
+		// }
 
-		bool getisRev() const
-		{
-			return this->_isRev;
-		}
+		// bool getisRev() const
+		// {
+		// 	return this->_isRev;
+		// }
 
 		node_pointer getRoot() const
 		{
@@ -74,10 +77,10 @@ namespace ft
 			return this->_current;
 		}
 
-		// node_pointer getEnd() const
-		// {
-		// 	return this->_end;
-		// }
+		node_pointer getEnd() const
+		{
+			return this->_end;
+		}
 
 		~tree_iterator() {}
 
@@ -85,9 +88,9 @@ namespace ft
 		{
 			this->_current = instance._current;
 			this->_root = instance._root;
-			// this->_end = instance._end;
-			this->_isRev = instance._isRev;
-			this->_isEnd = instance._isEnd;
+			this->_end = instance._end;
+			// this->_isRev = instance._isRev;
+			// this->_isEnd = instance._isEnd;
 			return *this;
 		}
 
@@ -96,9 +99,9 @@ namespace ft
 		{
 			this->_current = instance.base();
 			this->_root = instance.getRoot();
-			// this->_end = instance.getEnd();
-			this->_isRev = instance.getisRev();
-			this->_isEnd = instance.getisEnd();
+			this->_end = instance.getEnd();
+			// this->_isRev = instance.getisRev();
+			// this->_isEnd = instance.getisEnd();
 			return *this;
 		}
 
@@ -140,20 +143,20 @@ namespace ft
 
 		private:
 
+		bool equal_null(node_pointer curr) const
+		{
+			return (curr == NULL || curr == this->_end);
+		}
+
 		node_pointer decrease()
 		{
 			node_pointer curr = this->_root;
 			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
-			//
-			if (this->_isRev && this->_isEnd)
-			{
-				this->_isEnd = false;
-				return _current;
-			}
-			//
-			while (curr != NULL && _getter(curr->pair) != _getter(_current->pair)) // curr == this->_end
+ 
+			// while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
+			while (!equal_null(curr) && _getter(curr->pair) != _getter(_current->pair))
 			{
 				nodes[i++] = curr;
 				if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
@@ -162,7 +165,8 @@ namespace ft
 					curr = curr->right;
 			}
 			i--;
-			if (_current->left == NULL) // _current->left == this->_end
+			// if (_current->left == NULL)
+			if (equal_null(_current->left))
 			{
 				while (i > -1 && this->_current->compare(_getter(_current->pair), _getter(nodes[i]->pair)))
 					i--;
@@ -182,11 +186,12 @@ namespace ft
 			int height = this->getHeight(curr);
 			node_pointer nodes[height];
 			int i = 0;
-			//
-			if (this->_isRev && (this->_current == this->farRightNode(this->_root) || this->_current == this->farLeftNode(this->_root)))
-				this->_isEnd = true;
-			//
-			while (curr != NULL && _getter(curr->pair) != _getter(_current->pair)) // curr == this->_end
+			
+			// if (this->_isRev && (this->_current == this->farRightNode(this->_root) || this->_current == this->farLeftNode(this->_root)))
+			// 	this->_isEnd = true;
+			
+			// while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
+			while (!equal_null(curr) && _getter(curr->pair) != _getter(_current->pair))
 			{
 				nodes[i++] = curr;
 				if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
@@ -195,7 +200,8 @@ namespace ft
 					curr = curr->right;
 			}
 			i--;
-			if (_current->right == NULL) // _current->right == this->_end
+			// if (_current->right == NULL)
+			if (equal_null(_current->right))
 			{
 				while (i > -1 && this->_current->compare(_getter(nodes[i]->pair), _getter(this->_current->pair)))
 					i--;
@@ -212,7 +218,8 @@ namespace ft
 		node_pointer farLeftNode(node_pointer curr)
 		{
 			node_pointer current = curr;
-			while (current->left != NULL)
+			// while (current->left != NULL)
+			while (!equal_null(curr))
 				current = current->left;
 			return (current);
 		}
@@ -220,14 +227,16 @@ namespace ft
 		node_pointer farRightNode(node_pointer curr)
 		{
 			node_pointer current = curr;
-			while (current->right != NULL)
+			// while (current->right != NULL)
+			while (!equal_null(curr))
 				current = current->right;
 			return (current);
 		}
 
 		int getHeight(node_pointer r)
 		{
-			if (r == NULL) // equal_null(r)
+			// if (r == NULL)
+			if (equal_null(r))
 				return -1;
 			int lheight = getHeight(r->left);
 			int rheight = getHeight(r->right);
@@ -311,7 +320,7 @@ namespace ft
 		private:
 		
 			pointer				_tree;
-			// pointer				_sentry;
+			pointer				_sentry;
 			Allocator			_allocator_type;
 			Allocator2			_allocator_node;
 			key_compare			_compare;
@@ -353,7 +362,7 @@ namespace ft
 					{
 						current->right = subtree;
 					}
-					// this->farRightNode(this->_tree)->right = this->_sentry;
+					this->farRightNode(this->_tree)->right = this->_sentry;
 				}
 			}
 
@@ -410,7 +419,7 @@ namespace ft
 				return this->_compare(_getter(a), _getter(b));
 			}
 
-			bool equal_null(pointer curr)
+			bool equal_null(const pointer curr) const
 			{
 				return (curr == NULL || curr == this->_sentry);
 			}
@@ -422,11 +431,11 @@ namespace ft
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
-				// this->_sentry = this->try_allocation_node(sizeof(node));
-				// this->_allocator_node.construct(this->_sentry, Node<value_type, key_compare>());
-				// this->_tree = this->_sentry;
-				this->_tree = this->try_allocation_node(sizeof(node));
-				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
+				this->_sentry = this->try_allocation_node(sizeof(node));
+				this->_allocator_node.construct(this->_sentry, Node<value_type, key_compare>());
+				this->_tree = this->_sentry;
+				// this->_tree = this->try_allocation_node(sizeof(node));
+				// this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
 				this->_size = 0;
 			}
 
@@ -435,10 +444,14 @@ namespace ft
 				this->_allocator_type = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
-				// this->_sentry = this->try_allocation_node(sizeof(node));
-				// this->_allocator_node.construct(this->_sentry, Node<value_type, key_compare>());
+				this->_sentry = this->try_allocation_node(sizeof(node));
+				this->_allocator_node.construct(this->_sentry, Node<value_type, key_compare>());
+
 				this->_tree = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>(value));
+
+				this->_tree->right = this->_sentry;
+
 				this->_size = 1;
 			}
 
@@ -452,17 +465,18 @@ namespace ft
 				this->_allocator_type = instance._allocator_type;
 				this->_allocator_node = instance._allocator_node;
 				this->_compare = instance._compare;
-				if (this->_tree != NULL)
-				{
-					this->destroyAndDeallocateAllNodes(this->_tree);
-				}
-				// this->_sentry = instance._sentry;
-				// if (instance._tree == instance._sentry)
+				// if (this->_tree != NULL)
 				// {
-						// this->_tree = this->_sentry;
+				// 	this->destroyAndDeallocateAllNodes(this->_tree);
 				// }
-				this->_tree = this->try_allocation_node(sizeof(node));
-				this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
+				// this->_tree = this->try_allocation_node(sizeof(node));
+				// this->_allocator_node.construct(this->_tree, Node<value_type, key_compare>());
+				// for (const_iterator it = instance.begin(); it != instance.end(); it++)
+				// {
+				// 	this->insert(*it);
+				// }
+				if (this->_tree != this->_sentry)
+					this->destroyAndDeallocateAllNodes(this->_tree);
 				for (const_iterator it = instance.begin(); it != instance.end(); it++)
 				{
 					this->insert(*it);
@@ -474,65 +488,74 @@ namespace ft
 			~Tree()
 			{
 				destroyAndDeallocateAllNodes(this->_tree);
-				// this->_allocator_node.destroy(this->_sentry);
-				// this->_allocator_node.deallocate(this->_sentry, sizeof(node));
+				this->_allocator_node.destroy(this->_sentry);
+				this->_allocator_node.deallocate(this->_sentry, sizeof(node));
 			}
 
 			iterator 						begin()
 			{
-				iterator it(this->farLeftNode(this->tree()), this->tree());
+				// iterator it(this->farLeftNode(this->tree()), this->tree());
+				iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				return it;
 			}
 
 			const_iterator 					begin() const
 			{
-				const_iterator it(this->farLeftNode(this->tree()), this->tree());
+				// const_iterator it(this->farLeftNode(this->tree()), this->tree());
+				const_iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				return it;
 			}
 
 			iterator 						end()
 			{
-				iterator it;
+				// iterator it;
+				iterator it(this->_sentry, this->tree());
 				return it;
 			}
 
 			const_iterator 					end() const
 			{
-				const_iterator it;
+				// const_iterator it;
+				const_iterator it(this->_sentry, this->tree());
 				return it;
 			}
 
 			reverse_iterator 				rbegin()
 			{
-				iterator it(this->farRightNode(this->tree()), this->tree(), true, true);
+				// iterator it(this->farRightNode(this->tree()), this->tree(), true, true);
+				iterator it(this->_sentry, this->tree());
 				reverse_iterator rit(it);
 				return rit;
 			}
 		
 			const_reverse_iterator 			rbegin() const
 			{
-				const_iterator it(this->farRightNode(this->tree()), this->tree(), true, true);
+				// const_iterator it(this->farRightNode(this->tree()), this->tree(), true, true);
+				const_iterator it(this->_sentry, this->tree());
 				const_reverse_iterator rit(it);
 				return rit;
 			}
 			
 			reverse_iterator 				rend()
 			{
-				iterator it(this->farLeftNode(this->tree()), this->tree(), true, true);
+				// iterator it(this->farLeftNode(this->tree()), this->tree(), true, true);
+				iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				reverse_iterator rit(it);
 				return rit;
 			}
 			
 			const_reverse_iterator 			rend() const
 			{
-				const_iterator it(this->farLeftNode(this->tree()), this->tree(), true, true);
+				// const_iterator it(this->farLeftNode(this->tree()), this->tree(), true, true);
+				const_iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				const_reverse_iterator rit(it);
 				return rit;
 			}
 
 			void destroyAndDeallocateAllNodes(pointer node)
 			{
-				if (node == NULL) // if (equal_null(node))
+				// if (node == NULL)
+				if (equal_null(node))
 					return;
 				destroyAndDeallocateAllNodes(node->right);
 				pointer nodeleft = node->left;
@@ -619,15 +642,15 @@ namespace ft
 
 			iterator insert(const value_type& x)
 			{
-				// if (this->_tree == this->_sentry)
-				if (this->_tree != NULL && !this->_tree->full)
+				// if (this->_tree != NULL && !this->_tree->full)
+				if (this->_tree == this->_sentry)
 				{
-					this->_allocator_type.destroy(&this->_tree->pair);
-					this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
-					this->_tree->full = true;
-					this->_size++;
-					// this->_tree = create_node(x);
-					// this->_tree->right = this->_sentry;
+					// this->_allocator_type.destroy(&this->_tree->pair);
+					// this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
+					// this->_tree->full = true;
+					// this->_size++;
+					this->_tree = create_node(x);
+					this->_tree->right = this->_sentry;
 				}
 				else
 				{
@@ -707,7 +730,8 @@ namespace ft
 
 			int getHeight(pointer r)
 			{
-				if (r == NULL) // || if (equal_null(r))
+				// if (r == NULL)
+				if (equal_null(r))
 					return -1;
 				int lheight = getHeight(r->left);
 				int rheight = getHeight(r->right);
@@ -731,7 +755,8 @@ namespace ft
 				int height = getHeight(this->tree());
 				pointer nodes[height];
 				int i = 0;
-				while (current != NULL && current->pair.first != k)
+				// while (current != NULL && current->pair.first != k) 
+				while (!equal_null(current) && _getter(current->pair))
 				{
 					nodes[i++] = current;
 					if (this->_compare(k, _getter(current->pair)))
@@ -747,7 +772,8 @@ namespace ft
 						if (i > 0)
 						{
 							*isRoot = false;
-							if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
+							// if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
+							if (!equal_null(nodes[i - 1]->right) && _getter(nodes[i - 1]->right->pair) == _getter(nodes[i]->pair))
 								*left = false;
 							else
 								*left = true;
@@ -821,7 +847,8 @@ namespace ft
 
 			void print2D(pointer r, int space = 0)
 			{
-				if (r == NULL) // || if (equal_null(r))
+				// if (r == NULL)
+				if (equal_null(r))
 					return;
 				space += SPACE;
 				print2D(r->right, space);
@@ -871,7 +898,8 @@ namespace ft
 
 				void printInorder(pointer r) //  (Left, current node, Right)
 				{
-					if (r == NULL) //if (equal_null(r))
+					// if (r == NULL)
+					if (equal_null(r))
 						return;
 					printInorder(r->left);
 					std::cout << r->pair.first << " "; 
@@ -880,7 +908,8 @@ namespace ft
 
 				void printIndisorder(pointer r) //  (Left, current node, Right)
 				{
-					if (r == NULL) //if (equal_null(r))
+					// if (r == NULL)
+					if (equal_null(r))
 						return;
 					// static int i = 0;
 					// std::cout << i++ << std::endl;
@@ -892,7 +921,8 @@ namespace ft
 
 				void printPostorder(pointer r) //(Left, Right, Root)
 				{
-					if (r == NULL) //if (equal_null(r))
+					// if (r == NULL)
+					if (equal_null(r))
 						return;
 					// first recur on left subtree 
 					printPostorder(r -> left);
@@ -904,7 +934,8 @@ namespace ft
 
 				void printPreorder(pointer r) //(current node, Left, Right) 
 				{
-					if (r == NULL) //if (equal_null(r))
+					// if (r == NULL)
+					if (equal_null(r))
 						return;
 					std::cout << r->pair.first << " ";
 					printPreorder(r -> left);
@@ -913,16 +944,14 @@ namespace ft
 
 			bool isTreeEmpty()
 			{
-				if (this->_tree->full == false)
-					return true;
-				else
-					return false;
+				return (this->_tree->full == false);
 			}
 
 			pointer minValueNode(pointer node)
 			{
   				pointer current = node;
-    			while (current->left != NULL)
+    			// while (current->left != NULL)
+    			while (!equal_null(current->left))
 				{
      				current = current -> left;
 				}
@@ -937,7 +966,8 @@ namespace ft
 			void callFindKeyInValue(const key_type k)
 			{
 				pointer node = findKeyInTree(k);
-				if (node == NULL) //if (equal_null(r))
+				// if (node == NULL)
+				if (equal_null(node))
 					std::cout << "key " << k << " not found" << std::endl;
 				else
 				{
@@ -987,16 +1017,17 @@ namespace ft
 						r->right = deleteNode(r->right, _getter(tmp->pair));
 					}
 				}
-				return balanceSubTree(r));
-				// r = balanceSubTree(r);
-				// this->farRightNode(this->_tree)->right = this->_sentry;
-				// return r;
+				// return balanceSubTree(r));
+				r = balanceSubTree(r);
+				this->farRightNode(this->_tree)->right = this->_sentry;
+				return r;
 			}
 
 			pointer findKeyInTree(const key_type k) const
 			{
 				pointer current = this->tree();
-				while (current != NULL && _getter(current->pair) != k) // !equal_null(current)
+				// while (current != NULL && _getter(current->pair) != k)
+				while (!equal_null(current) && _getter(current->pair) != k)
 				{
 					if (this->_compare(k, _getter(current->pair)))
 						current = current->left;
@@ -1009,7 +1040,8 @@ namespace ft
 			iterator findKeyPositionInTree(const key_type k)
 			{
 				iterator current = this->begin();
-				while (current != this->end() && _getter(*current) != k)
+				// while (current != this->end() && _getter(*current) != k)
+				while (current != this->end() && current.base() != NULL && _getter(*current) != k)
 				{
 					current++;
 				}
@@ -1019,7 +1051,8 @@ namespace ft
 			const_iterator findKeyPositionInTreeConst(const key_type k) const
 			{
 				const_iterator current = this->begin();
-				while (current != this->end() && _getter(*current) != k)
+				// while (current != this->end() && _getter(*current) != k)
+				while (current != this->end() && current.base() != NULL && _getter(*current) != k)
 				{
 					current++;
 				}
@@ -1029,7 +1062,8 @@ namespace ft
 			pointer farLeftNode(pointer curr) const
 			{
 				pointer current = curr;
-				while (current->left != NULL) // equal_null(current->left)
+				// while (current->left != NULL)
+				while (!equal_null(current->left))
 					current = current->left;
 				return (current);
 			}
@@ -1037,7 +1071,8 @@ namespace ft
 			pointer farRightNode(pointer curr) const
 			{
 				pointer current = curr;
-				while (current->right != NULL) // equal_null(current->right)
+				// while (current->right != NULL)
+				while (!equal_null(current->right))
 					current = current->right;
 				return (current);
 			}
