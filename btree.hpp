@@ -469,14 +469,14 @@ namespace ft
 				this->_allocator_type = instance._allocator_type;
 				this->_allocator_node = instance._allocator_node;
 				this->_compare = instance._compare;
-				if (no_null(this->_tree))
-				{
-					this->destroyAndDeallocateAllNodes(this->_tree);
-				}
-				else
+				if (this->_tree == NULL)
 				{
 					this->_sentry = this->try_allocation_node(sizeof(node));
 					this->_allocator_node.construct(this->_sentry, *instance._sentry);
+				}
+				else
+				{
+					this->destroyAndDeallocateAllNodes(this->_tree);
 				}
 				this->_tree = this->_sentry;
 				for (const_iterator it = instance.begin(); it != instance.end(); it++)

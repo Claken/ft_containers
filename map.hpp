@@ -78,6 +78,7 @@ namespace ft
 				
 				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x)
 				{
+					std::cout << "MAP OPERATOP =" << std::endl;
 					this->_tree = x._tree;
 					return *this;
 				}

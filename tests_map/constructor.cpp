@@ -64,17 +64,17 @@ int main ()
 	}
 	std::cout << std::endl;
 
-	TESTED_NAMESPACE::map<char,int,classcomp> fourth;                 // class as Compare
-	fourth.insert(third.begin(), third.end());
+	// TESTED_NAMESPACE::map<char,int,classcomp> fourth;                 // class as Compare
+	// fourth.insert(third.begin(), third.end());
 
-	std::cout << "FOURTH" << std::endl;
-	for (TESTED_NAMESPACE::map<char,int,classcomp>::iterator it = fourth.begin(); it != fourth.end(); it++)
-	{
-		std::cout << "it->first  = " << it->first << std::endl;
-		std::cout << "it->second = " << it->second << std::endl;
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
+	// std::cout << "FOURTH" << std::endl;
+	// for (TESTED_NAMESPACE::map<char,int,classcomp>::iterator it = fourth.begin(); it != fourth.end(); it++)
+	// {
+	// 	std::cout << "it->first  = " << it->first << std::endl;
+	// 	std::cout << "it->second = " << it->second << std::endl;
+	// 	std::cout << std::endl;
+	// }
+	// std::cout << std::endl;
 
 	// bool(*fn_pt)(char,char) = fncomp;
 	// TESTED_NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
