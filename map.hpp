@@ -78,7 +78,6 @@ namespace ft
 				
 				map<Key,T,Compare,Allocator>& 	operator=(const map<Key,T,Compare,Allocator>& x)
 				{
-					std::cout << "MAP OPERATOP =" << std::endl;
 					this->_tree = x._tree;
 					return *this;
 				}
@@ -238,14 +237,12 @@ namespace ft
 
 				iterator 							lower_bound(const key_type& x)
 				{
-					iterator ret = this->_tree.lower_bound(x);
-					return ret;
+					return this->_tree.lower_bound(x);
 				}
 
 				const_iterator 						lower_bound(const key_type& x) const
 				{
-					const_iterator ret = this->_tree.lower_bound(x);
-					return ret;
+					return this->_tree.lower_bound(x);
 				}
 
 				iterator 							upper_bound(const key_type& x)

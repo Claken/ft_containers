@@ -613,6 +613,7 @@ namespace ft
 			void 							swap(Tree& x)
 			{
 				std::swap(this->_tree, x._tree);
+				std::swap(this->_sentry, x._sentry);
 				std::swap(this->_allocator_type, x._allocator_type);
 				std::swap(this->_allocator_node, x._allocator_node);
 				std::swap(this->_compare, x._compare);
