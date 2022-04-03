@@ -162,7 +162,7 @@ namespace ft
 			}
 			// else
 			// {
-				return this->farRightNode(this->_current->left);
+			return this->farRightNode(this->_current->left);
 			// }
 			// return NULL;
 		}
@@ -175,24 +175,16 @@ namespace ft
 			int i = 0;
 			
 			// while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
-			// std::cout << "increase" << std::endl;
 			while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
 			{
 				nodes[i++] = curr;
-				// std::cout << "curr    == " << curr->pair.first << std::endl;
-				// std::cout << "current == " << _current->pair.first << std::endl;
 				// this->_current->compare(_getter(_current->pair), _getter(curr->pair))
 				if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-				{
 					curr = curr->left;
-				}
 				else
-				{
 					curr = curr->right;
-				}
 			}
 			i--;
-			// std::cout << "increase after while" << std::endl;
 			// if (_current->right == NULL)
 			if (equal_null(_current) && i > -1 && no_null(nodes[i]))
 				return this->farLeftNode(nodes[i]);
@@ -278,7 +270,7 @@ namespace ft
 				full = false;
 			}
 
-			Node(Pair value, const Allocator& = Allocator())
+			Node(Pair value, const Allocator& = Allocator(), const Compare& = Compare())
 			{
 				allocator = Allocator();
 				compare = Compare();
@@ -391,6 +383,8 @@ namespace ft
 				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
 				newnode->full = true;
 				this->_size++;
+				// std::cout << "newnode->pair.first == " << newnode->pair.first << std::endl;
+				// std::cout << "newnode->compare ==    " << newnode->compare(newnode->pair.first, newnode->pair.first) << std::endl;
 				return newnode;
 			}
 
@@ -414,6 +408,7 @@ namespace ft
 						left = false;
 					}
 				}
+				// std::cout << "svg == " << svg->pair.first << std::endl;
 				if (left)
 					svg->left = newnode;
 				else

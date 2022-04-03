@@ -76,17 +76,17 @@ int main ()
 	}
 	std::cout << std::endl;
 
-	bool(*fn_pt)(char,char) = fncomp;
-	TESTED_NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
-	fifth.insert(third.begin(), third.end());
+	// bool(*fn_pt)(char,char) = fncomp;
+	// TESTED_NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+	// fifth.insert(third.begin(), third.end());
 
-	std::cout << "FIFTH" << std::endl;
-	for (TESTED_NAMESPACE::map<char,int,bool(*)(char,char)>::iterator it = fifth.begin(); it != fifth.end(); it++)
-	{
-		std::cout << "it->first  = " << it->first << std::endl;
-		std::cout << "it->second = " << it->second << std::endl;
-		std::cout << std::endl;
-	}
+	// std::cout << "FIFTH" << std::endl;
+	// for (TESTED_NAMESPACE::map<char,int,bool(*)(char,char)>::iterator it = fifth.begin(); it != fifth.end(); it++)
+	// {
+	// 	std::cout << "it->first  = " << it->first << std::endl;
+	// 	std::cout << "it->second = " << it->second << std::endl;
+	// 	std::cout << std::endl;
+	// }
 
 	return 0;
 }
