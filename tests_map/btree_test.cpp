@@ -116,41 +116,41 @@ int main(void)
     std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
 
-    // btree.callFindKeyInValue("i");
-    // btree.callFindKeyInValue("x");
+    btree.callFindKeyInValue("i");
+    btree.callFindKeyInValue("x");
 
-    // std::cout << "printInorder : ";
-    // btree.printInorder(btree.tree());
-    // std::cout << std::endl;
+    std::cout << "printInorder : ";
+    btree.printInorder(btree.tree());
+    std::cout << std::endl;
 
-    // std::cout << "iterator     : ";
-    // ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it;
-    // for (it = btree.begin(); it != btree.end(); ++it)
-    // {
-    //     std::cout << it->first << " ";
-    // }
-    // std::cout << std::endl;
-    // it--;
-    // std::cout <<  it->first << std::endl;
-    // std::cout << "reverse_iterator : ";
-    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
-    // {
-    //     std::cout << it->first << " ";
-    // }
-    // std::cout << std::endl;
-    // std::cout << "printIndisorder  : ";
-    // btree.printIndisorder(btree.tree());
-    // std::cout << std::endl;
+    std::cout << "iterator     : ";
+    ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it;
+    for (it = btree.begin(); it != btree.end(); ++it)
+    {
+        std::cout << it->first << " ";
+    }
+    std::cout << std::endl;
+    it--;
+    std::cout <<  it->first << std::endl;
+    std::cout << "reverse_iterator : ";
+    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    {
+        std::cout << it->first << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "printIndisorder  : ";
+    btree.printIndisorder(btree.tree());
+    std::cout << std::endl;
 
-    // std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
-    // std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
+    std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
+    std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
 
-    // ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
+    ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
 
-    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
-    // {
-    //     std::cout << it->first << " ";
-    // }
+    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
+    {
+        std::cout << it->first << " ";
+    }
     
     return (0);
 }
