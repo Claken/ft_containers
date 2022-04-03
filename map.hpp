@@ -191,8 +191,8 @@ namespace ft
 					unsigned int i = 0;
 					for (iterator it = first; it != last; it++)
 						tab[i++] = it;
-					for (i = 0; i < n; i++)
-						erase(tab[i]);
+					for (int j = i - 1; j > -1; j--)
+						erase(tab[j]);
 				}
 
 				void 							swap(map<Key,T,Compare,Allocator>& x)
