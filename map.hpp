@@ -232,7 +232,8 @@ namespace ft
 
 				size_type 							count(const key_type& x) const
 				{
-					return this->_tree.findKeyInTree(x) != NULL ? 1 : 0;
+					node_pointer node = this->_tree.findKeyInTree(x);
+					return (node != NULL && node != this->_tree.sentry());
 				}
 
 				iterator 							lower_bound(const key_type& x)

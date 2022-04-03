@@ -587,6 +587,11 @@ namespace ft
 				return this->_compare;
 			}
 
+			pointer sentry() const
+			{
+				return this->_sentry;
+			}
+
 			pointer rightRotate(pointer node)
 			{
 				pointer x = node->left; // noeud a mettre a la place de node
