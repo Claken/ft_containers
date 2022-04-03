@@ -13,17 +13,17 @@ int main ()
   mymap.insert ( TESTED_NS::pair<char,int>('a',100) );
   mymap.insert ( TESTED_NS::pair<char,int>('z',200) );
 
-  // TESTED_NS::pair<TESTED_NS::map<char,int>::iterator,bool> ret;
-  // ret = mymap.insert ( TESTED_NS::pair<char,int>('z',500) );
-  // if (ret.second==false) {
-  //   std::cout << "element 'z' already existed";
-  //   std::cout << " with a value of " << ret.first->second << '\n';
-  // }
+  TESTED_NS::pair<TESTED_NS::map<char,int>::iterator,bool> ret;
+  ret = mymap.insert ( TESTED_NS::pair<char,int>('z',500) );
+  if (ret.second==false) {
+    std::cout << "element 'z' already existed";
+    std::cout << " with a value of " << ret.first->second << '\n';
+  }
 
   TESTED_NS::map<char,int>::iterator it = mymap.begin();
-  it++;
+  // // it++;
   mymap.insert (it, TESTED_NS::pair<char,int>('b',300));  // max efficiency inserting
-  // it--;
+  // // it--;
   mymap.insert (it, TESTED_NS::pair<char,int>('c',400));  // no max efficiency inserting
 
   // std::cout << it1->first << " " << it1->second << std::endl;

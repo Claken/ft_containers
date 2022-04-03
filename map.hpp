@@ -165,6 +165,7 @@ namespace ft
 					{
 						for (InputIterator it = first; it != last; it++)
 						{
+							// std::cout << "it == " << it->first << std::endl;
 							this->insert(*it);
 						}
 					}

@@ -33,6 +33,7 @@ int main ()
 
 	caca.insert(TESTED_NAMESPACE::pair<char, int>('e', 789));
 
+	std::cout << "CACA" << std::endl;
 	for (TESTED_NAMESPACE::map<char,int>::iterator it = caca.begin(); it != caca.end(); it++)
 	{
 		std::cout << "it->first  = " << it->first << std::endl;
@@ -43,6 +44,7 @@ int main ()
 
 	TESTED_NAMESPACE::map<char,int> second (caca.begin(),caca.end());
 
+	std::cout << "SECOND" << std::endl;
 	for (TESTED_NAMESPACE::map<char,int>::iterator it = second.begin(); it != second.end(); it++)
 	{
 		std::cout << "it->first  = " << it->first << std::endl;
@@ -53,6 +55,7 @@ int main ()
 
 	TESTED_NAMESPACE::map<char,int> third (second);
 
+	std::cout << "THIRD" << std::endl;
 	for (TESTED_NAMESPACE::map<char,int>::iterator it = third.begin(); it != third.end(); it++)
 	{
 		std::cout << "it->first  = " << it->first << std::endl;
@@ -62,16 +65,28 @@ int main ()
 	std::cout << std::endl;
 
 	TESTED_NAMESPACE::map<char,int,classcomp> fourth;                 // class as Compare
+	fourth.insert(third.begin(), third.end());
 
-	for (TESTED_NAMESPACE::map<char,int>::iterator it = fourth.begin(); it != fourth.end(); it++)
+	std::cout << "FOURTH" << std::endl;
+	for (TESTED_NAMESPACE::map<char,int,classcomp>::iterator it = fourth.begin(); it != fourth.end(); it++)
 	{
 		std::cout << "it->first  = " << it->first << std::endl;
 		std::cout << "it->second = " << it->second << std::endl;
 		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 
 	bool(*fn_pt)(char,char) = fncomp;
 	TESTED_NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+	fifth.insert(third.begin(), third.end());
+
+	std::cout << "FIFTH" << std::endl;
+	for (TESTED_NAMESPACE::map<char,int,bool(*)(char,char)>::iterator it = fifth.begin(); it != fifth.end(); it++)
+	{
+		std::cout << "it->first  = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+		std::cout << std::endl;
+	}
 
 	return 0;
 }
