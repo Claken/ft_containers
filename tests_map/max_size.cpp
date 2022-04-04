@@ -1,11 +1,14 @@
 // map::max_size
 #include <iostream>
 #include <map>
+#include "../map.hpp"
+
+#define NAME_SP ft
 
 int main ()
 {
   int i;
-  std::map<int,int> mymap;
+  NAME_SP::map<int,int> mymap;
 
   std::cout << mymap.max_size() << std::endl;
 

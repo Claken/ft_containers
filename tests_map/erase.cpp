@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define TESTED_NS std
+#define TESTED_NS ft
 
 int main ()
 {

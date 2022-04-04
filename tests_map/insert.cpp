@@ -21,7 +21,7 @@ int main ()
   }
 
   TESTED_NS::map<char,int>::iterator it = mymap.begin();
-  // // it++;
+  // it++;
   mymap.insert (it, TESTED_NS::pair<char,int>('b',300));  // max efficiency inserting
   // // it--;
   mymap.insert (it, TESTED_NS::pair<char,int>('c',400));  // no max efficiency inserting
