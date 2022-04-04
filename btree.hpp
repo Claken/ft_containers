@@ -612,13 +612,13 @@ namespace ft
 
 			void 							swap(Tree& x)
 			{
-				std::swap(this->_tree, x._tree);
-				std::swap(this->_sentry, x._sentry);
-				std::swap(this->_allocator_type, x._allocator_type);
-				std::swap(this->_allocator_node, x._allocator_node);
-				std::swap(this->_compare, x._compare);
-				std::swap(this->_getter, x._getter);
-				std::swap(this->_size, x._size);
+				ft::swap(this->_tree, x._tree);
+				ft::swap(this->_sentry, x._sentry);
+				ft::swap(this->_allocator_type, x._allocator_type);
+				ft::swap(this->_allocator_node, x._allocator_node);
+				ft::swap(this->_compare, x._compare);
+				ft::swap(this->_getter, x._getter);
+				ft::swap(this->_size, x._size);
 			}
 
 			pointer leftRotate(pointer node)
