@@ -251,6 +251,8 @@ namespace ft
 	{
 		public:
 
+			typedef typename Allocator::template rebind<Pair>::other 	allocator_type;
+
 			// Node							*parent;
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
@@ -259,33 +261,29 @@ namespace ft
 			Allocator						allocator;
 			Compare							compare;
 
-			Node(const Allocator& = Allocator(), const Compare& = Compare())
+			Node(const allocator_type& = allocator_type(), const Compare& = Compare()) : pair()
 			{
-				allocator = Allocator();
+				allocator = allocator_type();
 				compare = Compare();
-				allocator.construct(&pair, ft::make_pair(pair.first, pair.second));
 				// parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = false;
 			}
 
-			Node(Pair value, const Allocator& = Allocator(), const Compare& = Compare())
+			Node(Pair value, const allocator_type& = allocator_type(), const Compare& = Compare()) : pair(value)
 			{
-				allocator = Allocator();
+				allocator = allocator_type();
 				compare = Compare();
-				std::cout << "NODE BEFORE CONSTRUCT" << std::endl;
-				allocator.construct(&pair, ft::make_pair(value.first, value.second));
-				std::cout << "NODE AFTER CONSTRUCT" << std::endl;
 				// parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = true;
 			}
 
-			~Node()
+			virtual ~Node()
 			{
-				allocator.destroy(&pair);
+				// allocator.destroy(&pair);
 			}
 
 	};
