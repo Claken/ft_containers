@@ -251,8 +251,6 @@ namespace ft
 	{
 		public:
 
-			typedef typename Allocator::template rebind<Pair>::other 	allocator_type;
-
 			// Node							*parent;
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
@@ -261,9 +259,9 @@ namespace ft
 			Allocator						allocator;
 			Compare							compare;
 
-			Node(const allocator_type& = allocator_type(), const Compare& = Compare()) : pair()
+			Node(const Allocator& = Allocator(), const Compare& = Compare()) : pair()
 			{
-				allocator = allocator_type();
+				allocator = Allocator();
 				compare = Compare();
 				// parent = NULL;
 				right = NULL;
@@ -271,9 +269,9 @@ namespace ft
 				full = false;
 			}
 
-			Node(Pair value, const allocator_type& = allocator_type(), const Compare& = Compare()) : pair(value)
+			Node(Pair value, const Allocator& = Allocator(), const Compare& = Compare()) : pair(value)
 			{
-				allocator = allocator_type();
+				allocator = Allocator();
 				compare = Compare();
 				// parent = NULL;
 				right = NULL;
@@ -379,17 +377,17 @@ namespace ft
 
 			pointer create_node(const value_type& x)
 			{
-				std::cout << "create node call" << std::endl;
+				// std::cout << "create node call" << std::endl;
 				pointer newnode = this->try_allocation_node(sizeof(node));
-				std::cout << "before construct" << std::endl;
-				std::cout << x.first << std::endl;
+				// std::cout << "before construct" << std::endl;
+				// std::cout << x.first << std::endl;
 				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
-				std::cout << "damn" << std::endl;
+				// std::cout << "damn" << std::endl;
 				newnode->full = true;
 				this->_size++;
 				// std::cout << "newnode->pair.first == " << newnode->pair.first << std::endl;
 				// std::cout << "newnode->compare ==    " << newnode->compare(newnode->pair.first, newnode->pair.first) << std::endl;
-				std::cout << "create node end" << std::endl;
+				// std::cout << "create node end" << std::endl;
 				return newnode;
 			}
 
@@ -658,12 +656,12 @@ namespace ft
 				}
 				else
 				{
-					std::cout << "insert else" << std::endl;
+					// std::cout << "insert else" << std::endl;
 					pointer newnode = create_node(x);
-					std::cout << "newnode == " << newnode->pair.first << std::endl;
+					// std::cout << "newnode == " << newnode->pair.first << std::endl;
 					insert_node(newnode, this->_tree);
 					balance_function(newnode);
-					std::cout << "end of insert else" << std::endl;
+					// std::cout << "end of insert else" << std::endl;
 				}
 				return this->findKeyPositionInTree(x.first);
 			}
