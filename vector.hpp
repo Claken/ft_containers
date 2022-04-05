@@ -597,10 +597,10 @@ namespace ft
 
 		void						swap(ft::vector<T, Allocator>& x)
 		{
-			std::swap(this->_array, x._array);
-			std::swap(this->_size, x._size);
-			std::swap(this->_capacity, x._capacity);
-			std::swap(this->_allocator_type, x._allocator_type);
+			ft::swap(this->_array, x._array);
+			ft::swap(this->_size, x._size);
+			ft::swap(this->_capacity, x._capacity);
+			ft::swap(this->_allocator_type, x._allocator_type);
 		}
 
 		void						clear()
@@ -638,14 +638,6 @@ namespace ft
 		friend bool operator<=(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
 		{
 			return !(y < x);
-		}
-
-		friend void swap(vector<T,Allocator>& x, vector<T,Allocator>& y)
-		{
-			std::swap(x._array, y._array);
-			std::swap(x._size, y._size);
-			std::swap(x._capacity, y._capacity);
-			std::swap(x._allocator_type, y._allocator_type);
 		}
 
 		private:
@@ -689,5 +681,10 @@ namespace ft
 		}
 	};
 
+	template <class T, class Alloc>
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
 
 };

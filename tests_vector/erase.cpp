@@ -20,9 +20,9 @@ int main ()
 	}
 
 	// erase the 6th element
-	// std::vector<int>::iterator it = myvector.erase (myvector.begin()+5);
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it = myvector.erase (myvector.begin()+5);
 
-	// std::cout << "*it == " << *it << std::endl;
+	std::cout << "*it == " << *it << std::endl;
 
 	// // erase the first 3 elements:
 	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it2 = myvector.erase (myvector.begin()+4, myvector.end()-3);

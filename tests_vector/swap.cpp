@@ -34,7 +34,8 @@ int main (void)
 	TESTED_NAMESPACE::vector<TESTED_TYPE> foo (3,100);   // three ints with a value of 100
 	TESTED_NAMESPACE::vector<TESTED_TYPE> bar (5,200);   // five ints with a value of 200
 
-	foo.swap(bar);
+	// foo.swap(bar); // swap membre
+	swap(foo, bar); // swap non-membre
 
 	std::cout << "foo contains:";
 	for (TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it = foo.begin(); it!=foo.end(); ++it)

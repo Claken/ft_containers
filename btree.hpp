@@ -802,7 +802,7 @@ namespace ft
 				for (; it != this->end(); it++)
 				{
 					if (!this->_compare(_getter(*it), x))
-						return it;
+						break;
 				}
 				return it;
 			}
@@ -813,7 +813,7 @@ namespace ft
 				for (; it != this->end(); it++)
 				{
 					if (!this->_compare(_getter(*it), x))
-						return it;
+						break;
 				}
 				return it;
 			}
@@ -824,7 +824,7 @@ namespace ft
 				for (; it != this->end(); it++)
 				{
 					if (this->_compare(x, _getter(*it)))
-						return it;
+						break;
 				}
 				return it;
 			}
@@ -835,7 +835,7 @@ namespace ft
 				for (; it != this->end(); it++)
 				{
 					if (this->_compare(x, _getter(*it)))
-						return it;
+						break;
 				}
 				return it;
 			}

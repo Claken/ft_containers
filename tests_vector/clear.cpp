@@ -23,8 +23,8 @@ int main ()
   std::cout << myvector.empty() << std::endl;
 
 
-  std::cout << "aTESTED_NAMESPACEer clear:";
-  for (unsigned i=0; i<myvector.capacity(); i++)
+  std::cout << "after clear:";
+  for (unsigned i=0; i<myvector.size(); i++)
     std::cout << ' ' << myvector[i];
   std::cout << '\n';
 
