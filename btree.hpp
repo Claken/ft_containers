@@ -798,7 +798,7 @@ namespace ft
 
 			iterator 							lower_bound(const key_type& x)
 			{
-				iterator it = this->findKeyPositionInTree(x);
+				iterator it = this->begin();
 				for (; it != this->end(); it++)
 				{
 					if (!this->_compare(_getter(*it), x))
@@ -809,7 +809,7 @@ namespace ft
 
 			const_iterator 						lower_bound(const key_type& x) const
 			{
-				const_iterator it = this->findKeyPositionInTreeConst(x);
+				const_iterator it = this->begin();
 				for (; it != this->end(); it++)
 				{
 					if (!this->_compare(_getter(*it), x))
@@ -820,7 +820,7 @@ namespace ft
 
 			iterator 							upper_bound(const key_type& x)
 			{
-				iterator it = this->findKeyPositionInTree(x);
+				iterator it = this->begin();
 				for (; it != this->end(); it++)
 				{
 					if (this->_compare(x, _getter(*it)))
@@ -831,7 +831,7 @@ namespace ft
 
 			const_iterator 						upper_bound(const key_type& x) const
 			{
-				const_iterator it = this->findKeyPositionInTreeConst(x);
+				const_iterator it = this->begin();
 				for (; it != this->end(); it++)
 				{
 					if (this->_compare(x, _getter(*it)))
@@ -1050,6 +1050,7 @@ namespace ft
 				// while (current != this->end() && _getter(*current) != k)
 				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
 				{
+					// std::cout << "key pos in tree current == " << current->first << std::endl;
 					current++;
 				}
 				return current;
