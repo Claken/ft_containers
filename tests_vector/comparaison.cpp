@@ -11,6 +11,12 @@ int main ()
 	TESTED_NAMESPACE::vector<TESTED_TYPE> foo (3,100);   // three ints with a value of 100
 	TESTED_NAMESPACE::vector<TESTED_TYPE> bar (2,200);   // two ints with a value of 200
 
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it = foo.begin();
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::const_iterator cit = foo.begin();
+
+	if (it == cit)
+		std::cout << "it et cit sont pareils" << std::endl;
+
 	if (foo == bar)
 		std::cout << "foo and bar are equal\n";
 	if (foo != bar)

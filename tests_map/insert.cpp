@@ -12,6 +12,7 @@ int main ()
   // first insert function version (single parameter):
   mymap.insert ( TESTED_NS::pair<char,int>('a',100) );
   mymap.insert ( TESTED_NS::pair<char,int>('z',200) );
+  mymap.insert ( TESTED_NS::pair<char,int>('z',50) );
 
   TESTED_NS::pair<TESTED_NS::map<char,int>::iterator,bool> ret;
   ret = mymap.insert ( TESTED_NS::pair<char,int>('z',500) );
@@ -21,12 +22,8 @@ int main ()
   }
 
   TESTED_NS::map<char,int>::iterator it = mymap.begin();
-  // it++;
   mymap.insert (it, TESTED_NS::pair<char,int>('b',300));  // max efficiency inserting
-  // // it--;
   mymap.insert (it, TESTED_NS::pair<char,int>('c',400));  // no max efficiency inserting
-
-  // std::cout << it1->first << " " << it1->second << std::endl;
 
   // third insert function version (range insertion):
   TESTED_NS::map<char,int> anothermap;

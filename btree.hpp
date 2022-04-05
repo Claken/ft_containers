@@ -246,7 +246,7 @@ namespace ft
 		return (x.base() != y.base());
 	}
 
-	template <class Pair, class Compare, class Allocator = std::allocator<Pair> >
+	template <class Pair, class Compare> /*, class Allocator = std::allocator<Pair>*/
 	class Node
 	{
 		public:
@@ -256,12 +256,12 @@ namespace ft
 			Node 							*left; 		// if the value is smaller than the value of parent
 			Pair							pair;
 			bool							full;
-			Allocator						allocator;
+			// Allocator					allocator;
 			Compare							compare;
 
-			Node(const Allocator& = Allocator(), const Compare& = Compare()) : pair()
+			Node(/*const Allocator& = Allocator(), */const Compare& = Compare()) : pair()
 			{
-				allocator = Allocator();
+				// allocator = Allocator();
 				compare = Compare();
 				// parent = NULL;
 				right = NULL;
@@ -269,9 +269,9 @@ namespace ft
 				full = false;
 			}
 
-			Node(Pair value, const Allocator& = Allocator(), const Compare& = Compare()) : pair(value)
+			Node(Pair value/*, const Allocator& = Allocator()*/, const Compare& = Compare()) : pair(value)
 			{
-				allocator = Allocator();
+				// allocator = Allocator();
 				compare = Compare();
 				// parent = NULL;
 				right = NULL;
@@ -286,7 +286,7 @@ namespace ft
 
 	};
 
-	template <class Pair, class Key, class KeyGetter, class Compare = std::less<Key>, class Allocator = std::allocator<Pair>, class Allocator2 = std::allocator<Node<Pair, Compare> > >
+	template <class Pair, class Key, class KeyGetter, class Compare, class Allocator >
 	class Tree
 	{
 		public:
@@ -297,6 +297,8 @@ namespace ft
 			typedef typename value_type::second_type										Data;
 			typedef Node<Pair, Compare>														node;
 			typedef node*																	pointer;
+			typedef Allocator																allocator_type;
+			typedef typename Allocator::template rebind<node>::other						allocator_node;
 			typedef typename ft::tree_iterator<node, value_type, KeyGetter> 				iterator;
 			typedef typename ft::tree_iterator<const node, const value_type, KeyGetter> 	const_iterator;
 			typedef ft::reverse_iterator<iterator>											reverse_iterator;
@@ -306,8 +308,8 @@ namespace ft
 		
 			pointer				_tree;
 			pointer				_sentry;
-			Allocator			_allocator_type;
-			Allocator2			_allocator_node;
+			allocator_type		_allocator_type;
+			allocator_node		_allocator_node;
 			key_compare			_compare;
 			KeyGetter			_getter;
 			std::size_t			_size;
@@ -435,10 +437,10 @@ namespace ft
 				
 		public:
 
-			explicit Tree(const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
+			explicit Tree(const Compare& comp = Compare(), const allocator_type& = allocator_type(), const allocator_node& = allocator_node())
 			{
-				this->_allocator_type = Allocator();
-				this->_allocator_node = Allocator2();
+				this->_allocator_type = allocator_type();
+				this->_allocator_node = allocator_node();
 				this->_compare = comp;
 				this->_sentry = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_sentry, Node<value_type, key_compare>());
@@ -446,10 +448,10 @@ namespace ft
 				this->_size = 0;
 			}
 
-			Tree(value_type value, const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
+			Tree(value_type value, const Compare& comp = Compare(), const allocator_type& = allocator_type(), const allocator_node& = allocator_node())
 			{
-				this->_Allocator = Allocator();
-				this->_allocator_node = Allocator2();
+				this->_allocator_type = allocator_type();
+				this->_allocator_node = allocator_node();
 				this->_compare = comp;
 				this->_sentry = this->try_allocation_node(sizeof(node));
 				this->_allocator_node.construct(this->_sentry, Node<value_type, key_compare>());
@@ -575,12 +577,12 @@ namespace ft
 				return this->_size;
 			}
 
-			Allocator get_allocator_type() const
+			allocator_type get_allocator_type() const
 			{
 				return this->_allocator_type;
 			}
 
-			Allocator2 get_allocator_node() const
+			allocator_node get_allocator_node() const
 			{
 				return this->_allocator_node;
 			}
