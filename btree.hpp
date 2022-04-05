@@ -274,7 +274,9 @@ namespace ft
 			{
 				allocator = Allocator();
 				compare = Compare();
+				std::cout << "NODE BEFORE CONSTRUCT" << std::endl;
 				allocator.construct(&pair, ft::make_pair(value.first, value.second));
+				std::cout << "NODE AFTER CONSTRUCT" << std::endl;
 				// parent = NULL;
 				right = NULL;
 				left = NULL;
@@ -379,12 +381,17 @@ namespace ft
 
 			pointer create_node(const value_type& x)
 			{
+				std::cout << "create node call" << std::endl;
 				pointer newnode = this->try_allocation_node(sizeof(node));
+				std::cout << "before construct" << std::endl;
+				std::cout << x.first << std::endl;
 				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
+				std::cout << "damn" << std::endl;
 				newnode->full = true;
 				this->_size++;
 				// std::cout << "newnode->pair.first == " << newnode->pair.first << std::endl;
 				// std::cout << "newnode->compare ==    " << newnode->compare(newnode->pair.first, newnode->pair.first) << std::endl;
+				std::cout << "create node end" << std::endl;
 				return newnode;
 			}
 
@@ -445,7 +452,7 @@ namespace ft
 
 			Tree(value_type value, const Compare& comp = Compare(), const Allocator& = Allocator(), const Allocator2& = Allocator2())
 			{
-				this->_allocator_type = Allocator();
+				this->_Allocator = Allocator();
 				this->_allocator_node = Allocator2();
 				this->_compare = comp;
 				this->_sentry = this->try_allocation_node(sizeof(node));
@@ -653,12 +660,12 @@ namespace ft
 				}
 				else
 				{
-					// std::cout << "insert else" << std::endl;
+					std::cout << "insert else" << std::endl;
 					pointer newnode = create_node(x);
-					// std::cout << "newnode == " << newnode->pair.first << std::endl;
+					std::cout << "newnode == " << newnode->pair.first << std::endl;
 					insert_node(newnode, this->_tree);
 					balance_function(newnode);
-					// std::cout << "end of insert else" << std::endl;
+					std::cout << "end of insert else" << std::endl;
 				}
 				return this->findKeyPositionInTree(x.first);
 			}
@@ -1013,7 +1020,7 @@ namespace ft
 				return r;
 			}
 
-			pointer findKeyInTree(const key_type k) const
+			pointer findKeyInTree(const key_type& k) const
 			{
 				pointer current = this->tree();
 				// while (current != NULL && _getter(current->pair) != k)
@@ -1027,10 +1034,11 @@ namespace ft
 				return current;
 			}
 
-			iterator findKeyPositionInTree(const key_type k)
+			iterator findKeyPositionInTree(const key_type& k)
 			{
 				iterator current = this->begin();
 				// while (current != this->end() && _getter(*current) != k)
+				// std::cout << "before while in findKeyPositionInTree" << std::endl;
 				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
 				{
 					// std::cout << "key pos in tree current == " << current->first << std::endl;
