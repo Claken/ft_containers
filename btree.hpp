@@ -343,14 +343,13 @@ namespace ft
 			void place_sentry_at_end(void)
 			{
 				pointer farRight = this->farRightNode(this->_tree);
-				// std::cout << "farRight == " << farRight->pair.first << std::endl;
-				std::cout << "farRight == " << farRight->pair.first << std::endl;
 				if (farRight->right != this->_sentry)
-				{
-					std::cout << "NO END IN FAR RIGHT" << std::endl;
 					farRight->right = this->_sentry;
-					farRight->right->parent = farRight;
-				}
+				if (this->_sentry->parent == NULL || this->_sentry->parent != farRight)
+					this->_sentry->parent = farRight;
+				// std::cout << "farRight == " << farRight->pair.first << std::endl;
+				// std::cout << "farRight->right == " << farRight->right->pair.first << std::endl;
+				// std::cout << "farRight->parent == " << farRight->parent->pair.first << std::endl;
 			}
 
 			void balance_function (pointer newnode)
@@ -365,17 +364,11 @@ namespace ft
 					// std::cout << "IT IS UNBALANCED !!!" << std::endl;
 					subtree = balanceSubTree(subtree);
 					if (isRoot)
-					{
 						this->_tree = subtree;
-					}
 					else if (left)
-					{
 						current->left = subtree;
-					}
 					else
-					{
 						current->right = subtree;
-					}
 				}
 				place_sentry_at_end();
 			}
@@ -781,21 +774,26 @@ namespace ft
 			pointer balanceSubTree(pointer unba)
 			{
 				int bf = getBalanceFactor(unba, 0);
+				// std::cout << "unba == " << unba->pair.first << std::endl;
 				if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
 				{
+					// std::cout << "leftRotate" << std::endl;
 					return leftRotate(unba);
 				}
 				else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
 				{
+					// std::cout << "rightRotate" << std::endl;
 					return rightRotate(unba);
 				}
 				else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
 				{
+					// std::cout << "left/right rotate" << std::endl;
 					unba->left = leftRotate(unba->left);
 					return rightRotate(unba);
 				}
 				else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
 				{
+					// std::cout << "right/left rotate" << std::endl;
 					unba->right = rightRotate(unba->right);
 					return leftRotate(unba);
 				}
@@ -1056,6 +1054,7 @@ namespace ft
 
 			void calldeleteNode(key_type k)
 			{
+				// std::cout << "node to delete : " << k << std::endl;
 				this->_tree = deleteNode(this->_tree, k);
 			}
 
@@ -1089,6 +1088,8 @@ namespace ft
 						pointer tmp = equal_null(r->left) ? r->right : r->left;
 						if (r == this->_tree && equal_null(tmp))
 							tmp = this->_sentry;
+						if (tmp != NULL && tmp->parent != r->parent)
+							tmp->parent = r->parent;
 						this->_allocator_node.destroy(r);
 						this->_allocator_node.deallocate(r, sizeof(r));
 						this->_size--;

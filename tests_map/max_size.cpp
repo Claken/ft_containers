@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define NAME_SP ft
+#define NAME_SP std
 
 int main ()
 {
