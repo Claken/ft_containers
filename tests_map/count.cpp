@@ -21,7 +21,9 @@ template <class Key, class T>
 void	print(map<Key, T>& lst)
 {
 	for (typename map<Key, T>::iterator it = lst.begin(); it != lst.end(); it++)
+	{
 		std::cout << it->first << " => " << it->second << '\n';
+	}
 }
 
 int main ()

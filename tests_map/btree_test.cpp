@@ -99,24 +99,28 @@ int main(void)
     btree.print2D(btree.tree(), 0);
 
     std::cout << "delete nodes" << std::endl;
-    // btree.calldeleteNode("x");
+    btree.calldeleteNode("x");
     btree.calldeleteNode("g");
-    // btree.calldeleteNode("f");
+    btree.calldeleteNode("f");
     btree.calldeleteNode("e");
-    // btree.calldeleteNode("a");
+    btree.calldeleteNode("a");
     btree.calldeleteNode("l");
-    // btree.calldeleteNode("b");
-    // btree.calldeleteNode("c");
-    // btree.calldeleteNode("z");
+    btree.calldeleteNode("b");
+    btree.calldeleteNode("c");
+    btree.calldeleteNode("z");
     btree.calldeleteNode("d");
     btree.calldeleteNode("k");
-    // btree.calldeleteNode("y");
+    btree.calldeleteNode("y");
+
+    if (btree.tree() == btree.sentry())
+        std::cout << "tree == sentry" << std::endl;
+
+    btree.insert(ft::pair<TYPE1, TYPE2>("ANOTHER ONE", 11));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
     std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
-
 
     btree.callFindKeyInValue("i");
     btree.callFindKeyInValue("x");
@@ -136,6 +140,7 @@ int main(void)
     if (it.base()->parent)
     	it--;
     std::cout << "(--it)->first == " << it->first << std::endl;
+
     std::cout << "reverse_iterator : ";
     for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
     {

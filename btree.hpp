@@ -258,7 +258,7 @@ namespace ft
 		return (x.base() != y.base());
 	}
 
-	template <class Pair, class Compare> /*, class Allocator = std::allocator<Pair>*/
+	template <class Pair, class Compare>
 	class Node
 	{
 		public:
@@ -267,34 +267,25 @@ namespace ft
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
 			Pair							pair;
-			bool							full;
-			// Allocator					allocator;
 			Compare							compare;
 
-			Node(/*const Allocator& = Allocator(), */const Compare& = Compare()) : pair()
+			Node(const Compare& = Compare()) : pair()
 			{
-				// allocator = Allocator();
 				compare = Compare();
 				parent = NULL;
 				right = NULL;
 				left = NULL;
-				full = false;
 			}
 
-			Node(Pair value/*, const Allocator& = Allocator()*/, const Compare& = Compare()) : pair(value)
+			Node(Pair value, const Compare& = Compare()) : pair(value)
 			{
-				// allocator = Allocator();
 				compare = Compare();
 				parent = NULL;
 				right = NULL;
 				left = NULL;
-				full = true;
 			}
 
-			virtual ~Node()
-			{
-				// allocator.destroy(&pair);
-			}
+			virtual ~Node() {}
 
 	};
 
@@ -394,7 +385,6 @@ namespace ft
 				// std::cout << x.first << std::endl;
 				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
 				// std::cout << "damn" << std::endl;
-				newnode->full = true;
 				this->_size++;
 				// std::cout << "newnode->pair.first == " << newnode->pair.first << std::endl;
 				// std::cout << "newnode->compare ==    " << newnode->compare(newnode->pair.first, newnode->pair.first) << std::endl;
@@ -622,7 +612,7 @@ namespace ft
 			{
 				pointer x = node;
 				pointer y = node->left;
-				
+
 				x->left = y->right;
 				if (y->right)
 					y->right->parent = x;
@@ -650,24 +640,18 @@ namespace ft
 
 			iterator insert(const value_type& x)
 			{
-				// if (this->_tree != NULL && !this->_tree->full)
 				if (this->_tree == this->_sentry)
 				{
-					// this->_allocator_type.destroy(&this->_tree->pair);
-					// this->_allocator_type.construct(&this->_tree->pair, ft::make_pair(x.first, x.second));
-					// this->_tree->full = true;
-					// this->_size++;
+					std::cout << "insert _tree : " << x.first << std::endl;
 					this->_tree = create_node(x);
 					this->_tree->right = this->_sentry;
+					this->_sentry->parent = this->_tree;
 				}
 				else
 				{
-					// std::cout << "insert else" << std::endl;
 					pointer newnode = create_node(x);
-					// std::cout << "newnode == " << newnode->pair.first << std::endl;
 					insert_node(newnode, this->_tree);
 					balance_function(newnode);
-					// std::cout << "end of insert else" << std::endl;
 				}
 				return this->findKeyPositionInTree(x.first);
 			}
@@ -746,7 +730,6 @@ namespace ft
 
 			int getHeight(pointer r)
 			{
-				// if (r == NULL)
 				if (equal_null(r))
 					return -1;
 				int lheight = getHeight(r->left);
@@ -769,16 +752,13 @@ namespace ft
 			{
 				pointer current = newnode;
 				while (current != NULL && getBalanceFactor(current, 1) <= 1)
-				{
 					current = current->parent;
-				}
 				if (current != NULL && getBalanceFactor(current, 1) > 1)
 				{
 					*subtree = current;
 					if (current != this->_tree)
 					{
 						*isRoot = false;
-						// if (no_null(nodes[i - 1]->right) && _getter(nodes[i - 1]->right->pair) == _getter(nodes[i]->pair))
 						if (no_null(current->parent->right) && _getter(current->parent->right->pair) == _getter(current->pair))
 							*left = false;
 						else
@@ -791,43 +771,6 @@ namespace ft
 				return NULL;
 			}
 
-			// pointer isUnbalanced(key_type k, bool *left, bool *isRoot, pointer *subtree)
-			// {
-			// 	pointer current = this->_tree;
-			// 	int height = getHeight(this->tree());
-			// 	pointer nodes[height];
-			// 	int i = 0;
-			// 	while (current != NULL && current->pair.first != k) 
-			// 	while (no_null(current) && _getter(current->pair) != k)
-			// 	{
-			// 		nodes[i++] = current;
-			// 		if (this->_compare(k, _getter(current->pair)))
-			// 			current = current->left;
-			// 		else
-			// 			current = current->right;
-			// 	}
-			// 	for (i = i - 1; i > -1; i--)
-			// 	{
-			// 		if (getBalanceFactor(nodes[i], 1) > 1)
-			// 		{
-			// 			*subtree = nodes[i];
-			// 			if (i > 0)
-			// 			{
-			// 				*isRoot = false;
-			// 				// if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
-			// 				if (no_null(nodes[i - 1]->right) && _getter(nodes[i - 1]->right->pair) == _getter(nodes[i]->pair))
-			// 					*left = false;
-			// 				else
-			// 					*left = true;
-			// 				return nodes[i - 1];
-			// 			}
-			// 			*isRoot = true;
-			// 			return (nodes[i]);
-			// 		}
-			// 	}	
-			// 	return NULL;
-			// }
-			
 			pointer tree() const
 			{
 				return (this->_tree);
@@ -889,7 +832,6 @@ namespace ft
 
 			void print2D(pointer r, int space = 0)
 			{
-				// if (r == NULL)
 				if (equal_null(r))
 					return;
 				space += SPACE;
@@ -936,7 +878,6 @@ namespace ft
 
 				void printInorder(pointer r) //  (Left, current node, Right)
 				{
-					// if (r == NULL)
 					if (equal_null(r))
 						return;
 					printInorder(r->left);
@@ -946,11 +887,8 @@ namespace ft
 
 				void printIndisorder(pointer r) //  (Left, current node, Right)
 				{
-					// if (r == NULL)
 					if (equal_null(r))
 						return;
-					// static int i = 0;
-					// std::cout << i++ << std::endl;
 					printIndisorder(r->right);
 					std::cout << r->pair.first << " ";
 					printIndisorder(r->left);
@@ -959,20 +897,15 @@ namespace ft
 
 				void printPostorder(pointer r) //(Left, Right, Root)
 				{
-					// if (r == NULL)
 					if (equal_null(r))
 						return;
-					// first recur on left subtree 
 					printPostorder(r -> left);
-					// then recur on right subtree 
 					printPostorder(r -> right);
-					// now deal with the node 
 					std::cout << r -> pair.first << " ";
 				}
 
 				void printPreorder(pointer r) //(current node, Left, Right) 
 				{
-					// if (r == NULL)
 					if (equal_null(r))
 						return;
 					std::cout << r->pair.first << " ";
@@ -982,16 +915,15 @@ namespace ft
 
 			bool isTreeEmpty()
 			{
-				return (this->_tree->full == false);
+				return (this->_size == 0);
 			}
 
 			pointer minValueNode(pointer node)
 			{
   				pointer current = node;
-    			// while (current->left != NULL)
     			while (no_null(current->left))
 				{
-     				current = current -> left;
+     				current = current->left;
 				}
    				return current;
  			}
@@ -1005,7 +937,6 @@ namespace ft
 			void callFindKeyInValue(const key_type k)
 			{
 				pointer node = findKeyInTree(k);
-				// if (node == NULL)
 				if (equal_null(node))
 					std::cout << "key " << k << " not found" << std::endl;
 				else
@@ -1055,7 +986,6 @@ namespace ft
 			pointer findKeyInTree(const key_type& k) const
 			{
 				pointer current = this->tree();
-				// while (current != NULL && _getter(current->pair) != k)
 				while (no_null(current) && _getter(current->pair) != k)
 				{
 					if (this->_compare(k, _getter(current->pair)))
@@ -1069,24 +999,18 @@ namespace ft
 			iterator findKeyPositionInTree(const key_type& k)
 			{
 				iterator current = this->begin();
-				// while (current != this->end() && _getter(*current) != k)
-				// std::cout << "before while in findKeyPositionInTree" << std::endl;
 				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
 				{
-					// std::cout << "key pos in tree current == " << current->first << std::endl;
 					current++;
 				}
-				// std::cout << "return current" << std::endl;
 				return current;
 			}
 
 			const_iterator findKeyPositionInTreeConst(const key_type k) const
 			{
 				const_iterator current = this->begin();
-				// while (current != this->end() && _getter(*current) != k)
 				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
 				{
-					// std::cout << "key pos in tree current == " << current->first << std::endl;
 					current++;
 				}
 				return current;
@@ -1095,7 +1019,6 @@ namespace ft
 			pointer farLeftNode(pointer curr) const
 			{
 				pointer current = curr;
-				// while (current->left != NULL)
 				while (no_null(current->left))
 					current = current->left;
 				return (current);
@@ -1104,7 +1027,6 @@ namespace ft
 			pointer farRightNode(pointer curr) const
 			{
 				pointer current = curr;
-				// while (current->right != NULL)
 				while (no_null(current->right))
 					current = current->right;
 				return (current);

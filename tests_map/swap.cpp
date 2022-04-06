@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define TESTED_NS ft
+#define TESTED_NS std
 
 int main ()
 {
@@ -16,8 +16,8 @@ int main ()
 	bar['b']=22;
 	bar['c']=33;
 
-	// foo.swap(bar); // swap membre
-	swap(foo, bar); // swap non-membre
+	foo.swap(bar); // swap membre
+	// swap(foo, bar); // swap non-membre
 
 	std::cout << "foo contains:\n";
 	for (TESTED_NS::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
