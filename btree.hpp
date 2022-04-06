@@ -338,9 +338,6 @@ namespace ft
 					farRight->right = this->_sentry;
 				if (this->_sentry->parent == NULL || this->_sentry->parent != farRight)
 					this->_sentry->parent = farRight;
-				// std::cout << "farRight == " << farRight->pair.first << std::endl;
-				// std::cout << "farRight->right == " << farRight->right->pair.first << std::endl;
-				// std::cout << "farRight->parent == " << farRight->parent->pair.first << std::endl;
 			}
 
 			void balance_function (pointer newnode)
@@ -348,11 +345,9 @@ namespace ft
 				pointer subtree;
 				bool isRoot;
 				bool left;
-				// pointer current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
 				pointer current = isUnbalanced(newnode, &left, &isRoot, &subtree);
 				if (current != NULL)
 				{
-					// std::cout << "IT IS UNBALANCED !!!" << std::endl;
 					subtree = balanceSubTree(subtree);
 					if (isRoot)
 						this->_tree = subtree;
@@ -379,16 +374,9 @@ namespace ft
 
 			pointer create_node(const value_type& x)
 			{
-				// std::cout << "create node call" << std::endl;
 				pointer newnode = this->try_allocation_node(sizeof(node));
-				// std::cout << "before construct" << std::endl;
-				// std::cout << x.first << std::endl;
 				this->_allocator_node.construct(newnode, Node<value_type, key_compare>(x));
-				// std::cout << "damn" << std::endl;
 				this->_size++;
-				// std::cout << "newnode->pair.first == " << newnode->pair.first << std::endl;
-				// std::cout << "newnode->compare ==    " << newnode->compare(newnode->pair.first, newnode->pair.first) << std::endl;
-				// std::cout << "create node end" << std::endl;
 				return newnode;
 			}
 
@@ -413,7 +401,6 @@ namespace ft
 					}
 				}
 				newnode->parent = svg;
-				// std::cout << "svg == " << svg->pair.first << std::endl;
 				if (left)
 					svg->left = newnode;
 				else
@@ -444,6 +431,142 @@ namespace ft
 				this->_allocator_node.destroy(node);
 				this->_allocator_node.deallocate(node, sizeof(node));
 				destroyAndDeallocateAllNodes(nodeleft);
+			}
+
+			pointer deleteNode(pointer r, key_type k)
+			{
+				if (equal_null(r))
+					return NULL;
+				if (this->_compare(k, _getter(r->pair)))
+					r->left = deleteNode(r->left, k);
+				else if (this->_compare(_getter(r->pair), k))
+					r->right = deleteNode(r->right, k);
+				else
+				{
+					if (equal_null(r->left) || equal_null(r->right))
+					{
+						pointer tmp = equal_null(r->left) ? r->right : r->left;
+						if (r == this->_tree && equal_null(tmp))
+							tmp = this->_sentry;
+						if (tmp != NULL && tmp->parent != r->parent)
+							tmp->parent = r->parent;
+						this->_allocator_node.destroy(r);
+						this->_allocator_node.deallocate(r, sizeof(r));
+						this->_size--;
+						return tmp;
+					}
+					else
+					{
+						pointer tmp = farLeftNode(r->right);
+						this->_allocator_type.destroy(&r->pair);
+						this->_allocator_type.construct(&r->pair, tmp->pair);
+						r->right = deleteNode(r->right, _getter(tmp->pair));
+					}
+				}
+				r = balanceSubTree(r);
+				place_sentry_at_end();
+				return r;
+			}
+
+			pointer farLeftNode(pointer curr) const
+			{
+				pointer current = curr;
+				while (no_null(current->left))
+					current = current->left;
+				return (current);
+			}
+
+			pointer farRightNode(pointer curr) const
+			{
+				pointer current = curr;
+				while (no_null(current->right))
+					current = current->right;
+				return (current);
+			}
+
+			pointer balanceSubTree(pointer unba)
+			{
+				int bf = getBalanceFactor(unba, 0);
+				if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
+				{
+					return leftRotate(unba);
+				}
+				else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
+				{
+					return rightRotate(unba);
+				}
+				else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
+				{
+					unba->left = leftRotate(unba->left);
+					return rightRotate(unba);
+				}
+				else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
+				{
+					unba->right = rightRotate(unba->right);
+					return leftRotate(unba);
+				}
+				return unba;
+			}
+
+			int getBalanceFactor(pointer n, int one)
+			{
+				if (one)
+   					return abs(getHeight(n->left) - getHeight(n->right));
+				else
+   					return (getHeight(n->left) - getHeight(n->right));
+  			}
+
+			pointer isUnbalanced(pointer newnode, bool *left, bool *isRoot, pointer *subtree)
+			{
+				pointer current = newnode;
+				while (current != NULL && getBalanceFactor(current, 1) <= 1)
+					current = current->parent;
+				if (current != NULL && getBalanceFactor(current, 1) > 1)
+				{
+					*subtree = current;
+					if (current != this->_tree)
+					{
+						*isRoot = false;
+						if (no_null(current->parent->right) && _getter(current->parent->right->pair) == _getter(current->pair))
+							*left = false;
+						else
+							*left = true;
+						return current->parent;
+					}
+					*isRoot = true;
+					return (current);
+				}
+				return NULL;
+			}
+
+			pointer rightRotate(pointer node)
+			{
+				pointer x = node;
+				pointer y = node->left;
+
+				x->left = y->right;
+				if (y->right)
+					y->right->parent = x;
+				y->parent = x->parent;
+				y->right = x;
+				x->parent = y;
+
+				return y;
+			}
+
+			pointer leftRotate(pointer node)
+			{
+				pointer x = node;
+				pointer y = node->right;
+
+				x->right = y->left;
+				if (y->left)
+					y->left->parent = x;
+				y->parent = x->parent;
+				y->left = x;
+				x->parent = y;
+
+				return y;
 			}
 				
 		public:
@@ -510,94 +633,94 @@ namespace ft
 				this->_allocator_node.deallocate(this->_sentry, sizeof(node));
 			}
 
-			iterator 						begin()
+			iterator 								begin()
 			{
 				iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				return it;
 			}
 
-			const_iterator 					begin() const
+			const_iterator 							begin() const
 			{
 				const_iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				return it;
 			}
 
-			iterator 						end()
+			iterator 								end()
 			{
 				iterator it(this->_sentry, this->tree());
 				return it;
 			}
 
-			const_iterator 					end() const
+			const_iterator 							end() const
 			{
 				const_iterator it(this->_sentry, this->tree());
 				return it;
 			}
 
-			reverse_iterator 				rbegin()
+			reverse_iterator 						rbegin()
 			{
 				iterator it(this->_sentry, this->tree());
 				reverse_iterator rit(it);
 				return rit;
 			}
 		
-			const_reverse_iterator 			rbegin() const
+			const_reverse_iterator 					rbegin() const
 			{
 				const_iterator it(this->_sentry, this->tree());
 				const_reverse_iterator rit(it);
 				return rit;
 			}
 			
-			reverse_iterator 				rend()
+			reverse_iterator 						rend()
 			{
 				iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				reverse_iterator rit(it);
 				return rit;
 			}
 			
-			const_reverse_iterator 			rend() const
+			const_reverse_iterator 					rend() const
 			{
 				const_iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
 				const_reverse_iterator rit(it);
 				return rit;
 			}
 
-			key_type first() const
+			key_type 								first() const
 			{
 				return (this->_tree->pair.first);
 			}
 
-			Data second() const
+			Data 									second() const
 			{
 				return (this->_tree->pair.second);
 			}
 
-			std::size_t size() const
+			std::size_t 							size() const
 			{
 				return this->_size;
 			}
 
-			allocator_type get_allocator_type() const
+			allocator_type 							get_allocator_type() const
 			{
 				return this->_allocator_type;
 			}
 
-			allocator_node get_allocator_node() const
+			allocator_node 							get_allocator_node() const
 			{
 				return this->_allocator_node;
 			}
 
-			key_compare	get_compare() const
+			key_compare								get_compare() const
 			{
 				return this->_compare;
 			}
 
-			pointer sentry() const
+			pointer									sentry() const
 			{
 				return this->_sentry;
 			}
 
-			void 							swap(Tree& x)
+			void 									swap(Tree& x)
 			{
 				ft::swap(this->_tree, x._tree);
 				ft::swap(this->_sentry, x._sentry);
@@ -608,41 +731,22 @@ namespace ft
 				ft::swap(this->_size, x._size);
 			}
 
-			pointer rightRotate(pointer node)
+			int										 getHeight(pointer r)
 			{
-				pointer x = node;
-				pointer y = node->left;
-
-				x->left = y->right;
-				if (y->right)
-					y->right->parent = x;
-				y->parent = x->parent;
-				y->right = x;
-				x->parent = y;
-
-				return y;
+				if (equal_null(r))
+					return -1;
+				int lheight = getHeight(r->left);
+				int rheight = getHeight(r->right);
+				if (lheight > rheight)
+					return (lheight + 1);
+				else
+					return (rheight + 1);
 			}
 
-			pointer leftRotate(pointer node)
-			{
-				pointer x = node;
-				pointer y = node->right;
-
-				x->right = y->left;
-				if (y->left)
-					y->left->parent = x;
-				y->parent = x->parent;
-				y->left = x;
-				x->parent = y;
-
-				return y;
-			}
-
-			iterator insert(const value_type& x)
+			iterator 								insert(const value_type& x)
 			{
 				if (this->_tree == this->_sentry)
 				{
-					std::cout << "insert _tree : " << x.first << std::endl;
 					this->_tree = create_node(x);
 					this->_tree->right = this->_sentry;
 					this->_sentry->parent = this->_tree;
@@ -656,7 +760,7 @@ namespace ft
 				return this->findKeyPositionInTree(x.first);
 			}
 
-			iterator insert(iterator hint, const value_type& x)
+			iterator 								insert(iterator hint, const value_type& x)
 			{
 				if (hint == this->begin())
 				{
@@ -699,84 +803,12 @@ namespace ft
 				return this->insert(x);
 			}
 
-			pointer balanceSubTree(pointer unba)
-			{
-				int bf = getBalanceFactor(unba, 0);
-				// std::cout << "unba == " << unba->pair.first << std::endl;
-				if (bf <= -2 && getBalanceFactor(unba->right, 0) <= -1)
-				{
-					// std::cout << "leftRotate" << std::endl;
-					return leftRotate(unba);
-				}
-				else if (bf >= 2 && getBalanceFactor(unba->left, 0) >= 1)
-				{
-					// std::cout << "rightRotate" << std::endl;
-					return rightRotate(unba);
-				}
-				else if (bf >= 2 && getBalanceFactor(unba->left, 0) <= -1)
-				{
-					// std::cout << "left/right rotate" << std::endl;
-					unba->left = leftRotate(unba->left);
-					return rightRotate(unba);
-				}
-				else if (bf <= -2 && getBalanceFactor(unba->right, 0) >= 1)
-				{
-					// std::cout << "right/left rotate" << std::endl;
-					unba->right = rightRotate(unba->right);
-					return leftRotate(unba);
-				}
-				return unba;
-			}
-
-			int getHeight(pointer r)
-			{
-				if (equal_null(r))
-					return -1;
-				int lheight = getHeight(r->left);
-				int rheight = getHeight(r->right);
-				if (lheight > rheight)
-					return (lheight + 1);
-				else
-					return (rheight + 1);
-			}
-
-			int getBalanceFactor(pointer n, int one)
-			{
-				if (one)
-   					return abs(getHeight(n->left) - getHeight(n->right));
-				else
-   					return (getHeight(n->left) - getHeight(n->right));
-  			}
-
-			pointer isUnbalanced(pointer newnode, bool *left, bool *isRoot, pointer *subtree)
-			{
-				pointer current = newnode;
-				while (current != NULL && getBalanceFactor(current, 1) <= 1)
-					current = current->parent;
-				if (current != NULL && getBalanceFactor(current, 1) > 1)
-				{
-					*subtree = current;
-					if (current != this->_tree)
-					{
-						*isRoot = false;
-						if (no_null(current->parent->right) && _getter(current->parent->right->pair) == _getter(current->pair))
-							*left = false;
-						else
-							*left = true;
-						return current->parent;
-					}
-					*isRoot = true;
-					return (current);
-				}
-				return NULL;
-			}
-
-			pointer tree() const
+			pointer 								tree() const
 			{
 				return (this->_tree);
 			}
 
-			iterator 							lower_bound(const key_type& x)
+			iterator 								lower_bound(const key_type& x)
 			{
 				iterator it = this->begin();
 				for (; it != this->end(); it++)
@@ -787,7 +819,7 @@ namespace ft
 				return it;
 			}
 
-			const_iterator 						lower_bound(const key_type& x) const
+			const_iterator 							lower_bound(const key_type& x) const
 			{
 				const_iterator it = this->begin();
 				for (; it != this->end(); it++)
@@ -798,7 +830,7 @@ namespace ft
 				return it;
 			}
 
-			iterator 							upper_bound(const key_type& x)
+			iterator 								upper_bound(const key_type& x)
 			{
 				iterator it = this->begin();
 				for (; it != this->end(); it++)
@@ -809,7 +841,7 @@ namespace ft
 				return it;
 			}
 
-			const_iterator 						upper_bound(const key_type& x) const
+			const_iterator 							upper_bound(const key_type& x) const
 			{
 				const_iterator it = this->begin();
 				for (; it != this->end(); it++)
@@ -820,17 +852,50 @@ namespace ft
 				return it;
 			}
 
-			pair<iterator,iterator>				equal_range(const key_type& x)
+			pair<iterator,iterator>					equal_range(const key_type& x)
 			{
 				return ft::make_pair(lower_bound(x), upper_bound(x));
 			}
 
-			pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
+			pair<const_iterator,const_iterator>		equal_range(const key_type& x) const
 			{
 				return ft::make_pair(lower_bound(x), upper_bound(x));
 			}
 
-			void print2D(pointer r, int space = 0)
+			pointer 								findKeyInTree(const key_type& k) const
+			{
+				pointer current = this->tree();
+				while (no_null(current) && _getter(current->pair) != k)
+				{
+					if (this->_compare(k, _getter(current->pair)))
+						current = current->left;
+					else
+						current = current->right;
+				}
+				return current;
+			}
+
+			iterator 								findKeyPositionInTree(const key_type& k)
+			{
+				iterator current = this->begin();
+				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
+				{
+					current++;
+				}
+				return current;
+			}
+
+			const_iterator 							findKeyPositionInTreeConst(const key_type k) const
+			{
+				const_iterator current = this->begin();
+				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
+				{
+					current++;
+				}
+				return current;
+			}
+
+			void 									print2D(pointer r, int space = 0)
 			{
 				if (equal_null(r))
 					return;
@@ -876,7 +941,7 @@ namespace ft
 				print2D(r->left, space);
 			}
 
-				void printInorder(pointer r) //  (Left, current node, Right)
+				void 								printInorder(pointer r)
 				{
 					if (equal_null(r))
 						return;
@@ -885,7 +950,7 @@ namespace ft
 					printInorder(r->right);
 				}
 
-				void printIndisorder(pointer r) //  (Left, current node, Right)
+				void 								printIndisorder(pointer r)
 				{
 					if (equal_null(r))
 						return;
@@ -895,7 +960,7 @@ namespace ft
 
 				}
 
-				void printPostorder(pointer r) //(Left, Right, Root)
+				void 								printPostorder(pointer r)
 				{
 					if (equal_null(r))
 						return;
@@ -904,7 +969,7 @@ namespace ft
 					std::cout << r -> pair.first << " ";
 				}
 
-				void printPreorder(pointer r) //(current node, Left, Right) 
+				void 								printPreorder(pointer r)
 				{
 					if (equal_null(r))
 						return;
@@ -913,28 +978,17 @@ namespace ft
 					printPreorder(r -> right);
 				}
 
-			bool isTreeEmpty()
+			bool 									isTreeEmpty() const
 			{
 				return (this->_size == 0);
 			}
 
-			pointer minValueNode(pointer node)
+			void 									calldeleteNode(key_type k)
 			{
-  				pointer current = node;
-    			while (no_null(current->left))
-				{
-     				current = current->left;
-				}
-   				return current;
- 			}
-
-			void calldeleteNode(key_type k)
-			{
-				// std::cout << "node to delete : " << k << std::endl;
 				this->_tree = deleteNode(this->_tree, k);
 			}
 
-			void callFindKeyInValue(const key_type k)
+			void 									callFindKeyInValue(const key_type k)
 			{
 				pointer node = findKeyInTree(k);
 				if (equal_null(node))
@@ -948,96 +1002,12 @@ namespace ft
 				}
 			}
 
-			pointer deleteNode(pointer r, key_type k)
-			{
-				if (equal_null(r))
-					return NULL;
-				if (this->_compare(k, _getter(r->pair)))
-					r->left = deleteNode(r->left, k);
-				else if (this->_compare(_getter(r->pair), k))
-					r->right = deleteNode(r->right, k);
-				else
-				{
-					if (equal_null(r->left) || equal_null(r->right))
-					{
-						pointer tmp = equal_null(r->left) ? r->right : r->left;
-						if (r == this->_tree && equal_null(tmp))
-							tmp = this->_sentry;
-						if (tmp != NULL && tmp->parent != r->parent)
-							tmp->parent = r->parent;
-						this->_allocator_node.destroy(r);
-						this->_allocator_node.deallocate(r, sizeof(r));
-						this->_size--;
-						return tmp;
-					}
-					else
-					{
-						pointer tmp = minValueNode(r->right);
-						this->_allocator_type.destroy(&r->pair);
-						this->_allocator_type.construct(&r->pair, tmp->pair);
-						r->right = deleteNode(r->right, _getter(tmp->pair));
-					}
-				}
-				r = balanceSubTree(r);
-				place_sentry_at_end();
-				return r;
-			}
-
-			pointer findKeyInTree(const key_type& k) const
-			{
-				pointer current = this->tree();
-				while (no_null(current) && _getter(current->pair) != k)
-				{
-					if (this->_compare(k, _getter(current->pair)))
-						current = current->left;
-					else
-						current = current->right;
-				}
-				return current;
-			}
-
-			iterator findKeyPositionInTree(const key_type& k)
-			{
-				iterator current = this->begin();
-				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
-				{
-					current++;
-				}
-				return current;
-			}
-
-			const_iterator findKeyPositionInTreeConst(const key_type k) const
-			{
-				const_iterator current = this->begin();
-				while ((current != this->end() && current.base() != NULL) && _getter(*current) != k)
-				{
-					current++;
-				}
-				return current;
-			}
-
-			pointer farLeftNode(pointer curr) const
-			{
-				pointer current = curr;
-				while (no_null(current->left))
-					current = current->left;
-				return (current);
-			}
-
-			pointer farRightNode(pointer curr) const
-			{
-				pointer current = curr;
-				while (no_null(current->right))
-					current = current->right;
-				return (current);
-			}
-
-			friend bool operator==(const Tree& x, const Tree& y)
+			friend bool 							operator==(const Tree& x, const Tree& y)
 			{
 				return x._size == y._size && ft::equal(x.begin(), x.end(), y.begin());
 			}
 	
-			friend bool operator<(const Tree& x, const Tree& y)
+			friend bool 							operator<(const Tree& x, const Tree& y)
 			{
 				return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
 			}

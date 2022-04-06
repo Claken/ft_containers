@@ -112,15 +112,12 @@ int main(void)
     btree.calldeleteNode("k");
     btree.calldeleteNode("y");
 
-    if (btree.tree() == btree.sentry())
-        std::cout << "tree == sentry" << std::endl;
+    std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("ANOTHER ONE", 11));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
-
-    std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
     btree.callFindKeyInValue("i");
     btree.callFindKeyInValue("x");
