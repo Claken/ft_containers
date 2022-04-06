@@ -46,7 +46,7 @@ int main(void)
 
 	std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
-    std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
+    // std::cout << "height == " << btree.getHeight(btree.tree()) << std::endl;
 
 
     btree.insert(ft::pair<TYPE1, TYPE2>("b", 150));
@@ -59,65 +59,68 @@ int main(void)
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
-    std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
+    // std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("y", 500000));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
-    std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
+    // std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     
     btree.insert(ft::pair<TYPE1, TYPE2>("c", 585));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    // std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("k", 3));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    // std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("l", 85));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("x", 78));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
+    std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("f", 879));
-
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
-
+    // std::cout << "height  == " << btree.getHeight(btree.tree()) << std::endl;
 
     btree.insert(ft::pair<TYPE1, TYPE2>("g", 1));
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);
 
     std::cout << "delete 'z'" << std::endl;
-    // btree.calldeleteNode("x");
-    // btree.calldeleteNode("g");
-    // btree.calldeleteNode("f");
-    // btree.calldeleteNode("x");
-    // btree.calldeleteNode("e");
-    // btree.calldeleteNode("a");
-    // btree.calldeleteNode("l");
-    // btree.calldeleteNode("b");
-    // btree.calldeleteNode("c");
+    // // // btree.calldeleteNode("x");
+    // // // btree.calldeleteNode("g");
+    // // // btree.calldeleteNode("f");
+    // // // btree.calldeleteNode("x");
+    // // // btree.calldeleteNode("e");
+    // // // btree.calldeleteNode("a");
+    // // // btree.calldeleteNode("l");
+    // // // btree.calldeleteNode("b");
+    // // // btree.calldeleteNode("c");
     btree.calldeleteNode("z");
-    // btree.calldeleteNode("d");
-    // btree.calldeleteNode("k");
-    // btree.calldeleteNode("y");
+    // // // btree.calldeleteNode("d");
+    // // // btree.calldeleteNode("k");
+    // // // btree.calldeleteNode("y");
 
-    std::cout << PRINT << std::endl;
-    btree.print2D(btree.tree(), 0);
+    // // std::cout << PRINT << std::endl;
+    // // btree.print2D(btree.tree(), 0);
 
-    std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
+    // // std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
 
-    btree.callFindKeyInValue("i");
-    btree.callFindKeyInValue("x");
+    // // btree.callFindKeyInValue("i");
+    // // btree.callFindKeyInValue("x");
 
     std::cout << "printInorder : ";
     btree.printInorder(btree.tree());
@@ -130,27 +133,29 @@ int main(void)
         std::cout << it->first << " ";
     }
     std::cout << std::endl;
+
     it--;
-    std::cout <<  it->first << std::endl;
-    std::cout << "reverse_iterator : ";
-    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
-    {
-        std::cout << it->first << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "it->first == " << it->first << std::endl;
+    // std::cout << "reverse_iterator : ";
+    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::reverse_iterator it = btree.rbegin(); it != btree.rend(); it++)
+    // {
+    //     std::cout << it->first << " ";
+    // }
+    // std::cout << std::endl;
     std::cout << "printIndisorder  : ";
     btree.printIndisorder(btree.tree());
     std::cout << std::endl;
 
-    std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
-    std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
+    // // std::cout << "node max size == " << btree.get_allocator_node().max_size() << std::endl;
+    // // std::cout << "type max size == " << btree.get_allocator_type().max_size() << std::endl;
 
-    ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
+    // ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> > test = btree;
 
-    for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
-    {
-        std::cout << it->first << " ";
-    }
-    
+    // for (ft::Tree<TYPE, TYPE1, ft::_select_first<TYPE> >::iterator it = test.begin(); it != test.end(); ++it)
+    // {
+    //     std::cout << it->first << " ";
+    // }
+    // std::cout << std::endl;
+
     return (0);
 }

@@ -134,72 +134,84 @@ namespace ft
 
 		node_pointer decrease()
 		{
-			node_pointer curr = this->_root;
-			int height = this->getHeight(curr);
-			node_pointer nodes[height];
-			int i = 0;
+			// node_pointer curr = this->_root;
+			// int height = this->getHeight(curr);
+			// node_pointer nodes[height];
+			// int i = 0;
  
-			// while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
-			while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
-			{
-				nodes[i++] = curr;
-				// if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-				if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-					curr = curr->left;
-				else
-					curr = curr->right;
-			}
-			i--;
-			// if (_current->left == NULL)
-			if (equal_null(_current) && no_null(nodes[i]))
-				return this->farRightNode(nodes[i]);
+			// // while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
+			// while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
+			// {
+			// 	nodes[i++] = curr;
+			// 	// if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
+			// 	if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
+			// 		curr = curr->left;
+			// 	else
+			// 		curr = curr->right;
+			// }
+			// i--;
+			// // if (_current->left == NULL)
+			// if (equal_null(_current) && no_null(nodes[i]))
+			// 	return this->farRightNode(nodes[i]);
+			// if (equal_null(_current->left))
+			// {
+			// 	while (i > -1 && this->_current->compare(_getter(_current->pair), _getter(nodes[i]->pair)))
+			// 		i--;
+			// 	if (i > -1)
+			// 		return nodes[i];
+			// }
+			if (equal_null(_current) && no_null(_current->parent))
+				return this->farRightNode(_current->parent);
 			if (equal_null(_current->left))
 			{
-				while (i > -1 && this->_current->compare(_getter(_current->pair), _getter(nodes[i]->pair)))
-					i--;
-				if (i > -1)
-					return nodes[i];
+				node_pointer curr = _current->parent;
+				while (curr != NULL && _current->compare(_getter(_current->pair), _getter(curr->pair)))
+					curr = curr->parent;
+				if (curr != NULL)
+					return curr;
 			}
-			// else
-			// {
 			return this->farRightNode(this->_current->left);
-			// }
-			// return NULL;
 		}
 
 		node_pointer increase()
 		{
-			node_pointer curr = this->_root;
-			int height = this->getHeight(curr);
-			node_pointer nodes[height];
-			int i = 0;
+			// node_pointer curr = this->_root;
+			// int height = this->getHeight(curr);
+			// node_pointer nodes[height];
+			// int i = 0;
 			
-			// while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
-			while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
-			{
-				nodes[i++] = curr;
-				// this->_current->compare(_getter(_current->pair), _getter(curr->pair))
-				if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-					curr = curr->left;
-				else
-					curr = curr->right;
-			}
-			i--;
-			// if (_current->right == NULL)
-			if (equal_null(_current) && i > -1 && no_null(nodes[i]))
-				return this->farLeftNode(nodes[i]);
+			// // while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
+			// while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
+			// {
+			// 	nodes[i++] = curr;
+			// 	// this->_current->compare(_getter(_current->pair), _getter(curr->pair))
+			// 	if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
+			// 		curr = curr->left;
+			// 	else
+			// 		curr = curr->right;
+			// }
+			// i--;
+			// // if (_current->right == NULL)
+			// if (equal_null(_current) && i > -1 && no_null(nodes[i]))
+			// 	return this->farLeftNode(nodes[i]);
+			// if (equal_null(_current->right))
+			// {
+			// 	while (i > -1 && this->_current->compare(_getter(nodes[i]->pair), _getter(this->_current->pair)))
+			// 		i--;
+			// 	if (i > -1)
+			// 		return nodes[i];
+			// }
+			if (_current == _end && _current->parent != NULL)
+				return this->farLeftNode(_current->parent);
 			if (equal_null(_current->right))
 			{
-				while (i > -1 && this->_current->compare(_getter(nodes[i]->pair), _getter(this->_current->pair)))
-					i--;
-				if (i > -1)
-					return nodes[i];
+				node_pointer curr = _current->parent;
+				while (curr != NULL && _current->compare(_getter(curr->pair), _getter(_current->pair)))
+					curr = curr->parent;
+				if (curr != NULL)
+					return curr;
 			}
-			// else
-			// {
 			return this->farLeftNode(this->_current->right);
-			// }
-			// return NULL;
 		}
 
 		node_pointer farLeftNode(node_pointer curr)
@@ -251,7 +263,7 @@ namespace ft
 	{
 		public:
 
-			// Node							*parent;
+			Node							*parent;
 			Node 							*right; 	// if the value is bigger or equal to the value of parent
 			Node 							*left; 		// if the value is smaller than the value of parent
 			Pair							pair;
@@ -263,7 +275,7 @@ namespace ft
 			{
 				// allocator = Allocator();
 				compare = Compare();
-				// parent = NULL;
+				parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = false;
@@ -273,7 +285,7 @@ namespace ft
 			{
 				// allocator = Allocator();
 				compare = Compare();
-				// parent = NULL;
+				parent = NULL;
 				right = NULL;
 				left = NULL;
 				full = true;
@@ -286,7 +298,7 @@ namespace ft
 
 	};
 
-	template <class Pair, class Key, class KeyGetter, class Compare, class Allocator >
+	template <class Pair, class Key, class KeyGetter, class Compare = std::less<Key> , class Allocator = std::allocator<Pair> >
 	class Tree
 	{
 		public:
@@ -332,10 +344,12 @@ namespace ft
 			{
 				pointer farRight = this->farRightNode(this->_tree);
 				// std::cout << "farRight == " << farRight->pair.first << std::endl;
+				std::cout << "farRight == " << farRight->pair.first << std::endl;
 				if (farRight->right != this->_sentry)
 				{
-					// std::cout << "NO END IN FAR RIGHT" << std::endl;
+					std::cout << "NO END IN FAR RIGHT" << std::endl;
 					farRight->right = this->_sentry;
+					farRight->right->parent = farRight;
 				}
 			}
 
@@ -344,9 +358,11 @@ namespace ft
 				pointer subtree;
 				bool isRoot;
 				bool left;
-				pointer current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
+				// pointer current = isUnbalanced(_getter(newnode->pair), &left, &isRoot, &subtree);
+				pointer current = isUnbalanced(newnode, &left, &isRoot, &subtree);
 				if (current != NULL)
 				{
+					// std::cout << "IT IS UNBALANCED !!!" << std::endl;
 					subtree = balanceSubTree(subtree);
 					if (isRoot)
 					{
@@ -413,6 +429,7 @@ namespace ft
 						left = false;
 					}
 				}
+				newnode->parent = svg;
 				// std::cout << "svg == " << svg->pair.first << std::endl;
 				if (left)
 					svg->left = newnode;
@@ -597,24 +614,6 @@ namespace ft
 				return this->_sentry;
 			}
 
-			pointer rightRotate(pointer node)
-			{
-				pointer x = node->left; // noeud a mettre a la place de node
-				pointer T2 = x->right; // place ou mettre node
-				// pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
-				// pointer par2 = x; // parent du noeud a mettre a la place de node
-
-				x->right = node;
-				node->left = T2;
-				// x->parent = par1;
-				// node->parent = par2;
-				// if (x->parent->left && x->parent->left->pair.first == node->pair.first)
-				// 	x->parent->left = node->parent;
-				// else
-				// 	x->parent->right = node->parent;
-				return x;
-			}
-
 			void 							swap(Tree& x)
 			{
 				ft::swap(this->_tree, x._tree);
@@ -626,21 +625,89 @@ namespace ft
 				ft::swap(this->_size, x._size);
 			}
 
+			pointer rightRotate(pointer node)
+			{
+				// pointer x = node->left; // noeud a mettre a la place de node
+				// pointer T2 = x->right; // place ou mettre node
+				// pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
+				// pointer par2 = x; // parent du noeud a mettre a la place de node
+
+				// x->right = node;
+				// node->left = T2;
+				// x->parent = par1;
+				// node->parent = par2;
+				// if (x->parent->left && x->parent->left->pair.first == node->pair.first)
+				// 	x->parent->left = node->parent;
+				// else
+				// 	x->parent->right = node->parent;
+			
+														// pointer x = this, y = left;
+														// x->left = y->right;
+														// if (y->right)
+														// 	y->right->parent = x;
+														// y->parent = x->parent;
+														// if (x == root)
+														// 	root = y;
+														// else if (x == x->parent->right)
+														// 	x->parent->right = y;
+														// else
+														// 	x->parent->left = y;
+														// y->right = x;
+														// x->parent = y;
+				pointer x = node;
+				pointer y = node->left;
+				x->left = y->right;
+				if (y->right)
+					y->right->parent = x;
+				y->parent = x->parent;
+				y->right = x;
+				x->parent = y;
+
+				return y;
+			}
+
 			pointer leftRotate(pointer node)
 			{
+				// pointer y = node->right;
+				// pointer t2 = y->left;
+
+				pointer x = node;
 				pointer y = node->right;
-				pointer t2 = y->left;
+
+				x->right = y->left;
+				if (y->left)
+					y->left->parent = x;
+				y->parent = x->parent;
+				y->left = x;
+				x->parent = y;
+
+
 				// pointer par1 = node->parent;
 				// pointer par2 = y;
 
-				y->left = node;
-				node->right = t2;
+				// y->left = node;
+				// node->right = t2;
 				// y->parent = par1;
 				// node->parent = par2;
 				// if (y->parent->right && y->parent->right->pair.first == node->pair.first)
 				// 	y->parent->right = node->parent;
 				// else
 				// 	y->parent->left = node->parent;
+
+							// pointer x = this, y = right;
+							// x->right = y->left;
+							// if (y->left)
+							// 	y->left->parent = x;
+							// y->parent = x->parent;
+							// if (x == root)
+							// 	root = y;
+							// else if (x == x->parent->left)
+							// 	x->parent->left = y;
+							// else
+							// 	x->parent->right = y;
+							// y->left = x;
+							// x->parent = y;
+							
 				return y;
 			}
 
@@ -756,42 +823,68 @@ namespace ft
    					return (getHeight(n->left) - getHeight(n->right));
   			}
 
-			pointer isUnbalanced(key_type k, bool *left, bool *isRoot, pointer *subtree)
+			pointer isUnbalanced(pointer newnode, bool *left, bool *isRoot, pointer *subtree)
 			{
-				pointer current = this->_tree;
-				int height = getHeight(this->tree());
-				pointer nodes[height];
-				int i = 0;
-				// while (current != NULL && current->pair.first != k) 
-				while (no_null(current) && _getter(current->pair) != k)
+				pointer current = newnode;
+				while (current != NULL && getBalanceFactor(current, 1) <= 1)
 				{
-					nodes[i++] = current;
-					if (this->_compare(k, _getter(current->pair)))
-						current = current->left;
-					else
-						current = current->right;
+					current = current->parent;
 				}
-				for (i = i - 1; i > -1; i--)
+				if (current != NULL && getBalanceFactor(current, 1) > 1)
 				{
-					if (getBalanceFactor(nodes[i], 1) > 1)
+					*subtree = current;
+					if (current != this->_tree)
 					{
-						*subtree = nodes[i];
-						if (i > 0)
-						{
-							*isRoot = false;
-							// if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
-							if (no_null(nodes[i - 1]->right) && _getter(nodes[i - 1]->right->pair) == _getter(nodes[i]->pair))
-								*left = false;
-							else
-								*left = true;
-							return nodes[i - 1];
-						}
-						*isRoot = true;
-						return (nodes[i]);
+						*isRoot = false;
+						// if (no_null(nodes[i - 1]->right) && _getter(nodes[i - 1]->right->pair) == _getter(nodes[i]->pair))
+						if (no_null(current->parent->right) && _getter(current->parent->right->pair) == _getter(current->pair))
+							*left = false;
+						else
+							*left = true;
+						return current->parent;
 					}
-				}	
+					*isRoot = true;
+					return (current);
+				}
 				return NULL;
 			}
+
+			// pointer isUnbalanced(key_type k, bool *left, bool *isRoot, pointer *subtree)
+			// {
+			// 	pointer current = this->_tree;
+			// 	int height = getHeight(this->tree());
+			// 	pointer nodes[height];
+			// 	int i = 0;
+			// 	while (current != NULL && current->pair.first != k) 
+			// 	while (no_null(current) && _getter(current->pair) != k)
+			// 	{
+			// 		nodes[i++] = current;
+			// 		if (this->_compare(k, _getter(current->pair)))
+			// 			current = current->left;
+			// 		else
+			// 			current = current->right;
+			// 	}
+			// 	for (i = i - 1; i > -1; i--)
+			// 	{
+			// 		if (getBalanceFactor(nodes[i], 1) > 1)
+			// 		{
+			// 			*subtree = nodes[i];
+			// 			if (i > 0)
+			// 			{
+			// 				*isRoot = false;
+			// 				// if (nodes[i - 1]->right && nodes[i - 1]->right->pair.first == nodes[i]->pair.first)
+			// 				if (no_null(nodes[i - 1]->right) && _getter(nodes[i - 1]->right->pair) == _getter(nodes[i]->pair))
+			// 					*left = false;
+			// 				else
+			// 					*left = true;
+			// 				return nodes[i - 1];
+			// 			}
+			// 			*isRoot = true;
+			// 			return (nodes[i]);
+			// 		}
+			// 	}	
+			// 	return NULL;
+			// }
 			
 			pointer tree() const
 			{
@@ -883,23 +976,19 @@ namespace ft
 					for (int i = SPACE; i < space; i++)
 						std::cout << " ";
 					std::cout << r->left->pair.first << std::endl;
+				}	
+				if (r->parent != NULL)
+				{
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << "-" << std::endl;
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << r->parent->pair.first << std::endl;
+					for (int i = SPACE; i < space; i++)
+						std::cout << " ";
+					std::cout << r->parent->pair.second << std::endl;
 				}
-
-
-			
-				
-				// if (r->parent != NULL)
-				// {
-				// 	for (int i = SPACE; i < space; i++)
-				// 		std::cout << " ";
-				// 	std::cout << "-" << std::endl;
-				// 	for (int i = SPACE; i < space; i++)
-				// 		std::cout << " ";
-				// 	std::cout << r->parent->pair.first << std::endl;
-				// 	for (int i = SPACE; i < space; i++)
-				// 		std::cout << " ";
-				// 	std::cout << r->parent->pair.second << std::endl;
-				// }
 				print2D(r->left, space);
 			}
 
