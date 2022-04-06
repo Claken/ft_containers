@@ -3,7 +3,7 @@
 #include <map>
 #include "../map.hpp"
 
-#define TESTED_NS ft
+#define TESTED_NS std
 
 int main ()
 {
@@ -22,6 +22,7 @@ int main ()
   }
 
   TESTED_NS::map<char,int>::iterator it = mymap.begin();
+  it++;
   mymap.insert (it, TESTED_NS::pair<char,int>('b',300));  // max efficiency inserting
   mymap.insert (it, TESTED_NS::pair<char,int>('c',400));  // no max efficiency inserting
 

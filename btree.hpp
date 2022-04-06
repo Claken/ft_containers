@@ -444,6 +444,17 @@ namespace ft
 			{
 				return (curr != NULL && curr != this->_sentry);
 			}
+
+			void destroyAndDeallocateAllNodes(pointer node)
+			{
+				if (equal_null(node))
+					return;
+				destroyAndDeallocateAllNodes(node->right);
+				pointer nodeleft = node->left;
+				this->_allocator_node.destroy(node);
+				this->_allocator_node.deallocate(node, sizeof(node));
+				destroyAndDeallocateAllNodes(nodeleft);
+			}
 				
 		public:
 
@@ -561,17 +572,6 @@ namespace ft
 				return rit;
 			}
 
-			void destroyAndDeallocateAllNodes(pointer node)
-			{
-				if (equal_null(node))
-					return;
-				destroyAndDeallocateAllNodes(node->right);
-				pointer nodeleft = node->left;
-				this->_allocator_node.destroy(node);
-				this->_allocator_node.deallocate(node, sizeof(node));
-				destroyAndDeallocateAllNodes(nodeleft);
-			}
-
 			key_type first() const
 			{
 				return (this->_tree->pair.first);
@@ -620,35 +620,9 @@ namespace ft
 
 			pointer rightRotate(pointer node)
 			{
-				// pointer x = node->left; // noeud a mettre a la place de node
-				// pointer T2 = x->right; // place ou mettre node
-				// pointer par1 = node->parent; // parent de node (noeud a mettre a droite)
-				// pointer par2 = x; // parent du noeud a mettre a la place de node
-
-				// x->right = node;
-				// node->left = T2;
-				// x->parent = par1;
-				// node->parent = par2;
-				// if (x->parent->left && x->parent->left->pair.first == node->pair.first)
-				// 	x->parent->left = node->parent;
-				// else
-				// 	x->parent->right = node->parent;
-			
-														// pointer x = this, y = left;
-														// x->left = y->right;
-														// if (y->right)
-														// 	y->right->parent = x;
-														// y->parent = x->parent;
-														// if (x == root)
-														// 	root = y;
-														// else if (x == x->parent->right)
-														// 	x->parent->right = y;
-														// else
-														// 	x->parent->left = y;
-														// y->right = x;
-														// x->parent = y;
 				pointer x = node;
 				pointer y = node->left;
+				
 				x->left = y->right;
 				if (y->right)
 					y->right->parent = x;
@@ -661,9 +635,6 @@ namespace ft
 
 			pointer leftRotate(pointer node)
 			{
-				// pointer y = node->right;
-				// pointer t2 = y->left;
-
 				pointer x = node;
 				pointer y = node->right;
 
@@ -674,33 +645,6 @@ namespace ft
 				y->left = x;
 				x->parent = y;
 
-
-				// pointer par1 = node->parent;
-				// pointer par2 = y;
-
-				// y->left = node;
-				// node->right = t2;
-				// y->parent = par1;
-				// node->parent = par2;
-				// if (y->parent->right && y->parent->right->pair.first == node->pair.first)
-				// 	y->parent->right = node->parent;
-				// else
-				// 	y->parent->left = node->parent;
-
-							// pointer x = this, y = right;
-							// x->right = y->left;
-							// if (y->left)
-							// 	y->left->parent = x;
-							// y->parent = x->parent;
-							// if (x == root)
-							// 	root = y;
-							// else if (x == x->parent->left)
-							// 	x->parent->left = y;
-							// else
-							// 	x->parent->right = y;
-							// y->left = x;
-							// x->parent = y;
-							
 				return y;
 			}
 

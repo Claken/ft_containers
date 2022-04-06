@@ -17,10 +17,10 @@ int main ()
 	TESTED_NAMESPACE::map<char,int> caca;
 	TESTED_NAMESPACE::map<char,int> cici;
 
-	std::cout << caca.max_size() << std::endl;
-	std::cout << caca.size() << std::endl;
+	std::cout << "max size == " << caca.max_size() << std::endl;
+	std::cout << "size" << caca.size() << std::endl;
 
-	std::cout << caca.get_allocator().max_size() << std::endl;
+	std::cout << "get_allocator max size == " << caca.get_allocator().max_size() << std::endl;
 
 	if (caca == cici)
 		std::cout << "equal" << std::endl;
