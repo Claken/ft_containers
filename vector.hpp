@@ -478,22 +478,19 @@ namespace ft
 				if (newCap < newSize)
 					newCap = newSize;
 				T* newArray = this->try_allocation(newCap);
-				int i = 0;
+				unsigned int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
-				while (it != position)
+				for (; it != position; it++, i++)
 				{
-					this->_allocator_type.construct(newArray + i++, *it);
-					it++;
+					this->_allocator_type.construct(newArray + i, *it);
 				}
-				int j = i + n;
-				while (i < j)
+				for (unsigned int j = i + n; i < j; i++)
 				{
-					this->_allocator_type.construct(newArray + i++, val);
+					this->_allocator_type.construct(newArray + i, val);
 				}
-				while (it != this->end())
+				for (; it != this->end(); it++, i++)
 				{
-					this->_allocator_type.construct(newArray + i++, *it);
-				 	it++;
+					this->_allocator_type.construct(newArray + i, *it);
 				}
 				if (this->_array)
 					this->destroy_and_deallocate();
@@ -505,24 +502,18 @@ namespace ft
 				if (position == this->end())
 				{
 					for (unsigned int j = this->_size; j < newSize; j++)
-					{
 						this->_allocator_type.construct(this->_array + j, val);
-					}
 				}
 				else
 				{
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
-					while (place >= position)
+					for (; place >= position; place--)
 					{
 						this->_allocator_type.construct((place+n).base(), *place);
 						this->_allocator_type.destroy(place.base());
-						place--;
 					}
 					for (unsigned int k = 0; k < n; k++)
-					{
-						place++;
-						this->_allocator_type.construct(place.base(), val);
-					}
+						this->_allocator_type.construct((++place).base(), val);
 				}
 			}
 			this->_size = newSize;
