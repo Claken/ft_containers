@@ -157,6 +157,9 @@ namespace ft
 
 				iterator 							insert(iterator position, const value_type& x)
 				{
+					iterator node = this->_tree.findKeyPositionInTree(x.first);
+					if (node != this->end() && node.base() != NULL)
+						return node;
 					return this->_tree.insert(position, x);
 				}
 				
