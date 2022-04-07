@@ -22,11 +22,11 @@ int main ()
 	}
 	std::cout << myvector.capacity() << std::endl;
 
-	while (!myvector.empty())
-	{
-		sum+=myvector.back();
-		myvector.pop_back();
-	}
+	// while (!myvector.empty())
+	// {
+	// 	sum+=myvector.back();
+	// 	myvector.pop_back();
+	// }
 
 	std::cout << "The elements of myvector add up to " << sum << '\n';
 
