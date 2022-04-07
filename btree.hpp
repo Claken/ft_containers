@@ -26,18 +26,16 @@ namespace ft
 		private:
 	
 		node_pointer	_current;
-		node_pointer	_root;
 		node_pointer	_end;
 		KeyGetter		_getter;
 
 		public:
 
-		tree_iterator() : _current(NULL), _root(NULL), _end(NULL) {}
+		tree_iterator() : _current(NULL), _end(NULL) {}
 
-		tree_iterator(node_pointer end, node_pointer tree) : _current(end), _root(tree), _end(end) {}
+		tree_iterator(node_pointer end) : _current(end), _end(end) {}
 		
-		tree_iterator(node_pointer node, node_pointer tree, node_pointer end)
-		: _current(node), _root(tree), _end(end) {}
+		tree_iterator(node_pointer node, node_pointer end) : _current(node), _end(end) {}
 
 		tree_iterator(const tree_iterator& instance)
 		{
@@ -48,11 +46,6 @@ namespace ft
 		tree_iterator(const tree_iterator<U, V, KeyGetter>& instance)
 		{
 			*this = instance;
-		}
-
-		node_pointer getRoot() const
-		{
-			return this->_root;
 		}
 
 		node_pointer base() const
@@ -70,7 +63,6 @@ namespace ft
 		tree_iterator& operator=(const tree_iterator& instance)
 		{
 			this->_current = instance._current;
-			this->_root = instance._root;
 			this->_end = instance._end;
 			return *this;
 		}
@@ -79,7 +71,6 @@ namespace ft
 		tree_iterator& operator=(const tree_iterator<U, V, KeyGetter>& instance)
 		{
 			this->_current = instance.base();
-			this->_root = instance.getRoot();
 			this->_end = instance.getEnd();
 			return *this;
 		}
@@ -580,52 +571,52 @@ namespace ft
 
 			iterator 								begin()
 			{
-				iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
+				iterator it(this->farLeftNode(this->tree()), this->_sentry);
 				return it;
 			}
 
 			const_iterator 							begin() const
 			{
-				const_iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
+				const_iterator it(this->farLeftNode(this->tree()), this->_sentry);
 				return it;
 			}
 
 			iterator 								end()
 			{
-				iterator it(this->_sentry, this->tree());
+				iterator it(this->_sentry);
 				return it;
 			}
 
 			const_iterator 							end() const
 			{
-				const_iterator it(this->_sentry, this->tree());
+				const_iterator it(this->_sentry);
 				return it;
 			}
 
 			reverse_iterator 						rbegin()
 			{
-				iterator it(this->_sentry, this->tree());
+				iterator it(this->_sentry);
 				reverse_iterator rit(it);
 				return rit;
 			}
 		
 			const_reverse_iterator 					rbegin() const
 			{
-				const_iterator it(this->_sentry, this->tree());
+				const_iterator it(this->_sentry);
 				const_reverse_iterator rit(it);
 				return rit;
 			}
 			
 			reverse_iterator 						rend()
 			{
-				iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
+				iterator it(this->farLeftNode(this->tree()), this->_sentry);
 				reverse_iterator rit(it);
 				return rit;
 			}
 			
 			const_reverse_iterator 					rend() const
 			{
-				const_iterator it(this->farLeftNode(this->tree()), this->tree(), this->_sentry);
+				const_iterator it(this->farLeftNode(this->tree()), this->_sentry);
 				const_reverse_iterator rit(it);
 				return rit;
 			}

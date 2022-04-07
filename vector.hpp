@@ -263,7 +263,6 @@ namespace ft
 		{
 			if (this->_array)
 			{
-				// this->_allocator_type.deallocate(this->_array, this->_capacity);
 				this->destroy_and_deallocate();
 			}
 			this->_capacity = x._capacity;
@@ -272,7 +271,6 @@ namespace ft
 			this->_size = x._size;
 			for (unsigned int i = 0; i < this->_size; i++)
 			{
-				// this->_array[i] = x._array[i];
 				this->_allocator_type.construct(this->_array + i, x._array[i]);
 			}
 			return (*this);
@@ -559,29 +557,27 @@ namespace ft
 				}
 			}
 
-		iterator					erase(iterator position) // A TESTER AVEC DES TESTEURS POUR ETRE SUR QUE CA PASSE !
+		iterator					erase(iterator position)
 		{
 			return this->erase(position, position+1);
 		}
 
-		iterator					erase(iterator first, iterator last)
+		iterator 					erase(iterator first, iterator last)
 		{
-			iterator		it = first;
-			size_type		size = this->_size;
-
-			if (first != last)
+			iterator			i;
+			iterator			j;
+			difference_type		n = std::distance(first, last);
+			for (i = first; i != last; i++)
 			{
-				for (; last != this->end(); last++, it++)
-				{
-					this->_allocator_type.construct(&(*it), *last);
-				}
-				for (; it != this->end(); it++, size--)
-				{
-					this->_allocator_type.destroy(&(*it));
-				}
-				this->_size = size;
+				this->_allocator_type.destroy(&(*(i)));
 			}
-			return (first);
+			for (i = first, j = last; j != end(); i++, j++)
+			{
+				this->_allocator_type.construct(&(*(i)), *j);
+				this->_allocator_type.destroy(&(*(j)));
+			}
+			this->_size -= n;
+			return first;
 		}
 
 		void						swap(ft::vector<T, Allocator>& x)

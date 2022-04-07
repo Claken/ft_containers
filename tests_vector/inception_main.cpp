@@ -183,7 +183,7 @@ int main()
 	BOB.pop_back();
 	std::cout << "last elem of BOB : " << BOB.back().back() << '\n';
 
-	//INSERT
+	// INSERT
 	std::cout << "\nINSERT\n";
 	vector<vector<int> >	insert_in_me;
 	for (int i = 0; i < 15; i++)

@@ -4,16 +4,16 @@
 #include "../vector.hpp"
 
 #define TESTED_NAMESPACE	ft
-#define TESTED_TYPE			int
+#define TESTED_TYPE			std::string
 
 int main ()
 {
 	TESTED_NAMESPACE::vector<TESTED_TYPE> myvector;
 	myvector.reserve(20);
 	int sum (0);
-	myvector.push_back (100);
-	myvector.push_back (200);
-	myvector.push_back (300);
+	myvector.push_back ("100");
+	myvector.push_back ("200");
+	myvector.push_back ("300");
 
 	unsigned int i = 0;
 	while (i < myvector.size())

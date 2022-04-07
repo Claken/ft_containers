@@ -100,13 +100,13 @@ int main(void)
 
     std::cout << "delete nodes" << std::endl;
     btree.calldeleteNode("x");
-    btree.calldeleteNode("g");
+    // btree.calldeleteNode("g");
     btree.calldeleteNode("f");
     btree.calldeleteNode("e");
-    btree.calldeleteNode("a");
+    // btree.calldeleteNode("a");
     btree.calldeleteNode("l");
     btree.calldeleteNode("b");
-    btree.calldeleteNode("c");
+    // btree.calldeleteNode("c");
     btree.calldeleteNode("z");
     btree.calldeleteNode("d");
     btree.calldeleteNode("k");
@@ -114,7 +114,7 @@ int main(void)
 
     std::cout << std::endl << "tree empty ? " << btree.isTreeEmpty() << std::endl;
 
-    btree.insert(ft::pair<TYPE1, TYPE2>("ANOTHER ONE", 11));
+    // btree.insert(ft::pair<TYPE1, TYPE2>("ANOTHER ONE", 11));
 
     std::cout << PRINT << std::endl;
     btree.print2D(btree.tree(), 0);

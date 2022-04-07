@@ -3,7 +3,7 @@
 #include <vector>
 #include "../vector.hpp"
 
-#define TESTED_NAMESPACE	ft
+#define TESTED_NAMESPACE	std
 #define TESTED_TYPE			std::string
 
 int main ()
@@ -15,7 +15,7 @@ int main ()
 	std::cout << "*itb = " << *itb << std::endl;
 
 	std::cout << "size = " << myvector.size() << std::endl;
-	// myvector.reserve(20);
+	myvector.reserve(20);
 	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it; //f-t
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 
@@ -40,9 +40,6 @@ int main ()
 
 	std::vector<TESTED_TYPE> anothervector (3,"400"); //f-t 
 	myvector.insert (it+2, anothervector.begin(), anothervector.end());
-
-	// 		int myarray [] = { 501,502,503 };
-	//   myvector.insert (myvector.begin(), myarray, myarray+3);
 
 	std::cout << "myvector contains:";
 	for (it=myvector.begin(); it<myvector.end(); it++)
