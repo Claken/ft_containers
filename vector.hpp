@@ -243,7 +243,6 @@ namespace ft
 				unsigned int i = 0;
 				for (InputIterator it1 = first; it1 != last; it1++)
 				{
-					//this->_array[i++] = *it1;
 					this->_allocator_type.construct(this->_array + i++, *it1);
 				}
 				this->_size = n;
@@ -344,13 +343,9 @@ namespace ft
 		void						resize(size_type sz, T c = T())
 		{
 			if (sz < this->_size)
-			{
 				this->erase(this->begin() + sz, this->end());
-			}
 			else if (sz > this->_size)
-			{
 				this->insert(this->end(), sz - this->_size, c);
-			}
 		}
 
 		size_type					capacity() const
@@ -360,26 +355,22 @@ namespace ft
 		
 		bool						empty() const
 		{
-			if (this->_size == 0)
-				return (true);
-			return (false);
+			return (this->_size == 0);
 		}
+
 		void						reserve(size_type n)
 		{
 			if (n > this->max_size())
 				throw (std::length_error("vector::reserve"));
-				//throw (std::length_error("size n is greater than max size"));
 			if (n > this->_capacity)
 			{
 				T* newArray = this->try_allocation(n);
 				for (unsigned int i = 0; i < this->_size; i++)
 				{
-					// newArray[i] = this->_array[i];
 					this->_allocator_type.construct(newArray + i, this->_array[i]);
 				}
 				if (this->_array)
 					this->destroy_and_deallocate();
-				// this->_allocator_type.deallocate(this->_array, this->_capacity);
 				this->_array = newArray;
 				this->_capacity = n;
 			}
@@ -438,10 +429,9 @@ namespace ft
 				size_type newCap = this->_size == 0 ? 1 : this->_size * 2;
 				T* newArray = this->try_allocation(newCap);
 				unsigned int i = 0;
-				while (i < this->_size)
+				for (; i < this->_size; i++)
 				{
 					this->_allocator_type.construct(newArray + i, this->_array[i]);
-					i++;
 				}
 				this->_allocator_type.construct(newArray + i, x);
 				if (this->_array)

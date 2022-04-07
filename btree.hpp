@@ -168,18 +168,6 @@ namespace ft
 				current = current->right;
 			return (current);
 		}
-
-		int getHeight(node_pointer r)
-		{
-			if (equal_null(r))
-				return -1;
-			int lheight = getHeight(r->left);
-			int rheight = getHeight(r->right);
-			if (lheight > rheight)
-				return (lheight + 1);
-			else
-				return (rheight + 1);
-		}
   };
 
  	template<class Tx, class Ux, class Ty, class Uy, class KG>
