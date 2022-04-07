@@ -134,32 +134,6 @@ namespace ft
 
 		node_pointer decrease()
 		{
-			// node_pointer curr = this->_root;
-			// int height = this->getHeight(curr);
-			// node_pointer nodes[height];
-			// int i = 0;
- 
-			// // while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
-			// while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
-			// {
-			// 	nodes[i++] = curr;
-			// 	// if (this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-			// 	if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-			// 		curr = curr->left;
-			// 	else
-			// 		curr = curr->right;
-			// }
-			// i--;
-			// // if (_current->left == NULL)
-			// if (equal_null(_current) && no_null(nodes[i]))
-			// 	return this->farRightNode(nodes[i]);
-			// if (equal_null(_current->left))
-			// {
-			// 	while (i > -1 && this->_current->compare(_getter(_current->pair), _getter(nodes[i]->pair)))
-			// 		i--;
-			// 	if (i > -1)
-			// 		return nodes[i];
-			// }
 			if (equal_null(_current) && no_null(_current->parent))
 				return this->farRightNode(_current->parent);
 			if (equal_null(_current->left))
@@ -175,32 +149,6 @@ namespace ft
 
 		node_pointer increase()
 		{
-			// node_pointer curr = this->_root;
-			// int height = this->getHeight(curr);
-			// node_pointer nodes[height];
-			// int i = 0;
-			
-			// // while (curr != NULL && _getter(curr->pair) != _getter(_current->pair))
-			// while (no_null(curr) && _getter(curr->pair) != _getter(_current->pair))
-			// {
-			// 	nodes[i++] = curr;
-			// 	// this->_current->compare(_getter(_current->pair), _getter(curr->pair))
-			// 	if (this->_current != this->_end && this->_current->compare(_getter(_current->pair), _getter(curr->pair)))
-			// 		curr = curr->left;
-			// 	else
-			// 		curr = curr->right;
-			// }
-			// i--;
-			// // if (_current->right == NULL)
-			// if (equal_null(_current) && i > -1 && no_null(nodes[i]))
-			// 	return this->farLeftNode(nodes[i]);
-			// if (equal_null(_current->right))
-			// {
-			// 	while (i > -1 && this->_current->compare(_getter(nodes[i]->pair), _getter(this->_current->pair)))
-			// 		i--;
-			// 	if (i > -1)
-			// 		return nodes[i];
-			// }
 			if (_current == _end && _current->parent != NULL)
 				return this->farLeftNode(_current->parent);
 			if (equal_null(_current->right))
@@ -217,7 +165,6 @@ namespace ft
 		node_pointer farLeftNode(node_pointer curr)
 		{
 			node_pointer current = curr;
-			// while (current->left != NULL)
 			while (no_null(current->left))
 				current = current->left;
 			return (current);
@@ -226,7 +173,6 @@ namespace ft
 		node_pointer farRightNode(node_pointer curr)
 		{
 			node_pointer current = curr;
-			// while (current->right != NULL)
 			while (no_null(current->right))
 				current = current->right;
 			return (current);
@@ -234,7 +180,6 @@ namespace ft
 
 		int getHeight(node_pointer r)
 		{
-			// if (r == NULL)
 			if (equal_null(r))
 				return -1;
 			int lheight = getHeight(r->left);

@@ -492,25 +492,21 @@ namespace ft
 				ft::vector<T, Allocator>::iterator it = this->begin();
 				while (it != position)
 				{
-					// newArray[i++] = *it;
 					this->_allocator_type.construct(newArray + i++, *it);
 					it++;
 				}
 				int j = i + n;
 				while (i < j)
 				{
-					// newArray[i++] = val;
 					this->_allocator_type.construct(newArray + i++, val);
 				}
 				while (it != this->end())
 				{
-				 	// newArray[i++] = *it;
 					this->_allocator_type.construct(newArray + i++, *it);
 				 	it++;
 				}
 				if (this->_array)
 					this->destroy_and_deallocate();
-				// this->_allocator_type.deallocate(this->_array, this->_capacity);
 				this->_array = newArray;
 				this->_capacity = newSize;
 			}
@@ -521,7 +517,6 @@ namespace ft
 					for (unsigned int j = this->_size; j < newSize; j++)
 					{
 						this->_allocator_type.construct(this->_array + j, val);
-						// this->_array[j] = val;
 					}
 				}
 				else
@@ -537,7 +532,6 @@ namespace ft
 					for (unsigned int k = 0; k < n; k++)
 					{
 						place++;
-						// *place = val;
 						this->_allocator_type.destroy(&(*(place)));
 						this->_allocator_type.construct(&(*place), val);
 					}
@@ -605,9 +599,7 @@ namespace ft
 			
 		friend bool operator==(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
 		{
-			if (x.size() == y.size())
-				return ft::equal(x.begin(), x.end(), y.begin());
-			return (false);
+			return x.size() == y.size() && ft::equal(x.begin(), x.end(), y.begin());
 		}
 		
 		friend bool operator<(const vector<T,Allocator>& x, const vector<T,Allocator>& y)
