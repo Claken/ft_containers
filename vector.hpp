@@ -474,8 +474,10 @@ namespace ft
 			size_type newSize = n + this->_size;
 			if (newSize > this->_capacity)
 			{
-				// size_type newCap = this->_size == 0 ? 1 : this->_size * 2;
-				T* newArray = this->try_allocation(newSize);
+				size_type newCap = this->_size == 0 ? 1 : this->_size * 2;
+				if (newCap < newSize)
+					newCap = newSize;
+				T* newArray = this->try_allocation(newCap);
 				int i = 0;
 				ft::vector<T, Allocator>::iterator it = this->begin();
 				while (it != position)
@@ -496,7 +498,7 @@ namespace ft
 				if (this->_array)
 					this->destroy_and_deallocate();
 				this->_array = newArray;
-				this->_capacity = newSize;
+				this->_capacity = newCap;
 			}
 			else
 			{
@@ -512,16 +514,14 @@ namespace ft
 					ft::vector<T, Allocator>::iterator place = this->end() - 1;
 					while (place >= position)
 					{
-						// *(place+n) = *place;
-						// this->_allocator_type.destroy(&(*(place+n)));
-						this->_allocator_type.construct(&(*(place+n)), *place);
+						this->_allocator_type.construct((place+n).base(), *place);
+						this->_allocator_type.destroy(place.base());
 						place--;
 					}
 					for (unsigned int k = 0; k < n; k++)
 					{
 						place++;
-						this->_allocator_type.destroy(&(*(place)));
-						this->_allocator_type.construct(&(*place), val);
+						this->_allocator_type.construct(place.base(), val);
 					}
 				}
 			}
