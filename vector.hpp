@@ -347,7 +347,7 @@ namespace ft
 		{
 			if (sz < this->_size)
 			{
-				this->_size = sz;
+				this->erase(this->begin() + sz, this->end());
 			}
 			else if (sz > this->_size)
 			{
@@ -567,31 +567,26 @@ namespace ft
 
 		iterator					erase(iterator position) // A TESTER AVEC DES TESTEURS POUR ETRE SUR QUE CA PASSE !
 		{
-			int pos = find_pos_with_it(position);	
-			for (iterator it = position; it + 1 != this->end(); it++)
-			{
-				// *it = *(it + 1);
-				this->_allocator_type.destroy(&(*it));
-				this->_allocator_type.construct(&(*it), *(it + 1));
-			}
-			this->_size--;
-			return (this->begin()+pos);
+			return this->erase(position, position+1);
 		}
 
-		iterator					erase(iterator first, iterator last) // A TESTER AVEC DES TESTEURS POUR ETRE SUR QUE CA PASSE !
+		iterator					erase(iterator first, iterator last)
 		{
-			int pos = find_pos_with_it(first);
-			// if (pos == 0 && last == this->end())
-			// {
-			// 	this->clear();
-			// 	return (first);
-			// }
-			for (iterator it = first; it != last; it++)
+			iterator		it = first;
+			size_type		size = this->_size;
+
+			if (first != last)
 			{
-				erase(this->begin()+pos);
+				for (; last != this->end(); last++, it++)
+				{
+					this->_allocator_type.construct(&(*it), *last);
+				}
+				for (; it != this->end(); it++, size--)
+				{
+					this->_allocator_type.destroy(&(*it));
+				}
+				this->_size = size;
 			}
-			if (this->_size == 0)
-				return (this->begin());
 			return (first);
 		}
 
