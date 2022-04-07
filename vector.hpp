@@ -512,7 +512,7 @@ namespace ft
 						this->_allocator_type.construct((place+n).base(), *place);
 						this->_allocator_type.destroy(place.base());
 					}
-					for (unsigned int k = 0; k < n; k++)
+					for (unsigned int i = 0; i < n; i++)
 						this->_allocator_type.construct((++place).base(), val);
 				}
 			}

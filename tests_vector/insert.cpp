@@ -15,7 +15,7 @@ int main ()
 	std::cout << "*itb = " << *itb << std::endl;
 
 	std::cout << "size = " << myvector.size() << std::endl;
-	myvector.reserve(20);
+	// myvector.reserve(20);
 	TESTED_NAMESPACE::vector<TESTED_TYPE>::iterator it; //f-t
 	std::cout << "capacity : " << myvector.capacity() << std::endl;
 

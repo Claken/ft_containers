@@ -13,7 +13,7 @@ int main ()
 
 	*it = "666";
 
-	TESTED_NAMESPACE::vector<TESTED_TYPE> second; // f t 
+	TESTED_NAMESPACE::vector<TESTED_TYPE> second; // f t
 	std::vector<int> third;
 
 	std::cout << "first :  ";
@@ -24,7 +24,7 @@ int main ()
 	first.assign (7,"100");             // 7 ints with a value of 100
 
 	std::cout << "first :  ";
-	for(unsigned int i = 0; i < first.capacity(); i++)
+	for(unsigned int i = 0; i < first.size(); i++)
 		std::cout << first[i] << ' ';
 	std::cout << std::endl;
 
@@ -33,9 +33,10 @@ int main ()
 
 	second.assign (it1,first.end()-1); // the 5 central values of first
 
-	std::cout << second.capacity() << std::endl;
+	std::cout << "first capacity  : " << first.capacity() << std::endl;
+	std::cout << "second capacity : " << second.capacity() << std::endl;
 	std::cout << "second : ";
-	for(unsigned int i = 0; i < second.capacity(); i++)
+	for(unsigned int i = 0; i < second.size(); i++)
 		std::cout << second[i] << ' ';
 	std::cout << std::endl;
 
