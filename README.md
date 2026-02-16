@@ -1,11 +1,11 @@
-# FT_CONTAINERS
+# 🪣 FT_CONTAINERS
 
 A C++98 re-implementation of three standard containers:
 - `ft::vector`
 - `ft::stack`
 - `ft::map`
 
-## What I gained from the project
+## 👩🏻‍🏫 What I gained from the project
 
 Working on this project helped me build practical knowledge of:
 - implementing container internals with templates in C++98
@@ -14,7 +14,7 @@ Working on this project helped me build practical knowledge of:
 - binary tree-based associative container logic for `map`
 - reproducing STL-like APIs and testing behavior against `std`
 
-## Prerequisites
+## 📦 Prerequisites
 
 - A C++ compiler compatible with C++98 (`c++`/`clang++`/`g++`)
 - `make`
@@ -23,7 +23,7 @@ Working on this project helped me build practical knowledge of:
 The project is compiled with these flags:
 - `-Wall -Wextra -Werror -std=c++98`
 
-## Usage
+## 🚀 Usage
 
 Build the executable:
 
