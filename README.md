@@ -5,7 +5,7 @@ A C++98 re-implementation of three standard containers:
 - `ft::stack`
 - `ft::map`
 
-## 👩🏻‍🏫 What I gained from the project
+## 👩🏻‍🏫 What I have gained from the project
 
 Working on this project helped me build practical knowledge of:
 - implementing container internals with templates in C++98
